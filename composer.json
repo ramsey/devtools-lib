@@ -1,7 +1,7 @@
 {
-    "name": "ramsey/devtools",
-    "type": "composer-plugin",
-    "description": "A Composer plugin to aid PHP library and application development.",
+    "name": "ramsey/devtools-lib",
+    "type": "library",
+    "description": "The library behind ramsey/devtools, allowing for extension of the ramsey/devtools Composer plugin.",
     "keywords": [
         "development",
         "tools"
@@ -17,7 +17,6 @@
     "require": {
         "php": "^7.4 || ^8",
         "captainhook/captainhook": "^5.3",
-        "composer-plugin-api": "^1.1 || ^2",
         "ergebnis/composer-normalize": "^2.7",
         "hamcrest/hamcrest-php": "^2.0",
         "mockery/mockery": "^1.4",
@@ -43,21 +42,20 @@
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"
-        },
-        "class": "Ramsey\\Dev\\Tools\\Composer\\DevToolsPlugin"
+        }
     },
     "autoload": {
         "psr-4": {
             "Ramsey\\Dev\\Tools\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Ramsey\\Test\\Dev\\Tools\\": "tests/"
         },
         "files": [
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ramsey\\Test\\Dev\\Tools\\": "tests/"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
