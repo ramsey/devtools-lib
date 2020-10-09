@@ -47,15 +47,15 @@
     "autoload": {
         "psr-4": {
             "Ramsey\\Dev\\Tools\\": "src/"
-        },
-        "files": [
-            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "Ramsey\\Test\\Dev\\Tools\\": "tests/"
-        }
+        },
+        "files": [
+            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
