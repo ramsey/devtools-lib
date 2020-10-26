@@ -35,6 +35,9 @@ abstract class TestCase extends PHPUnitTestCase
 {
     use MockeryPHPUnitIntegration;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function setUpBeforeClass(): void
     {
         Util::registerGlobalFunctions();
