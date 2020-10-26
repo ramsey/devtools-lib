@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools;
 
+use Hamcrest\Util;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
@@ -33,6 +34,11 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 abstract class TestCase extends PHPUnitTestCase
 {
     use MockeryPHPUnitIntegration;
+
+    public static function setUpBeforeClass(): void
+    {
+        Util::registerGlobalFunctions();
+    }
 
     /**
      * @param class-string<T> $class
