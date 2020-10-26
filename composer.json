@@ -42,6 +42,9 @@
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"
+        },
+        "ramsey/conventional-commits": {
+            "configFile": "conventional-commits.json"
         }
     },
     "autoload": {
