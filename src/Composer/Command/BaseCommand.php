@@ -117,8 +117,13 @@ abstract class BaseCommand extends ComposerBaseCommand
         return $this->getPrefix() . $name;
     }
 
+    /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     */
     public function getApplication(): Application
     {
+        /** @var Application | null $application */
         $application = parent::getApplication();
 
         if ($application === null) {
