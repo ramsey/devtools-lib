@@ -28,13 +28,13 @@
         "phpunit/phpunit": "^9.3",
         "ramsey/coding-standard": "^1.2",
         "ramsey/composer-repl": "^1.1.1",
-        "ramsey/conventional-commits": "^1.0",
+        "ramsey/conventional-commits": "^1.1",
         "roave/security-advisories": "dev-master",
         "symfony/process": "^5.1",
         "vimeo/psalm": "^3.14"
     },
     "require-dev": {
-        "composer/composer": "^1.1 || ^2.0.0@dev"
+        "composer/composer": "^1.1 || ^2.0"
     },
     "config": {
         "sort-packages": true
@@ -42,6 +42,9 @@
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"
+        },
+        "ramsey/conventional-commits": {
+            "configFile": "conventional-commits.json"
         }
     },
     "autoload": {
@@ -52,10 +55,7 @@
     "autoload-dev": {
         "psr-4": {
             "Ramsey\\Test\\Dev\\Tools\\": "tests/"
-        },
-        "files": [
-            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
-        ]
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
