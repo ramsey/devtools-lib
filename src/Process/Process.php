@@ -31,6 +31,7 @@ use function array_map;
 use function array_shift;
 use function escapeshellarg;
 use function implode;
+use function is_null;
 
 /**
  * @internal
@@ -63,9 +64,12 @@ class Process extends SymfonyProcess
 
         /** @var ReflectionMethod $reflectedConstructor */
         $reflectedConstructor = $reflectedProcess->getConstructor();
-
-        if ($reflectedConstructor->getParameters()[0]->isArray()) {
-            return $command;
+        $reflectedConstructorType = $reflectedConstructor->getParameters()[0]->getType();
+        if (!is_null($reflectedConstructorType)) {
+            // @phpstan-ignore-next-line
+            if ($reflectedConstructorType->getName() === 'array') {
+                return $command;
+            }
         }
 
         $commandLine = array_shift($command) . ' ';
