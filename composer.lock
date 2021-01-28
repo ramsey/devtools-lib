@@ -784,22 +784,22 @@
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v0.7.0",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
-                "reference": "e8d808670b8f882188368faaf1144448c169c0b7"
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/e8d808670b8f882188368faaf1144448c169c0b7",
-                "reference": "e8d808670b8f882188368faaf1144448c169c0b7",
+                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/fe390591e0241955f22eb9ba327d137e501c771c",
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0 || ^2.0",
                 "php": ">=5.3",
-                "squizlabs/php_codesniffer": "^2 || ^3 || 4.0.x-dev"
+                "squizlabs/php_codesniffer": "^2.0 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "composer/composer": "*",
@@ -850,7 +850,7 @@
                 "issues": "https://github.com/dealerdirect/phpcodesniffer-composer-installer/issues",
                 "source": "https://github.com/dealerdirect/phpcodesniffer-composer-installer"
             },
-            "time": "2020-06-25T14:57:39+00:00"
+            "time": "2020-12-07T18:04:37+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3551,35 +3551,30 @@
         },
         {
             "name": "phpstan/phpstan-phpunit",
-            "version": "0.12.16",
+            "version": "0.12.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-phpunit.git",
-                "reference": "1dd916d181b0539dea5cd37e91546afb8b107e17"
+                "reference": "432575b41cf2d4f44e460234acaf56119ed97d36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/1dd916d181b0539dea5cd37e91546afb8b107e17",
-                "reference": "1dd916d181b0539dea5cd37e91546afb8b107e17",
+                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/432575b41cf2d4f44e460234acaf56119ed97d36",
+                "reference": "432575b41cf2d4f44e460234acaf56119ed97d36",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0",
-                "phpstan/phpstan": "^0.12.33"
+                "phpstan/phpstan": "^0.12.60"
             },
             "conflict": {
                 "phpunit/phpunit": "<7.0"
             },
             "require-dev": {
-                "consistence/coding-standard": "^3.5",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "ergebnis/composer-normalize": "^2.0.2",
-                "jakub-onderka/php-parallel-lint": "^1.0",
-                "phing/phing": "^2.16.0",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
-                "satooshi/php-coveralls": "^1.0",
-                "slevomat/coding-standard": "^4.7.2"
+                "phing/phing": "^2.16.3",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-strict-rules": "^0.12.6",
+                "phpunit/phpunit": "^7.5.20"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -3605,9 +3600,9 @@
             "description": "PHPUnit extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-phpunit/issues",
-                "source": "https://github.com/phpstan/phpstan-phpunit/tree/0.12.16"
+                "source": "https://github.com/phpstan/phpstan-phpunit/tree/0.12.17"
             },
-            "time": "2020-08-05T13:28:50+00:00"
+            "time": "2020-12-13T12:12:51+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4514,16 +4509,16 @@
         },
         {
             "name": "ramsey/coding-standard",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/coding-standard.git",
-                "reference": "f1834d9a8d5c99e48eaaee1646fc65d952bbf019"
+                "reference": "ac4b971c5dfe06cc93edc690e108a6f336b4e477"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/coding-standard/zipball/f1834d9a8d5c99e48eaaee1646fc65d952bbf019",
-                "reference": "f1834d9a8d5c99e48eaaee1646fc65d952bbf019",
+                "url": "https://api.github.com/repos/ramsey/coding-standard/zipball/ac4b971c5dfe06cc93edc690e108a6f336b4e477",
+                "reference": "ac4b971c5dfe06cc93edc690e108a6f336b4e477",
                 "shasum": ""
             },
             "require": {
@@ -4538,7 +4533,7 @@
                 "captainhook/captainhook": "^5.3",
                 "ergebnis/composer-normalize": "^2.6",
                 "ext-dom": "*",
-                "ramsey/conventional-commits": "^1.0",
+                "ramsey/conventional-commits": "^1.1",
                 "sebastian/diff": "^4.0"
             },
             "bin": [
@@ -4546,6 +4541,11 @@
                 "bin/xmllint-fix"
             ],
             "type": "phpcodesniffer-standard",
+            "extra": {
+                "ramsey/conventional-commits": {
+                    "configFile": "conventional-commits.json"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -4566,7 +4566,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/coding-standard/issues",
-                "source": "https://github.com/ramsey/coding-standard/tree/1.2.0"
+                "source": "https://github.com/ramsey/coding-standard/tree/1.3.0"
             },
             "funding": [
                 {
@@ -4574,7 +4574,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-05T05:19:58+00:00"
+            "time": "2020-11-14T23:16:21+00:00"
         },
         {
             "name": "ramsey/composer-repl",
