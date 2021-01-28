@@ -47,7 +47,6 @@ class AnalyzePsalmCommand extends ProcessCommand
             [
                 $this->withBinPath('psalm'),
                 '--diff',
-                '--diff-methods',
                 '--long-progress',
                 '--stats',
             ],
