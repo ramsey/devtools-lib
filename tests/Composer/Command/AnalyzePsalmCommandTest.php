@@ -15,7 +15,6 @@ class AnalyzePsalmCommandTest extends ProcessCommandTestCase
         $this->processCommand = [
             '/path/to/bin-dir/psalm',
             '--diff',
-            '--diff-methods',
             '--long-progress',
             '--stats',
             '--bar',
