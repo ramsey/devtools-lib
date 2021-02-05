@@ -159,8 +159,8 @@ class DevToolsPlugin implements
     {
         /** @psalm-var array{command-prefix?: string, ramsey/devtools?: array{command-prefix?: string}} $extra */
         $extra = self::$composer->getPackage()->getExtra();
-        $prefix = (string) ($extra['command-prefix'] ?? '');
+        $prefix = $extra['command-prefix'] ?? '';
 
-        return (string) ($extra['ramsey/devtools']['command-prefix'] ?? $prefix);
+        return $extra['ramsey/devtools']['command-prefix'] ?? $prefix;
     }
 }

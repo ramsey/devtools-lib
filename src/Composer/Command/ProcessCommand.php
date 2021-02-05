@@ -52,6 +52,6 @@ abstract class ProcessCommand extends BaseCommand
 
         $process->start();
 
-        return (int) $process->wait($this->getProcessCallback($output));
+        return $process->wait($this->getProcessCallback($output));
     }
 }

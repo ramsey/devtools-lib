@@ -65,7 +65,7 @@ abstract class BaseCommand extends ComposerBaseCommand
         /** @var array{override?: bool, script?: array<string>|string} $commandConfig */
         $commandConfig = $extra['ramsey/devtools']['commands'][$this->getBaseName()] ?? [];
 
-        $this->overrideDefault = (bool) ($commandConfig['override'] ?? false);
+        $this->overrideDefault = $commandConfig['override'] ?? false;
 
         $additionalScripts = (array) ($commandConfig['script'] ?? []);
 
