@@ -31,7 +31,7 @@
         "ramsey/conventional-commits": "^1.1",
         "roave/security-advisories": "dev-master",
         "symfony/process": "^5.1",
-        "vimeo/psalm": "^3.14"
+        "vimeo/psalm": "^4.4"
     },
     "require-dev": {
         "composer/composer": "^1.1 || ^2.0"
