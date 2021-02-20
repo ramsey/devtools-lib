@@ -25,13 +25,13 @@ namespace Ramsey\Dev\Tools\Process;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+use ReflectionNamedType;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 use function array_map;
 use function array_shift;
 use function escapeshellarg;
 use function implode;
-use function is_null;
 
 /**
  * @internal
@@ -65,8 +65,8 @@ class Process extends SymfonyProcess
         /** @var ReflectionMethod $reflectedConstructor */
         $reflectedConstructor = $reflectedProcess->getConstructor();
         $reflectedConstructorType = $reflectedConstructor->getParameters()[0]->getType();
-        if (!is_null($reflectedConstructorType)) {
-            // @phpstan-ignore-next-line
+
+        if ($reflectedConstructorType instanceof ReflectionNamedType) {
             if ($reflectedConstructorType->getName() === 'array') {
                 return $command;
             }
