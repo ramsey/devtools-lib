@@ -3634,16 +3634,16 @@
         },
         {
             "name": "phpstan/phpstan-mockery",
-            "version": "0.12.12",
+            "version": "0.12.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-mockery.git",
-                "reference": "053bf9e3ffc4ff906e411636a43d440bace5b914"
+                "reference": "a45fee47fe86a2a4992953fb7037cb2620c4d7ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-mockery/zipball/053bf9e3ffc4ff906e411636a43d440bace5b914",
-                "reference": "053bf9e3ffc4ff906e411636a43d440bace5b914",
+                "url": "https://api.github.com/repos/phpstan/phpstan-mockery/zipball/a45fee47fe86a2a4992953fb7037cb2620c4d7ea",
+                "reference": "a45fee47fe86a2a4992953fb7037cb2620c4d7ea",
                 "shasum": ""
             },
             "require": {
@@ -3681,9 +3681,9 @@
             "description": "PHPStan Mockery extension",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-mockery/issues",
-                "source": "https://github.com/phpstan/phpstan-mockery/tree/0.12.12"
+                "source": "https://github.com/phpstan/phpstan-mockery/tree/0.12.13"
             },
-            "time": "2021-02-05T12:12:41+00:00"
+            "time": "2021-03-05T12:36:50+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
