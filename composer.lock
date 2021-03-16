@@ -168,16 +168,16 @@
         },
         {
             "name": "captainhook/captainhook",
-            "version": "5.4.4",
+            "version": "5.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhookphp/captainhook.git",
-                "reference": "c91b567364f20bc7c3d2db064cd59b4c4c731983"
+                "reference": "ece43fa22ff8b2cfae0e845c58c1367c547ff181"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/c91b567364f20bc7c3d2db064cd59b4c4c731983",
-                "reference": "c91b567364f20bc7c3d2db064cd59b4c4c731983",
+                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/ece43fa22ff8b2cfae0e845c58c1367c547ff181",
+                "reference": "ece43fa22ff8b2cfae0e845c58c1367c547ff181",
                 "shasum": ""
             },
             "require": {
@@ -238,7 +238,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/captainhookphp/captainhook/tree/5.4.4"
+                "source": "https://github.com/captainhookphp/captainhook/tree/5.4.5"
             },
             "funding": [
                 {
@@ -246,7 +246,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-07T19:38:34+00:00"
+            "time": "2021-03-05T15:04:36+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -6330,16 +6330,16 @@
         },
         {
             "name": "sebastianfeldmann/git",
-            "version": "3.4.1",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianfeldmann/git.git",
-                "reference": "a1855895dbc4056cb3f8d14645487f10a393c029"
+                "reference": "8bdbc4ec14970942ace6b73a1a4f7df1caaefdcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianfeldmann/git/zipball/a1855895dbc4056cb3f8d14645487f10a393c029",
-                "reference": "a1855895dbc4056cb3f8d14645487f10a393c029",
+                "url": "https://api.github.com/repos/sebastianfeldmann/git/zipball/8bdbc4ec14970942ace6b73a1a4f7df1caaefdcd",
+                "reference": "8bdbc4ec14970942ace6b73a1a4f7df1caaefdcd",
                 "shasum": ""
             },
             "require": {
@@ -6376,7 +6376,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianfeldmann/git/issues",
-                "source": "https://github.com/sebastianfeldmann/git/tree/3.4.1"
+                "source": "https://github.com/sebastianfeldmann/git/tree/3.5.0"
             },
             "funding": [
                 {
@@ -6384,7 +6384,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-08T09:38:31+00:00"
+            "time": "2021-02-18T11:53:27+00:00"
         },
         {
             "name": "seld/jsonlint",
@@ -6616,16 +6616,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.2.4",
+            "version": "v5.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d6d0cc30d8c0fda4e7b213c20509b0159a8f4556"
+                "reference": "938ebbadae1b0a9c9d1ec313f87f9708609f1b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d6d0cc30d8c0fda4e7b213c20509b0159a8f4556",
-                "reference": "d6d0cc30d8c0fda4e7b213c20509b0159a8f4556",
+                "url": "https://api.github.com/repos/symfony/console/zipball/938ebbadae1b0a9c9d1ec313f87f9708609f1b79",
+                "reference": "938ebbadae1b0a9c9d1ec313f87f9708609f1b79",
                 "shasum": ""
             },
             "require": {
@@ -6693,7 +6693,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.2.4"
+                "source": "https://github.com/symfony/console/tree/v5.2.5"
             },
             "funding": [
                 {
@@ -6709,7 +6709,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-23T10:08:49+00:00"
+            "time": "2021-03-06T13:42:15+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
