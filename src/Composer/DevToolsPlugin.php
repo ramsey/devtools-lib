@@ -41,6 +41,7 @@ use Ramsey\Dev\Tools\Composer\Command\Configuration;
 use Ramsey\Dev\Tools\Composer\Command\KeepAChangelogCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintFixCommand;
+use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
 use Ramsey\Dev\Tools\Composer\Command\PreCommitCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
@@ -123,6 +124,7 @@ class DevToolsPlugin implements
             new KeepAChangelogCommand($config),
             new LintCommand($config),
             new LintFixCommand($config),
+            new LintPdsCommand($config),
             new PreCommitCommand($config),
             new TestAllCommand($config),
             new TestUnitCommand($config),
