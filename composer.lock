@@ -168,16 +168,16 @@
         },
         {
             "name": "captainhook/captainhook",
-            "version": "5.4.5",
+            "version": "5.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhookphp/captainhook.git",
-                "reference": "ece43fa22ff8b2cfae0e845c58c1367c547ff181"
+                "reference": "425f8b26401756ea0fd32bdbde9c1466a9c66f20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/ece43fa22ff8b2cfae0e845c58c1367c547ff181",
-                "reference": "ece43fa22ff8b2cfae0e845c58c1367c547ff181",
+                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/425f8b26401756ea0fd32bdbde9c1466a9c66f20",
+                "reference": "425f8b26401756ea0fd32bdbde9c1466a9c66f20",
                 "shasum": ""
             },
             "require": {
@@ -238,7 +238,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/captainhookphp/captainhook/tree/5.4.5"
+                "source": "https://github.com/captainhookphp/captainhook/tree/5.5.2"
             },
             "funding": [
                 {
@@ -246,7 +246,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-05T15:04:36+00:00"
+            "time": "2021-03-30T21:17:37+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -6487,16 +6487,16 @@
         },
         {
             "name": "sebastianfeldmann/git",
-            "version": "3.5.0",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianfeldmann/git.git",
-                "reference": "8bdbc4ec14970942ace6b73a1a4f7df1caaefdcd"
+                "reference": "426acdd89c4fcf77027c38b44f53625ba90d3439"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianfeldmann/git/zipball/8bdbc4ec14970942ace6b73a1a4f7df1caaefdcd",
-                "reference": "8bdbc4ec14970942ace6b73a1a4f7df1caaefdcd",
+                "url": "https://api.github.com/repos/sebastianfeldmann/git/zipball/426acdd89c4fcf77027c38b44f53625ba90d3439",
+                "reference": "426acdd89c4fcf77027c38b44f53625ba90d3439",
                 "shasum": ""
             },
             "require": {
@@ -6533,7 +6533,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianfeldmann/git/issues",
-                "source": "https://github.com/sebastianfeldmann/git/tree/3.5.0"
+                "source": "https://github.com/sebastianfeldmann/git/tree/3.6.0"
             },
             "funding": [
                 {
@@ -6541,7 +6541,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-18T11:53:27+00:00"
+            "time": "2021-04-03T19:19:26+00:00"
         },
         {
             "name": "seld/jsonlint",
@@ -6773,16 +6773,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.2.5",
+            "version": "v5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "938ebbadae1b0a9c9d1ec313f87f9708609f1b79"
+                "reference": "35f039df40a3b335ebf310f244cb242b3a83ac8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/938ebbadae1b0a9c9d1ec313f87f9708609f1b79",
-                "reference": "938ebbadae1b0a9c9d1ec313f87f9708609f1b79",
+                "url": "https://api.github.com/repos/symfony/console/zipball/35f039df40a3b335ebf310f244cb242b3a83ac8d",
+                "reference": "35f039df40a3b335ebf310f244cb242b3a83ac8d",
                 "shasum": ""
             },
             "require": {
@@ -6850,7 +6850,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.2.5"
+                "source": "https://github.com/symfony/console/tree/v5.2.6"
             },
             "funding": [
                 {
@@ -6866,7 +6866,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-06T13:42:15+00:00"
+            "time": "2021-03-28T09:42:18+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7756,16 +7756,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.2.4",
+            "version": "v5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "4e78d7d47061fa183639927ec40d607973699609"
+                "reference": "ad0bd91bce2054103f5eaa18ebeba8d3bc2a0572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/4e78d7d47061fa183639927ec40d607973699609",
-                "reference": "4e78d7d47061fa183639927ec40d607973699609",
+                "url": "https://api.github.com/repos/symfony/string/zipball/ad0bd91bce2054103f5eaa18ebeba8d3bc2a0572",
+                "reference": "ad0bd91bce2054103f5eaa18ebeba8d3bc2a0572",
                 "shasum": ""
             },
             "require": {
@@ -7819,7 +7819,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.2.4"
+                "source": "https://github.com/symfony/string/tree/v5.2.6"
             },
             "funding": [
                 {
@@ -7835,7 +7835,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-16T10:20:28+00:00"
+            "time": "2021-03-17T17:12:15+00:00"
         },
         {
             "name": "symfony/var-dumper",
