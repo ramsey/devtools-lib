@@ -168,16 +168,16 @@
         },
         {
             "name": "captainhook/captainhook",
-            "version": "5.8.0",
+            "version": "5.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhookphp/captainhook.git",
-                "reference": "154aea58b13e1c5e5005aad04270a94ccb010fe9"
+                "reference": "9447fc26d3163d9ecd09b8ef244437d8984ca7e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/154aea58b13e1c5e5005aad04270a94ccb010fe9",
-                "reference": "154aea58b13e1c5e5005aad04270a94ccb010fe9",
+                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/9447fc26d3163d9ecd09b8ef244437d8984ca7e0",
+                "reference": "9447fc26d3163d9ecd09b8ef244437d8984ca7e0",
                 "shasum": ""
             },
             "require": {
@@ -238,7 +238,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/captainhookphp/captainhook/tree/5.8.0"
+                "source": "https://github.com/captainhookphp/captainhook/tree/5.8.1"
             },
             "funding": [
                 {
@@ -246,7 +246,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-19T15:31:14+00:00"
+            "time": "2021-04-28T19:06:23+00:00"
         },
         {
             "name": "clue/stream-filter",
