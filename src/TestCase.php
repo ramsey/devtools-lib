@@ -51,7 +51,7 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @template T
      */
-    public function mockery(string $class, ...$arguments): MockInterface
+    public function mockery(string $class, ...$arguments)
     {
         /** @var T & MockInterface $mock */
         $mock = Mockery::mock($class, ...$arguments);

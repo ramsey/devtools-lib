@@ -20,10 +20,13 @@ use const DIRECTORY_SEPARATOR;
 
 abstract class CommandTestCase extends TestCase
 {
-    /** @var class-string */
+    /**
+     * @var class-string
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     protected string $commandClass;
 
-    protected string $baseName;
+    protected ?string $baseName = null;
     protected string $prefix = 'bar';
     protected string $binDir = '/path/to/bin-dir';
     protected string $repositoryRoot = '/path/to/repo';
@@ -78,7 +81,13 @@ abstract class CommandTestCase extends TestCase
             $this->processFactory,
         );
 
-        $this->command = new $commandClass($configuration);
+        /**
+         * @psalm-suppress MixedMethodCall
+         * @var BaseCommand $command
+         */
+        $command = new $commandClass($configuration);
+
+        $this->command = $command;
     }
 
     public function testGetBaseName(): void

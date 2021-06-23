@@ -17,20 +17,27 @@ class AnalyzeCommandTest extends CommandTestCase
     protected function setUp(): void
     {
         $this->commandClass = AnalyzeCommand::class;
-        $this->baseName = 'analyze';
+        $this->baseName = 'analyze:all';
 
         parent::setUp();
+    }
+
+    public function testGetAliases(): void
+    {
+        $this->assertSame(['analyze'], $this->command->getAliases());
     }
 
     public function testRun(): void
     {
         /** @var Command & MockInterface $commandPhpStan */
         $commandPhpStan = $this->mockery(Command::class, [
+            'getName' => 'phpstan',
             'run' => 0,
         ]);
 
         /** @var Command & MockInterface $commandPsalm */
         $commandPsalm = $this->mockery(Command::class, [
+            'getName' => 'psalm',
             'run' => 0,
         ]);
 

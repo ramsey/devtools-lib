@@ -35,7 +35,7 @@ abstract class ProcessCommand extends BaseCommand
 
     protected function getProcessCallback(OutputInterface $output): callable
     {
-        return function (string $type, string $buffer) use ($output): void {
+        return function (string $_type, string $buffer) use ($output): void {
             $output->write($buffer);
         };
     }

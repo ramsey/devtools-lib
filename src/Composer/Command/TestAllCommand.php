@@ -26,6 +26,8 @@ use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function sprintf;
+
 class TestAllCommand extends BaseCommand
 {
     public function getBaseName(): string
@@ -53,12 +55,14 @@ class TestAllCommand extends BaseCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $lint = $this->getApplication()->find($this->withPrefix('lint'));
-        $analyze = $this->getApplication()->find($this->withPrefix('analyze'));
+        $lint = $this->getApplication()->find($this->withPrefix('lint:all'));
+        $analyze = $this->getApplication()->find($this->withPrefix('analyze:all'));
         $test = $this->getApplication()->find($this->withPrefix('test:unit'));
 
         $lintExit = $lint->run($input, $output);
         $analyzeExit = $analyze->run($input, $output);
+
+        $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $test->getName())]);
         $testExit = $test->run($input, $output);
 
         return $lintExit + $analyzeExit + $testExit;

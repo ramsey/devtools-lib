@@ -53,7 +53,7 @@ class LintPdsCommand extends ProcessCommand
 
     protected function getProcessCallback(OutputInterface $output): callable
     {
-        return function (string $type, string $buffer) use ($output): void {
+        return function (string $_type, string $buffer) use ($output): void {
             if (stripos($buffer, self::FAILURE_TOKEN) !== false) {
                 $this->validationFailed = true;
             }

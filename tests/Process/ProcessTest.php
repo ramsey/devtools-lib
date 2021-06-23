@@ -18,7 +18,7 @@ class ProcessTest extends TestCase
         $process->shouldReceive('useCorrectCommand')->passthru();
         $process->expects()->getProcessClassName()->andReturn(ProcessMock::class);
 
-        // @phpstan-ignore-next-line
+        /** @phpstan-ignore-next-line */
         $commandLine = $process->useCorrectCommand(['foo', '--bar', '--baz']);
 
         $this->assertSame("foo '--bar' '--baz'", $commandLine);

@@ -27,6 +27,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_merge;
+use function count;
 
 class LintSyntaxCommand extends ProcessCommand
 {
@@ -43,12 +44,14 @@ class LintSyntaxCommand extends ProcessCommand
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
 
+        if (count($args) === 0) {
+            $args = ['src', 'tests'];
+        }
+
         return array_merge(
             [
                 $this->withBinPath('parallel-lint'),
                 '--colors',
-                'src',
-                'tests',
             ],
             $args,
         );
