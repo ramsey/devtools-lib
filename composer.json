@@ -68,7 +68,6 @@
     "scripts": {
         "post-autoload-dump": "captainhook install --ansi -f -s",
         "devtools": "bin/devtools --ansi",
-        "pre-commit": "bin/devtools lint:fix; bin/devtools analyze",
         "test": "bin/devtools test:all"
     }
 }

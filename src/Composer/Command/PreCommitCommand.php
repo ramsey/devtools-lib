@@ -23,10 +23,18 @@ declare(strict_types=1);
 namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Exception;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use const PHP_EOL;
+
+/**
+ * @deprecated The pre-commit command is deprecated. Running it performs no
+ *     action. Use captainhook.json to define pre-commit actions. This command
+ *     will go away in the next major version of ramsey/devtools-lib.
+ */
 class PreCommitCommand extends BaseCommand
 {
     public function getBaseName(): string
@@ -47,7 +55,12 @@ class PreCommitCommand extends BaseCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Commands that run as part of the pre-commit hook.')
+            ->setDescription('This command is deprecated.')
+            ->setHelp(
+                'The pre-commit command is deprecated. Running it performs no action.' . PHP_EOL
+                . 'Use captainhook.json to define pre-commit actions. This command will' . PHP_EOL
+                . 'go away in the next major version of ramsey/devtools-lib.',
+            )
             ->setDefinition([
                 new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
             ]);
@@ -58,12 +71,15 @@ class PreCommitCommand extends BaseCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $lintFix = $this->getApplication()->find($this->withPrefix('lint:fix'));
-        $analyze = $this->getApplication()->find($this->withPrefix('analyze'));
+        $output->writeln(
+            [
+                '<error>The pre-commit command is deprecated. Running it performs no action.</error>',
+                '<error>Use captainhook.json to define pre-commit actions. This command will</error>',
+                '<error>go away in the next major version of ramsey/devtools-lib.</error>',
+            ],
+            OutputInterface::VERBOSITY_NORMAL,
+        );
 
-        $lintFixExit = $lintFix->run($input, $output);
-        $analyzeExit = $analyze->run($input, $output);
-
-        return $lintFixExit + $analyzeExit;
+        return Command::SUCCESS;
     }
 }

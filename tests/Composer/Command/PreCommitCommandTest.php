@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
-use Composer\Console\Application;
-use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\PreCommitCommand;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PreCommitCommandTest extends CommandTestCase
 {
@@ -29,34 +26,19 @@ class PreCommitCommandTest extends CommandTestCase
 
     public function testRun(): void
     {
-        /** @var Command & MockInterface $commandLintFix */
-        $commandLintFix = $this->mockery(Command::class, [
-            'run' => 0,
-        ]);
-
-        /** @var Command & MockInterface $commandAnalyze */
-        $commandAnalyze = $this->mockery(Command::class, [
-            'run' => 0,
-        ]);
-
         $input = new StringInput('');
-        $output = new NullOutput();
+        $output = $this->mockery(NullOutput::class)->makePartial();
 
-        /** @var Application & MockInterface $application */
-        $application = $this->mockery(Application::class, [
-            'getHelperSet' => $this->mockery(HelperSet::class),
-        ]);
-        $application->shouldReceive('getDefinition')->passthru();
-        $application
+        $output
             ->expects()
-            ->find($this->command->withPrefix('lint:fix'))
-            ->andReturn($commandLintFix);
-        $application
-            ->expects()
-            ->find($this->command->withPrefix('analyze'))
-            ->andReturn($commandAnalyze);
-
-        $this->command->setApplication($application);
+            ->writeln(
+                [
+                    '<error>The pre-commit command is deprecated. Running it performs no action.</error>',
+                    '<error>Use captainhook.json to define pre-commit actions. This command will</error>',
+                    '<error>go away in the next major version of ramsey/devtools-lib.</error>',
+                ],
+                OutputInterface::VERBOSITY_NORMAL,
+            );
 
         $this->assertSame(0, $this->command->run($input, $output));
     }

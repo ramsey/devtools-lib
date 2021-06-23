@@ -115,6 +115,7 @@ class DevToolsPlugin implements
     {
         $config = new Configuration(self::$composer, $this->getCommandPrefix(), $this->repoRoot);
 
+        /** @psalm-suppress DeprecatedClass */
         return [
             new AnalyzeCommand($config),
             new AnalyzePhpStanCommand($config),
