@@ -29,7 +29,6 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\Capability\CommandProvider;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
-use Exception;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzeCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePhpStanCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePsalmCommand;
@@ -42,6 +41,8 @@ use Ramsey\Dev\Tools\Composer\Command\KeepAChangelogCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintFixCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
+use Ramsey\Dev\Tools\Composer\Command\LintStyleCommand;
+use Ramsey\Dev\Tools\Composer\Command\LintSyntaxCommand;
 use Ramsey\Dev\Tools\Composer\Command\PreCommitCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
@@ -87,9 +88,6 @@ class DevToolsPlugin implements
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function onPostAutoloadDump(): void
     {
         $this->getCaptainHookInstallCommand()->run(
@@ -126,6 +124,8 @@ class DevToolsPlugin implements
             new LintCommand($config),
             new LintFixCommand($config),
             new LintPdsCommand($config),
+            new LintStyleCommand($config),
+            new LintSyntaxCommand($config),
             new PreCommitCommand($config),
             new TestAllCommand($config),
             new TestUnitCommand($config),

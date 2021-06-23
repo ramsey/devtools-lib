@@ -22,42 +22,48 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Composer\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function array_merge;
+use function sprintf;
 
-class LintCommand extends ProcessCommand
+class LintCommand extends BaseCommand
 {
     public function getBaseName(): string
     {
-        return 'lint';
+        return 'lint:all';
     }
 
     /**
-     * @inheritDoc
+     * Supports the use of `composer lint`, without the command prefix/namespace
+     *
+     * @return string[]
      */
-    public function getProcessCommand(InputInterface $input, OutputInterface $output): array
+    public function getAliases(): array
     {
-        /** @var string[] $args */
-        $args = $input->getArguments()['args'] ?? [];
-
-        return array_merge(
-            [
-                $this->withBinPath('phpcs'),
-                '--cache=build/cache/phpcs.cache',
-            ],
-            $args,
-        );
+        return ['lint'];
     }
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('Checks source code for coding standards issues.')
-            ->setDefinition([
-                new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
-            ]);
+        $this->setDescription('Runs all linting checks against the source code.');
+    }
+
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $lintPds = $this->getApplication()->find($this->withPrefix('lint:pds'));
+        $lintSyntax = $this->getApplication()->find($this->withPrefix('lint:syntax'));
+        $lintStyle = $this->getApplication()->find($this->withPrefix('lint:style'));
+
+        $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $lintPds->getName())]);
+        $lintPdsExit = $lintPds->run($input, $output);
+
+        $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $lintSyntax->getName())]);
+        $lintSyntaxExit = $lintSyntax->run($input, $output);
+
+        $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $lintStyle->getName())]);
+        $lintStyleExit = $lintStyle->run($input, $output);
+
+        return $lintPdsExit + $lintSyntaxExit + $lintStyleExit;
     }
 }

@@ -4,20 +4,84 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
+use Composer\Console\Application;
+use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\LintCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\NullOutput;
 
-class LintCommandTest extends ProcessCommandTestCase
+class LintCommandTest extends CommandTestCase
 {
     protected function setUp(): void
     {
         $this->commandClass = LintCommand::class;
-        $this->baseName = 'lint';
-        $this->processCommand = ['/path/to/bin-dir/phpcs', '--cache=build/cache/phpcs.cache', '--foo'];
+        $this->baseName = 'lint:all';
 
         parent::setUp();
+    }
 
-        $this->input->allows()->getArguments()->andReturn([
-            'args' => ['--foo'],
-        ]);
+    public function testGetAliases(): void
+    {
+        $this->assertSame(['lint'], $this->command->getAliases());
+    }
+
+    public function testRun(): void
+    {
+        /** @var Command & MockInterface $commandLintPds */
+        $commandLintPds = $this->mockery(
+            Command::class,
+            [
+                'getName' => 'pds',
+                'run' => 0,
+            ],
+        );
+
+        /** @var Command & MockInterface $commandLintSyntax */
+        $commandLintSyntax = $this->mockery(
+            Command::class,
+            [
+                'getName' => 'syntax',
+                'run' => 0,
+            ],
+        );
+
+        /** @var Command & MockInterface $commandLintStyle */
+        $commandLintStyle = $this->mockery(
+            Command::class,
+            [
+                'getName' => 'style',
+                'run' => 0,
+            ],
+        );
+
+        $input = new StringInput('');
+        $output = new NullOutput();
+
+        /** @var Application & MockInterface $application */
+        $application = $this->mockery(
+            Application::class,
+            [
+                'getHelperSet' => $this->mockery(HelperSet::class),
+            ],
+        );
+        $application->shouldReceive('getDefinition')->passthru();
+        $application
+            ->expects()
+            ->find($this->command->withPrefix('lint:pds'))
+            ->andReturn($commandLintPds);
+        $application
+            ->expects()
+            ->find($this->command->withPrefix('lint:syntax'))
+            ->andReturn($commandLintSyntax);
+        $application
+            ->expects()
+            ->find($this->command->withPrefix('lint:style'))
+            ->andReturn($commandLintStyle);
+
+        $this->command->setApplication($application);
+
+        $this->assertSame(0, $this->command->run($input, $output));
     }
 }
