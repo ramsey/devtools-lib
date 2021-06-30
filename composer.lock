@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8db25776660f9e4ff135afe0e2a49200",
+    "content-hash": "6a6cb453ce3a4bf8063734cb9e37c17a",
     "packages": [
         {
             "name": "amphp/amp",
@@ -2022,6 +2022,58 @@
                 }
             ],
             "time": "2021-01-25T17:51:15+00:00"
+        },
+        {
+            "name": "madewithlove/license-checker",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/madewithlove/license-checker-php.git",
+                "reference": "e184e3120f06cc89e0255faaeae63446829c7be8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madewithlove/license-checker-php/zipball/e184e3120f06cc89e0255faaeae63446829c7be8",
+                "reference": "e184e3120f06cc89e0255faaeae63446829c7be8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "symfony/console": "^4.0 || ^5.0",
+                "symfony/process": "^4.0 || ^5.0",
+                "symfony/yaml": "^4.0 || ^5.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "phpunit/phpunit": "^9.5",
+                "psalm/plugin-phpunit": "^0.15.1",
+                "vimeo/psalm": "^4.4"
+            },
+            "bin": [
+                "bin/license-checker"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LicenseChecker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "madewithlove",
+                    "email": "hello@madewithlove.com"
+                }
+            ],
+            "description": "CLI tool to verify allowed licenses for composer dependencies",
+            "support": {
+                "issues": "https://github.com/madewithlove/license-checker-php/issues",
+                "source": "https://github.com/madewithlove/license-checker-php/tree/v1.1"
+            },
+            "time": "2021-04-26T19:08:28+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -8184,6 +8236,81 @@
                 }
             ],
             "time": "2021-02-18T23:11:19+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v5.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "485c83a2fb5893e2ff21bf4bfc7fdf48b4967229"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/485c83a2fb5893e2ff21bf4bfc7fdf48b4967229",
+                "reference": "485c83a2fb5893e2ff21bf4bfc7fdf48b4967229",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<4.4"
+            },
+            "require-dev": {
+                "symfony/console": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "bin": [
+                "Resources/bin/yaml-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Loads and dumps YAML files",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v5.3.3"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-06-24T08:13:00+00:00"
         },
         {
             "name": "theseer/tokenizer",

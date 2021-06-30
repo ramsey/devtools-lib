@@ -19,6 +19,7 @@
         "captainhook/captainhook": "^5.3",
         "ergebnis/composer-normalize": "^2.7",
         "hamcrest/hamcrest-php": "^2.0",
+        "madewithlove/license-checker": "^0.10.0 || ^1.0",
         "mockery/mockery": "^1.4",
         "pds/skeleton": "^1.0",
         "phly/keep-a-changelog": "^2.9",

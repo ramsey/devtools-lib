@@ -38,6 +38,7 @@ use Ramsey\Dev\Tools\Composer\Command\BuildClearCacheCommand;
 use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 use Ramsey\Dev\Tools\Composer\Command\Configuration;
 use Ramsey\Dev\Tools\Composer\Command\KeepAChangelogCommand;
+use Ramsey\Dev\Tools\Composer\Command\LicenseCheckerCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintFixCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
@@ -121,6 +122,7 @@ class DevToolsPlugin implements
             new BuildCleanCommand($config),
             new BuildClearCacheCommand($config),
             new KeepAChangelogCommand($config),
+            new LicenseCheckerCommand($config),
             new LintCommand($config),
             new LintFixCommand($config),
             new LintPdsCommand($config),
@@ -128,9 +130,9 @@ class DevToolsPlugin implements
             new LintSyntaxCommand($config),
             new PreCommitCommand($config),
             new TestAllCommand($config),
-            new TestUnitCommand($config),
             new TestCoverageCiCommand($config),
             new TestCoverageHtmlCommand($config),
+            new TestUnitCommand($config),
         ];
     }
 
