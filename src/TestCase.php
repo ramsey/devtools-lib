@@ -44,6 +44,8 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
+     * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     *
      * @param class-string<T> $class
      * @param mixed ...$arguments
      *
