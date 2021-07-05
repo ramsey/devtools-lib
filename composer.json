@@ -31,7 +31,7 @@
         "phpstan/phpstan-phpunit": "^0.12.16",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-mockery": "^0.7.0",
-        "psalm/plugin-phpunit": "^0.15.1",
+        "psalm/plugin-phpunit": "^0.16.1",
         "ramsey/coding-standard": "^2.0.1",
         "ramsey/composer-repl": "^1.2",
         "ramsey/conventional-commits": "^1.1",
