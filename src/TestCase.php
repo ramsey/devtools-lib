@@ -44,7 +44,7 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
-     * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * Configures and returns a mock object
      *
      * @param class-string<T> $class
      * @param mixed ...$arguments
@@ -52,6 +52,8 @@ abstract class TestCase extends PHPUnitTestCase
      * @return T & MockInterface
      *
      * @template T
+     *
+     * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function mockery(string $class, ...$arguments)
     {

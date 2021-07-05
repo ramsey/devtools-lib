@@ -27,6 +27,11 @@ class AnalyzeCommandTest extends CommandTestCase
         $this->assertSame(['analyze'], $this->command->getAliases());
     }
 
+    public function testIsProxyCommand(): void
+    {
+        $this->assertTrue($this->command->isProxyCommand());
+    }
+
     public function testRun(): void
     {
         /** @var Command & MockInterface $commandPhpStan */

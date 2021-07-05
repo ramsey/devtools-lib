@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Composer\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -45,13 +44,16 @@ class AnalyzeCommand extends BaseCommand
         return ['analyze'];
     }
 
+    public function isProxyCommand(): bool
+    {
+        return true;
+    }
+
     protected function configure(): void
     {
         $this
-            ->setDescription('Runs all static analysis checks on the code base.')
-            ->setDefinition([
-                new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
-            ]);
+            ->setDescription('Runs all static analysis checks.')
+            ->setHelp($this->getHelpText());
     }
 
     protected function doExecute(InputInterface $input, OutputInterface $output): int
@@ -66,5 +68,21 @@ class AnalyzeCommand extends BaseCommand
         $psalmExit = $psalm->run($input, $output);
 
         return $phpStanExit + $psalmExit;
+    }
+
+    private function getHelpText(): string
+    {
+        $phpstanCommand = $this->withPrefix('analyze:phpstan');
+        $psalmCommand = $this->withPrefix('analyze:psalm');
+
+        return <<<EOD
+            <info>%command.name%</info> executes both the <info>{$phpstanCommand}</info>
+            and <info>{$psalmCommand}</info> commands.
+
+            Since this command executes multiple commands, it is not possible
+            to pass additional arguments to the commands. You may, however,
+            extend or override these commands for your own needs. See the
+            <href=https://github.com/ramsey/devtools/blob/main/README.md>ramsey/devtools README</> for more information.
+            EOD;
     }
 }

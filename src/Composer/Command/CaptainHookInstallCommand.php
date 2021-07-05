@@ -25,6 +25,10 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Runs as part of {@see DevToolsPlugin::onPostAutoloadDump()} but is not
+ * provided as a sub-command of `devtools`.
+ */
 class CaptainHookInstallCommand extends ProcessCommand
 {
     public function getBaseName(): string

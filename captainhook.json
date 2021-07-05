@@ -37,10 +37,10 @@
                 ]
             },
             {
-                "action": "composer devtools lint:pds"
+                "action": "./bin/devtools lint:pds"
             },
             {
-                "action": "composer devtools lint:syntax -- -- {$STAGED_FILES|of-type:php}",
+                "action": "./bin/devtools lint:syntax -- {$STAGED_FILES|of-type:php}",
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
@@ -49,7 +49,7 @@
                 ]
             },
             {
-                "action": "composer devtools lint:style -- -- {$STAGED_FILES|of-type:php}",
+                "action": "./bin/devtools lint:style -- {$STAGED_FILES|of-type:php}",
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
@@ -58,7 +58,16 @@
                 ]
             },
             {
-                "action": "composer devtools analyze -- -- {$STAGED_FILES|of-type:php}",
+                "action": "./bin/devtools analyze:phpstan -- {$STAGED_FILES|of-type:php}",
+                "conditions": [
+                    {
+                        "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
+                        "args": ["php"]
+                    }
+                ]
+            },
+            {
+                "action": "./bin/devtools analyze:psalm -- {$STAGED_FILES|of-type:php}",
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",

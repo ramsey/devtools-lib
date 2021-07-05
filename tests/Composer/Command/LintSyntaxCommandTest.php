@@ -22,7 +22,22 @@ class LintSyntaxCommandTest extends ProcessCommandTestCase
 
         parent::setUp();
 
+        $this->input->allows()->getOption('parallel-lint-help')->andReturnFalse();
+
         $this->input->allows()->getArguments()->andReturnNull();
+    }
+
+    public function testWithParallelLintHelpOption(): void
+    {
+        $this->input = $this->mockery(InputInterface::class);
+        $this->input->allows()->getOption('parallel-lint-help')->andReturnTrue();
+        $this->input->allows()->getArguments()->andReturn([
+            'args' => ['--bar'],
+        ]);
+
+        $this->processCommand = ['/path/to/bin-dir/parallel-lint', '--colors', '--help'];
+
+        $this->testRun();
     }
 
     public function testWhenPassingArguments(): void

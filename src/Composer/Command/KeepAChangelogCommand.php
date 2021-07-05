@@ -55,9 +55,43 @@ class KeepAChangelogCommand extends ProcessCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Tooling support for working with Keep A Changelog.')
+            ->setDescription('Support for working with Keep A Changelog.')
+            ->setHelp($this->getHelpText())
+            ->addUsage('-- list')
+            ->addUsage('-- <command-name> [<args>...]')
             ->setDefinition([
                 new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
             ]);
+    }
+
+    private function getHelpText(): string
+    {
+        return <<<'EOD'
+            The <info>%command.name%</info> command executes <info>keep-a-changelog</info> from
+            the <href=https://packagist.org/packages/phly/keep-a-changelog>phly/keep-a-changelog package</>.
+
+            You may also pass arguments and options to keep-a-changelog. To do so,
+            use a double-dash (<info>--</info>) to indicate all following arguments and options
+            should be passed along directly to keep-a-changelog.
+
+            For example:
+
+              <info>%command.full_name% -- version:list</info>
+              <info>%command.full_name% -- help entry:added</info>
+
+            To view all keep-a-changelog sub-commands, use the <info>list</info> command:
+
+              <info>%command.full_name% -- list</info>
+
+            For more information on Keep A Changelog, see
+            https://keepachangelog.com and
+            https://phly.github.io/keep-a-changelog/
+
+            <comment>Please Note:</comment> Composer captures some options early and, therefore,
+            cannot easily pass them along to keep-a-changelog. These include
+            standard options such as <info>--help</info>, <info>--version</info>, and <info>--quiet</info>. To use these
+            options, invoke keep-a-changelog directly via
+            <info>./vendor/bin/keep-a-changelog</info>.
+            EOD;
     }
 }

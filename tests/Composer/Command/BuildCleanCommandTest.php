@@ -11,10 +11,15 @@ class BuildCleanCommandTest extends ProcessCommandTestCase
     protected function setUp(): void
     {
         $this->commandClass = BuildCleanCommand::class;
-        $this->baseName = 'build:clean';
+        $this->baseName = 'build:clean:all';
         $this->processCommand = ['git', 'clean', '-fX', 'build/'];
 
         parent::setUp();
+    }
+
+    public function testGetAliases(): void
+    {
+        $this->assertSame(['bar:build:clean'], $this->command->getAliases());
     }
 
     public function testRun(): void

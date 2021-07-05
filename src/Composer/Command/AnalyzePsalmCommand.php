@@ -24,6 +24,7 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_merge;
@@ -43,12 +44,14 @@ class AnalyzePsalmCommand extends ProcessCommand
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
 
+        if ($input->getOption('psalm-help')) {
+            // Ignore all other arguments and display PHPStan help.
+            $args = ['--help'];
+        }
+
         return array_merge(
             [
                 $this->withBinPath('psalm'),
-                '--diff',
-                '--long-progress',
-                '--stats',
             ],
             $args,
         );
@@ -58,8 +61,37 @@ class AnalyzePsalmCommand extends ProcessCommand
     {
         $this
             ->setDescription('Runs the Psalm static analyzer.')
+            ->addUsage('--psalm-help')
+            ->addUsage('-- [<psalm-options>...]')
+            ->setHelp($this->getHelpText())
             ->setDefinition([
                 new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
+                new InputOption('psalm-help', null, InputOption::VALUE_NONE, 'Display Psalm help'),
             ]);
+    }
+
+    private function getHelpText(): string
+    {
+        return <<<'EOD'
+            The <info>%command.name%</info> command executes Psalm, using any
+            local configuration files (e.g., psalm.xml) available.
+
+            You may also pass additional arguments to Psalm. To do so, use a
+            double-dash (<info>--</info>) to indicate all following arguments and options
+            should be passed along directly to Psalm.
+
+            For example:
+
+              <info>%command.full_name% -- --no-cache --threads=10</info>
+
+            To view Psalm help, use the <info>--psalm-help</info> option.
+
+            For more information on Psalm, see https://psalm.dev
+
+            <comment>Please Note:</comment> Composer captures some options early and, therefore,
+            cannot easily pass them along to Psalm. These include standard
+            options such as <info>--help</info>, <info>--version</info>, and <info>--quiet</info>. To use these options,
+            invoke Psalm directly via <info>./vendor/bin/psalm</info>.
+            EOD;
     }
 }

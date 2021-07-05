@@ -25,20 +25,23 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BuildCleanCommand extends ProcessCommand
+class BuildCleanCacheCommand extends ProcessCommand
 {
     public function getBaseName(): string
     {
-        return 'build:clean:all';
+        return 'build:clean:cache';
     }
 
     /**
+     * The use of build:clear-cache is deprecated and will be removed in a
+     * future version of ramsey/devtools-lib.
+     *
      * @return string[]
      */
     public function getAliases(): array
     {
         return [
-            $this->withPrefix('build:clean'),
+            $this->withPrefix('build:clear-cache'),
         ];
     }
 
@@ -47,7 +50,7 @@ class BuildCleanCommand extends ProcessCommand
      */
     public function getProcessCommand(InputInterface $input, OutputInterface $output): array
     {
-        return ['git', 'clean', '-fX', 'build/'];
+        return ['git', 'clean', '-fX', 'build/cache/.'];
     }
 
     protected function configure(): void
@@ -55,18 +58,18 @@ class BuildCleanCommand extends ProcessCommand
         $this
             ->setHelp($this->getHelpText())
             ->setDescription(
-                'Cleans the build/ directory.',
+                'Cleans the build/cache/ directory.',
             );
     }
 
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('<info>Cleaning the build directory...</info>');
+        $output->writeln('<info>Clearing the build cache...</info>');
 
         $exitCode = parent::doExecute($input, $output);
 
         if ($exitCode !== 0) {
-            $output->writeln('<error>Unable to clean the build directory</error>');
+            $output->writeln('<error>Unable to clear the build cache</error>');
         }
 
         return $exitCode;
@@ -74,17 +77,21 @@ class BuildCleanCommand extends ProcessCommand
 
     private function getHelpText(): string
     {
-        return <<<'EOD'
-            The <info>%command.name%</info> command will erase everything from the <info>build/</info>
-            directory that isn't committed to Git.
+        $buildClean = $this->withPrefix('build:clean');
 
-            You may use the <info>build/</info> directory to store any artifacts your program
-            produces that you do not wish to have under version control.
+        return <<<EOD
+            The <info>%command.name%</info> command will erase everything from the
+            <info>build/cache/</info> directory that isn't committed to Git.
 
-            By default, the <info>build/</info> directory includes subdirectories for <info>cache/</info>
-            and <info>coverage/</info> reports, as well as a <info>.gitignore</info> file and several
-            <info>.gitkeep</info> files. Anything else you place here will be ignored by Git,
-            unless you modify the <info>.gitignore</info> file.
+            Many tools, such as PHPUnit, Psalm, PHPStan, Doctrine, and more, cache
+            files to speed up their processes. You may use the <info>build/cache/</info>
+            directory as a place to store the cache for any such tools. Nothing in
+            <info>build/cache/</info> is under version control.
+
+            This command erases only the contents of <info>build/cache/</info>, while
+            <info>{$buildClean}</info> erases everything else from the <info>build/</info> directory. If you
+            wish to keep other build artifacts and erase only the cache,
+            <info>%command.name%</info> is the command to use.
             EOD;
     }
 }

@@ -48,7 +48,9 @@ class LintPdsCommand extends ProcessCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Validates project compliance with pds/skeleton.');
+        $this
+            ->setHelp($this->getHelpText())
+            ->setDescription('Validates project compliance with pds/skeleton.');
     }
 
     protected function getProcessCallback(OutputInterface $output): callable
@@ -78,5 +80,26 @@ class LintPdsCommand extends ProcessCommand
         }
 
         return $exitCode;
+    }
+
+    private function getHelpText(): string
+    {
+        return <<<'EOD'
+            The <info>%command.name%</info> command executes <info>pds-skeleton validate</info> from
+            the <href=https://packagist.org/packages/pds/skeleton>pds/skeleton package</>.
+
+            pds/skeleton describes a standard filesystem skeleton suitable
+            for all PHP packages. This includes folders and files that have
+            become commonplace in PHP development, such as <info>bin/</info> for command
+            line executables, <info>src/</info> for PHP source code, and <info>README(.*)</info>
+            for information about the package.
+
+            This validator catches common alternate names for these files and
+            directories and suggests renaming them to the community standard
+            names.
+
+            For more information on pds/skeleton, see
+            https://github.com/php-pds/skeleton
+            EOD;
     }
 }

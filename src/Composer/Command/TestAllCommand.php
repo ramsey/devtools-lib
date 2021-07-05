@@ -45,9 +45,16 @@ class TestAllCommand extends BaseCommand
         return ['test'];
     }
 
+    public function isProxyCommand(): bool
+    {
+        return true;
+    }
+
     protected function configure(): void
     {
-        $this->setDescription('Runs linting, static analysis, and unit tests.');
+        $this
+            ->setHelp($this->getHelpText())
+            ->setDescription('Runs linting, static analysis, and unit tests.');
     }
 
     /**
@@ -66,5 +73,22 @@ class TestAllCommand extends BaseCommand
         $testExit = $test->run($input, $output);
 
         return $lintExit + $analyzeExit + $testExit;
+    }
+
+    private function getHelpText(): string
+    {
+        $lintAll = $this->withPrefix('lint:all');
+        $analyzeAll = $this->withPrefix('analyze:all');
+        $testUnit = $this->withPrefix('test:unit');
+
+        return <<<EOD
+            <info>%command.name%</info> executes the <info>{$lintAll}</info>, <info>{$analyzeAll}</info>,
+            and <info>{$testUnit}</info> commands.
+
+            Since this command executes multiple commands, it is not possible
+            to pass additional arguments to the commands. You may, however,
+            extend or override these commands for your own needs. See the
+            <href=https://github.com/ramsey/devtools/blob/main/README.md>ramsey/devtools README</> for more information.
+            EOD;
     }
 }

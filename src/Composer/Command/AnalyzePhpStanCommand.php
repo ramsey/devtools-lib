@@ -24,6 +24,7 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_merge;
@@ -43,6 +44,11 @@ class AnalyzePhpStanCommand extends ProcessCommand
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
 
+        if ($input->getOption('phpstan-help')) {
+            // Ignore all other arguments and display PHPStan help.
+            $args = ['--help'];
+        }
+
         return array_merge(
             [
                 $this->withBinPath('phpstan'),
@@ -57,8 +63,37 @@ class AnalyzePhpStanCommand extends ProcessCommand
     {
         $this
             ->setDescription('Runs the PHPStan static analyzer.')
+            ->addUsage('--phpstan-help')
+            ->addUsage('-- [<phpstan-options>...]')
+            ->setHelp($this->getHelpText())
             ->setDefinition([
                 new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
+                new InputOption('phpstan-help', null, InputOption::VALUE_NONE, 'Display PHPStan help'),
             ]);
+    }
+
+    private function getHelpText(): string
+    {
+        return <<<'EOD'
+            The <info>%command.name%</info> command executes PHPStan, using any
+            local configuration files (e.g., phpstan.neon) available.
+
+            You may also pass additional arguments to PHPStan. To do so, use a
+            double-dash (<info>--</info>) to indicate all following arguments and options
+            should be passed along directly to PHPStan.
+
+            For example:
+
+              <info>%command.full_name% -- --error-format=json</info>
+
+            To view PHPStan help, use the <info>--phpstan-help</info> option.
+
+            For more information on PHPStan, see https://phpstan.org
+
+            <comment>Please Note:</comment> Composer captures some options early and, therefore,
+            cannot easily pass them along to PHPStan. These include standard
+            options such as <info>--help</info>, <info>--version</info>, and <info>--quiet</info>. To use these options,
+            invoke PHPStan directly via <info>./vendor/bin/phpstan</info>.
+            EOD;
     }
 }

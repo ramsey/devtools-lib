@@ -33,8 +33,9 @@ use Ramsey\Dev\Tools\Composer\Command\AnalyzeCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePhpStanCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePsalmCommand;
 use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
+use Ramsey\Dev\Tools\Composer\Command\BuildCleanCacheCommand;
 use Ramsey\Dev\Tools\Composer\Command\BuildCleanCommand;
-use Ramsey\Dev\Tools\Composer\Command\BuildClearCacheCommand;
+use Ramsey\Dev\Tools\Composer\Command\BuildCleanCoverageCommand;
 use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 use Ramsey\Dev\Tools\Composer\Command\Configuration;
 use Ramsey\Dev\Tools\Composer\Command\KeepAChangelogCommand;
@@ -119,8 +120,9 @@ class DevToolsPlugin implements
             new AnalyzeCommand($config),
             new AnalyzePhpStanCommand($config),
             new AnalyzePsalmCommand($config),
+            new BuildCleanCacheCommand($config),
             new BuildCleanCommand($config),
-            new BuildClearCacheCommand($config),
+            new BuildCleanCoverageCommand($config),
             new KeepAChangelogCommand($config),
             new LicenseCheckerCommand($config),
             new LintCommand($config),

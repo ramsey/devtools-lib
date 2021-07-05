@@ -24,6 +24,7 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_merge;
@@ -43,6 +44,11 @@ class LintFixCommand extends ProcessCommand
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
 
+        if ($input->getOption('phpcbf-help')) {
+            // Ignore all other arguments and display phpcbf help.
+            $args = ['--help'];
+        }
+
         return array_merge(
             [
                 $this->withBinPath('phpcbf'),
@@ -55,9 +61,14 @@ class LintFixCommand extends ProcessCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Checks source code for coding standards issues and fixes them, if possible.')
+            ->setDescription('Auto-fixes coding standards issues, if possible.')
+            ->addUsage('--phpcbf-help')
+            ->addUsage('-- [<phpcbf-options>...]')
+            ->addUsage('-- [<file>...]')
+            ->setHelp($this->getHelpText())
             ->setDefinition([
                 new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
+                new InputOption('phpcbf-help', null, InputOption::VALUE_NONE, 'Display phpcbf help'),
             ]);
     }
 
@@ -83,5 +94,32 @@ class LintFixCommand extends ProcessCommand
         }
 
         return 0;
+    }
+
+    private function getHelpText(): string
+    {
+        return <<<'EOD'
+            The <info>%command.name%</info> command executes <info>phpcbf</info> (PHP Code Beautifier
+            and Fixer), part of PHP_CodeSniffer. It uses any local configuration
+            files (e.g., phpcs.xml) available.
+
+            You may also pass additional arguments to phpcbf. To do so, use a
+            double-dash (<info>--</info>) to indicate all following arguments and options
+            should be passed along directly to phpcbf.
+
+            For example:
+
+              <info>%command.full_name% -- src/File1.php src/File2.php</info>
+
+            To view phpcbf help, use the <info>--phpcbf-help</info> option.
+
+            For more information on phpcbf, see
+            https://github.com/squizlabs/PHP_CodeSniffer
+
+            <comment>Please Note:</comment> Composer captures some options early and, therefore,
+            cannot easily pass them along to phpcbf. These include standard
+            options such as <info>--help</info>, <info>--version</info>, and <info>--quiet</info>. To use these options,
+            invoke phpcbf directly via <info>./vendor/bin/phpcbf</info>.
+            EOD;
     }
 }

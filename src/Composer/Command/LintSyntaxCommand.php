@@ -24,6 +24,7 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_merge;
@@ -48,6 +49,11 @@ class LintSyntaxCommand extends ProcessCommand
             $args = ['src', 'tests'];
         }
 
+        if ($input->getOption('parallel-lint-help')) {
+            // Ignore all other arguments and display phpcs help.
+            $args = ['--help'];
+        }
+
         return array_merge(
             [
                 $this->withBinPath('parallel-lint'),
@@ -60,9 +66,44 @@ class LintSyntaxCommand extends ProcessCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Checks source code for coding standards issues.')
+            ->setDescription('Checks for syntax errors.')
+            ->addUsage('--parallel-lint-help')
+            ->addUsage('-- [<parallel-lint-options>...]')
+            ->addUsage('-- [<file>...]')
+            ->setHelp($this->getHelpText())
             ->setDefinition([
                 new InputArgument('args', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, ''),
+                new InputOption('parallel-lint-help', null, InputOption::VALUE_NONE, 'Display parallel-lint help'),
             ]);
+    }
+
+    private function getHelpText(): string
+    {
+        // phpcs:disable Generic.Files.LineLength.TooLong
+        return <<<'EOD'
+            The <info>%command.name%</info> command executes <info>parallel-lint</info> from
+            the <href=https://packagist.org/packages/php-parallel-lint/php-parallel-lint>php-parallel-lint/php-parallel-lint package</>.
+
+            parallel-lint is similar to <info>php -l</info>, but for large programs, it can
+            run faster, since it runs the checks in parallel.
+
+            You may also pass arguments and options to parallel-lint. To do so,
+            use a double-dash (<info>--</info>) to indicate all following arguments and options
+            should be passed along directly to parallel-lint.
+
+            For example:
+
+              <info>%command.full_name% -- src/File1.php src/File2.php</info>
+
+            To view parallel-lint help, use the <info>--parallel-lint-help</info> option.
+
+            For more information on parallel-lint, see
+            https://github.com/php-parallel-lint/PHP-Parallel-Lint
+
+            <comment>Please Note:</comment> Composer captures some options early and, therefore,
+            cannot easily pass them along to parallel-lint. These include
+            standard options such as <info>--help</info>, <info>--version</info>, and <info>--quiet</info>. To use these
+            options, invoke parallel-lint directly via <info>./vendor/bin/parallel-lint</info>.
+            EOD;
     }
 }

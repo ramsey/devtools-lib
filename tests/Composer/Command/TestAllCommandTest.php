@@ -26,6 +26,11 @@ class TestAllCommandTest extends CommandTestCase
         $this->assertSame(['test'], $this->command->getAliases());
     }
 
+    public function testIsProxyCommand(): void
+    {
+        $this->assertTrue($this->command->isProxyCommand());
+    }
+
     public function testRun(): void
     {
         $commandLint = $this->mockery(Command::class, [
