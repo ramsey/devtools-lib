@@ -30,7 +30,7 @@
         "phpstan/phpstan-mockery": "^0.12.7",
         "phpstan/phpstan-phpunit": "^0.12.16",
         "phpunit/phpunit": "^9.5",
-        "psalm/plugin-mockery": "^0.7.0",
+        "psalm/plugin-mockery": "^0.9.0",
         "psalm/plugin-phpunit": "^0.16.1",
         "ramsey/coding-standard": "^2.0.1",
         "ramsey/composer-repl": "^1.2",
