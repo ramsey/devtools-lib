@@ -12,8 +12,6 @@
     <a href="https://codecov.io/gh/ramsey/devtools-lib"><img src="https://img.shields.io/codecov/c/gh/ramsey/devtools-lib?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
     <a href="https://shepherd.dev/github/ramsey/devtools-lib"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fdevtools-lib%2Fcoverage" alt="Psalm Type Coverage"></a>
     <a href="https://github.com/ramsey/devtools-lib/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/devtools-lib.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
-    <a href="https://packagist.org/packages/ramsey/devtools-lib/stats"><img src="https://img.shields.io/packagist/dt/ramsey/devtools-lib.svg?style=flat-square&colorB=darkmagenta" alt="Package downloads on Packagist"></a>
-    <a href="https://phpc.chat/channel/ramsey"><img src="https://img.shields.io/badge/phpc.chat-%23ramsey-darkslateblue?style=flat-square" alt="Chat with the maintainers"></a>
 </p>
 
 ## About
