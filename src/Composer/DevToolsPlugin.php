@@ -28,6 +28,7 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\Capability\CommandProvider;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzeCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePhpStanCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePsalmCommand;
@@ -49,6 +50,7 @@ use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageHtmlCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestUnitCommand;
+use Ramsey\Dev\Tools\Filesystem\Filesystem;
 
 use function dirname;
 use function realpath;
@@ -62,9 +64,38 @@ class DevToolsPlugin implements
     CommandProvider,
     PluginInterface
 {
+    private const BUILD_GITIGNORE_BASE = "\n*\n!.gitignore\n";
+    private const BUILD_GITIGNORE_CACHE = "\ncache/*\n!cache\n!cache/.gitkeep\n";
+    private const BUILD_GITIGNORE_COVERAGE = "\ncoverage/*\n!coverage\n!coverage/.gitkeep\n";
+
     private static Composer $composer;
 
     private string $repoRoot;
+
+    public static function setupBuildDirectory(Event $event, ?Filesystem $filesystem = null): void
+    {
+        $filesystem = $filesystem ?? new Filesystem();
+
+        if (!$filesystem->exists('./build')) {
+            $event->getIO()->write('<comment>Creating build directory</comment>');
+            $filesystem->mkdir('./build');
+            $filesystem->appendToFile('./build/.gitignore', self::BUILD_GITIGNORE_BASE);
+        }
+
+        if (!$filesystem->exists('./build/cache')) {
+            $event->getIO()->write('<comment>Creating build/cache directory</comment>');
+            $filesystem->mkdir('./build/cache');
+            $filesystem->touch('./build/cache/.gitkeep');
+            $filesystem->appendToFile('./build/.gitignore', self::BUILD_GITIGNORE_CACHE);
+        }
+
+        if (!$filesystem->exists('./build/coverage')) {
+            $event->getIO()->write('<comment>Creating build/coverage directory</comment>');
+            $filesystem->mkdir('./build/coverage');
+            $filesystem->touch('./build/coverage/.gitkeep');
+            $filesystem->appendToFile('./build/.gitignore', self::BUILD_GITIGNORE_COVERAGE);
+        }
+    }
 
     public function __construct()
     {

@@ -54,6 +54,8 @@ class Process extends SymfonyProcess
 
     /**
      * @return Generator<string, string>
+     *
+     * @codeCoverageIgnore
      */
     public function getIterator(int $flags = 0): Generator
     {

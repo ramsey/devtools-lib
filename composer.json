@@ -37,7 +37,8 @@
         "ramsey/composer-repl": "^1.2",
         "ramsey/conventional-commits": "^1.1",
         "roave/security-advisories": "dev-latest",
-        "symfony/process": "^5.1",
+        "symfony/filesystem": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/process": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
         "vimeo/psalm": "^4.4"
     },
     "require-dev": {
@@ -70,6 +71,8 @@
         "bin/devtools"
     ],
     "scripts": {
+        "post-package-install": "Ramsey\\Dev\\Tools\\Composer\\DevToolsPlugin::setupBuildDirectory",
+        "post-package-update": "Ramsey\\Dev\\Tools\\Composer\\DevToolsPlugin::setupBuildDirectory",
         "test": "bin/devtools test:all"
     }
 }

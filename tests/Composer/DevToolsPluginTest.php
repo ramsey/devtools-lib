@@ -9,11 +9,13 @@ use Composer\Config;
 use Composer\EventDispatcher\EventDispatcher;
 use Composer\IO\IOInterface;
 use Composer\Plugin\Capability\CommandProvider;
+use Composer\Script\Event;
 use Mockery;
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
 use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
+use Ramsey\Dev\Tools\Filesystem\Filesystem;
 use Ramsey\Dev\Tools\TestCase;
 
 use function count;
@@ -186,5 +188,79 @@ class DevToolsPluginTest extends TestCase
             CaptainHookInstallCommand::class,
             $pluginToUseForExecution->getCaptainHookInstallCommand(),
         );
+    }
+
+    public function testSetupBuildDirectory(): void
+    {
+        $io = $this->mockery(IOInterface::class);
+        $io->expects()->write('<comment>Creating build directory</comment>');
+        $io->expects()->write('<comment>Creating build/cache directory</comment>');
+        $io->expects()->write('<comment>Creating build/coverage directory</comment>');
+
+        $event = $this->mockery(Event::class, [
+            'getIO' => $io,
+        ]);
+
+        $filesystem = $this->mockery(Filesystem::class);
+
+        $filesystem->expects()->exists('./build')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\n*\n!.gitignore\n");
+
+        $filesystem->expects()->exists('./build/cache')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build/cache');
+        $filesystem->expects()->touch('./build/cache/.gitkeep');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\ncache/*\n!cache\n!cache/.gitkeep\n");
+
+        $filesystem->expects()->exists('./build/coverage')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build/coverage');
+        $filesystem->expects()->touch('./build/coverage/.gitkeep');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\ncoverage/*\n!coverage\n!coverage/.gitkeep\n");
+
+        DevToolsPlugin::setupBuildDirectory($event, $filesystem);
+    }
+
+    public function testSetupBuildDirectoryForCacheDirectory(): void
+    {
+        $io = $this->mockery(IOInterface::class);
+        $io->expects()->write('<comment>Creating build/cache directory</comment>');
+
+        $event = $this->mockery(Event::class, [
+            'getIO' => $io,
+        ]);
+
+        $filesystem = $this->mockery(Filesystem::class);
+
+        $filesystem->expects()->exists('./build')->andReturnTrue();
+        $filesystem->expects()->exists('./build/coverage')->andReturnTrue();
+
+        $filesystem->expects()->exists('./build/cache')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build/cache');
+        $filesystem->expects()->touch('./build/cache/.gitkeep');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\ncache/*\n!cache\n!cache/.gitkeep\n");
+
+        DevToolsPlugin::setupBuildDirectory($event, $filesystem);
+    }
+
+    public function testSetupBuildDirectoryForCoverageDirectory(): void
+    {
+        $io = $this->mockery(IOInterface::class);
+        $io->expects()->write('<comment>Creating build/coverage directory</comment>');
+
+        $event = $this->mockery(Event::class, [
+            'getIO' => $io,
+        ]);
+
+        $filesystem = $this->mockery(Filesystem::class);
+
+        $filesystem->expects()->exists('./build')->andReturnTrue();
+        $filesystem->expects()->exists('./build/cache')->andReturnTrue();
+
+        $filesystem->expects()->exists('./build/coverage')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build/coverage');
+        $filesystem->expects()->touch('./build/coverage/.gitkeep');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\ncoverage/*\n!coverage\n!coverage/.gitkeep\n");
+
+        DevToolsPlugin::setupBuildDirectory($event, $filesystem);
     }
 }

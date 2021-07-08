@@ -1,6 +1,11 @@
+
 *
 !.gitignore
+
+cache/*
 !cache
 !cache/.gitkeep
+
+coverage/*
 !coverage
 !coverage/.gitkeep
