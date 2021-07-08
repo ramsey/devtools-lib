@@ -49,7 +49,6 @@ use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageHtmlCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestUnitCommand;
-use Ramsey\Dev\Tools\Process\ProcessFactory;
 
 use function dirname;
 use function realpath;
@@ -65,7 +64,6 @@ class DevToolsPlugin implements
 {
     private static Composer $composer;
 
-    private ProcessFactory $processFactory;
     private string $repoRoot;
 
     public function __construct()
@@ -73,7 +71,6 @@ class DevToolsPlugin implements
         $composerFile = (string) Factory::getComposerFile();
 
         $this->repoRoot = (string) realpath(dirname($composerFile));
-        $this->processFactory = new ProcessFactory();
     }
 
     /**
