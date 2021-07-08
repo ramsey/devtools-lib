@@ -67,7 +67,7 @@ class LicenseCheckerCommand extends ProcessCommand
         // phpcs:disable Generic.Files.LineLength.TooLong
         return <<<'EOD'
             The <info>%command.name%</info> command executes <info>license-checker</info> from
-            the <href=https://packagist.org/packages/madewithlove/license-checker>madewithlove/license-checker</> package.
+            the madewithlove/license-checker package.
 
             You may also pass arguments and options to license-checker. To do so,
             use a double-dash (<info>--</info>) to indicate all following arguments and options

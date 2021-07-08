@@ -82,7 +82,7 @@ class LintSyntaxCommand extends ProcessCommand
         // phpcs:disable Generic.Files.LineLength.TooLong
         return <<<'EOD'
             The <info>%command.name%</info> command executes <info>parallel-lint</info> from
-            the <href=https://packagist.org/packages/php-parallel-lint/php-parallel-lint>php-parallel-lint/php-parallel-lint package</>.
+            the php-parallel-lint/php-parallel-lint package.
 
             parallel-lint is similar to <info>php -l</info>, but for large programs, it can
             run faster, since it runs the checks in parallel.

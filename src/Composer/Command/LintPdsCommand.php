@@ -86,7 +86,7 @@ class LintPdsCommand extends ProcessCommand
     {
         return <<<'EOD'
             The <info>%command.name%</info> command executes <info>pds-skeleton validate</info> from
-            the <href=https://packagist.org/packages/pds/skeleton>pds/skeleton package</>.
+            the pds/skeleton package.
 
             pds/skeleton describes a standard filesystem skeleton suitable
             for all PHP packages. This includes folders and files that have

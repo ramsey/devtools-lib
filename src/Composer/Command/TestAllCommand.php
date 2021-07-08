@@ -88,7 +88,7 @@ class TestAllCommand extends BaseCommand
             Since this command executes multiple commands, it is not possible
             to pass additional arguments to the commands. You may, however,
             extend or override these commands for your own needs. See the
-            <href=https://github.com/ramsey/devtools/blob/main/README.md>ramsey/devtools README</> for more information.
+            ramsey/devtools README.md file for more information.
             EOD;
     }
 }

@@ -94,7 +94,7 @@ class TestCoverageCiCommand extends ProcessCommand
             For more information on phpunit, see https://phpunit.de
 
             You may extend or override this command for your own needs. See the
-            <href=https://github.com/ramsey/devtools/blob/main/README.md>ramsey/devtools README</> for more information.
+            ramsey/devtools README.md file for more information.
             EOD;
     }
 }
