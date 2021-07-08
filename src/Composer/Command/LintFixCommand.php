@@ -103,6 +103,9 @@ class LintFixCommand extends ProcessCommand
             and Fixer), part of PHP_CodeSniffer. It uses any local configuration
             files (e.g., phpcs.xml) available.
 
+            For more information on phpcbf, see
+            https://github.com/squizlabs/PHP_CodeSniffer
+
             You may also pass additional arguments to phpcbf. To do so, use a
             double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to phpcbf.
@@ -112,9 +115,6 @@ class LintFixCommand extends ProcessCommand
               <info>%command.full_name% -- src/File1.php src/File2.php</info>
 
             To view phpcbf help, use the <info>--phpcbf-help</info> option.
-
-            For more information on phpcbf, see
-            https://github.com/squizlabs/PHP_CodeSniffer
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to phpcbf. These include standard

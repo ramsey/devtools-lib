@@ -78,6 +78,8 @@ class TestUnitCommand extends ProcessCommand
             The <info>%command.name%</info> command executes <info>phpunit</info>. It uses any local
             configuration files (e.g., phpunit.xml) available.
 
+            For more information on phpunit, see https://phpunit.de
+
             You may also pass additional arguments to phpunit. To do so, use a
             double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to phpunit.
@@ -87,8 +89,6 @@ class TestUnitCommand extends ProcessCommand
               <info>%command.full_name% -- tests/File1Test.php tests/File2Test.php</info>
 
             To view phpunit help, use the <info>--phpunit-help</info> option.
-
-            For more information on phpunit, see https://phpunit.de
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to phpunit. These include standard

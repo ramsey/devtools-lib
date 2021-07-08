@@ -76,17 +76,25 @@ class AnalyzePsalmCommand extends ProcessCommand
             The <info>%command.name%</info> command executes Psalm, using any
             local configuration files (e.g., psalm.xml) available.
 
+            To get started with Psalm, first generate a config file:
+
+              <info>%command.full_name% -- --init</info>
+
+            Then, run Psalm:
+
+              <info>%command.full_name%</info>
+
+            For more information on Psalm, see https://psalm.dev
+
             You may also pass additional arguments to Psalm. To do so, use a
             double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to Psalm.
 
             For example:
 
-              <info>%command.full_name% -- --no-cache --threads=10</info>
+              <info>%command.full_name% -- --update-baseline</info>
 
             To view Psalm help, use the <info>--psalm-help</info> option.
-
-            For more information on Psalm, see https://psalm.dev
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to Psalm. These include standard

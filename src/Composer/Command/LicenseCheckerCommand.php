@@ -69,6 +69,19 @@ class LicenseCheckerCommand extends ProcessCommand
             The <info>%command.name%</info> command executes <info>license-checker</info> from
             the madewithlove/license-checker package.
 
+            To get started with license-checker, generate a config file based on
+            the licenses your project currently uses:
+
+              <info>%command.full_name% -- generate-config</info>
+
+            Now, check the licenses of Composer dependencies to see if they match
+            those your project allows:
+
+              <info>%command.full_name% -- check</info>
+
+            For more information on License Checker, see
+            https://github.com/madewithlove/license-checker-php
+
             You may also pass arguments and options to license-checker. To do so,
             use a double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to license-checker.
@@ -81,9 +94,6 @@ class LicenseCheckerCommand extends ProcessCommand
             To view all license-checker sub-commands, use the <info>list</info> command:
 
               <info>%command.full_name% -- list</info>
-
-            For more information on License Checker, see
-            https://github.com/madewithlove/license-checker-php
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to license-checker. These include

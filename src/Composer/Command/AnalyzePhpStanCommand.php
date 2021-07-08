@@ -78,6 +78,12 @@ class AnalyzePhpStanCommand extends ProcessCommand
             The <info>%command.name%</info> command executes PHPStan, using any
             local configuration files (e.g., phpstan.neon) available.
 
+            If you don't have a configuration file yet, you can get started with:
+
+              <info>%command.full_name% -- src tests</info>
+
+            For more information on PHPStan, see https://phpstan.org
+
             You may also pass additional arguments to PHPStan. To do so, use a
             double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to PHPStan.
@@ -87,8 +93,6 @@ class AnalyzePhpStanCommand extends ProcessCommand
               <info>%command.full_name% -- --error-format=json</info>
 
             To view PHPStan help, use the <info>--phpstan-help</info> option.
-
-            For more information on PHPStan, see https://phpstan.org
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to PHPStan. These include standard

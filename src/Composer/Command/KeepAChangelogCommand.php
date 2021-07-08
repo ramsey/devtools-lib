@@ -70,6 +70,14 @@ class KeepAChangelogCommand extends ProcessCommand
             The <info>%command.name%</info> command executes <info>keep-a-changelog</info> from
             the phly/keep-a-changelog package.
 
+            To get started with keep-a-changelog, use the <info>changelog:new</info> command:
+
+              <info>%command.full_name% -- changelog:new</info>
+
+            For more information on Keep A Changelog, see
+            https://keepachangelog.com and
+            https://phly.github.io/keep-a-changelog/
+
             You may also pass arguments and options to keep-a-changelog. To do so,
             use a double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to keep-a-changelog.
@@ -82,10 +90,6 @@ class KeepAChangelogCommand extends ProcessCommand
             To view all keep-a-changelog sub-commands, use the <info>list</info> command:
 
               <info>%command.full_name% -- list</info>
-
-            For more information on Keep A Changelog, see
-            https://keepachangelog.com and
-            https://phly.github.io/keep-a-changelog/
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to keep-a-changelog. These include

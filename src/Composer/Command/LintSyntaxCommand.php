@@ -87,6 +87,9 @@ class LintSyntaxCommand extends ProcessCommand
             parallel-lint is similar to <info>php -l</info>, but for large programs, it can
             run faster, since it runs the checks in parallel.
 
+            For more information on parallel-lint, see
+            https://github.com/php-parallel-lint/PHP-Parallel-Lint
+
             You may also pass arguments and options to parallel-lint. To do so,
             use a double-dash (<info>--</info>) to indicate all following arguments and options
             should be passed along directly to parallel-lint.
@@ -96,9 +99,6 @@ class LintSyntaxCommand extends ProcessCommand
               <info>%command.full_name% -- src/File1.php src/File2.php</info>
 
             To view parallel-lint help, use the <info>--parallel-lint-help</info> option.
-
-            For more information on parallel-lint, see
-            https://github.com/php-parallel-lint/PHP-Parallel-Lint
 
             <comment>Please Note:</comment> Composer captures some options early and, therefore,
             cannot easily pass them along to parallel-lint. These include
