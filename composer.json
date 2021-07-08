@@ -70,7 +70,6 @@
     ],
     "scripts": {
         "post-autoload-dump": "captainhook install --ansi -f -s",
-        "devtools": "bin/devtools --ansi",
         "test": "bin/devtools test:all"
     }
 }
