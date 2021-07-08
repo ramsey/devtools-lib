@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Process;
 
+use Generator;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -49,6 +50,15 @@ class Process extends SymfonyProcess
     {
         // @phpstan-ignore-next-line
         parent::__construct($this->useCorrectCommand($command), $cwd);
+    }
+
+    /**
+     * @return Generator<string, string>
+     */
+    public function getIterator(int $flags = 0): Generator
+    {
+        /** @var Generator<string, string> */
+        return parent::getIterator($flags);
     }
 
     /**
