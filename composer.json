@@ -17,6 +17,7 @@
     "require": {
         "php": "^7.4 || ^8",
         "captainhook/captainhook": "^5.3",
+        "captainhook/plugin-composer": "^5.3",
         "ergebnis/composer-normalize": "^2.7",
         "hamcrest/hamcrest-php": "^2.0",
         "madewithlove/license-checker": "^0.10.0 || ^1.0",
@@ -69,7 +70,6 @@
         "bin/devtools"
     ],
     "scripts": {
-        "post-autoload-dump": "captainhook install --ansi -f -s",
         "test": "bin/devtools test:all"
     }
 }

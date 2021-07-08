@@ -15,40 +15,11 @@ use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
 use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
 use Ramsey\Dev\Tools\TestCase;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-use function anInstanceOf;
 use function count;
 
 class DevToolsPluginTest extends TestCase
 {
-    public function testGetSubscribedEvents(): void
-    {
-        $this->assertSame(
-            [
-                'post-autoload-dump' => 'onPostAutoloadDump',
-            ],
-            DevToolsPlugin::getSubscribedEvents(),
-        );
-    }
-
-    public function testOnPostAutoloadDump(): void
-    {
-        $command = $this->mockery(CaptainHookInstallCommand::class);
-        $command->expects()->run(
-            anInstanceOf(InputInterface::class),
-            anInstanceOf(OutputInterface::class),
-        );
-
-        /** @var DevToolsPlugin & MockInterface $plugin */
-        $plugin = $this->mockery(DevToolsPlugin::class);
-        $plugin->shouldReceive('onPostAutoloadDump')->passthru();
-        $plugin->expects()->getCaptainHookInstallCommand()->andReturn($command);
-
-        $plugin->onPostAutoloadDump();
-    }
-
     public function testGetCapabilities(): void
     {
         $plugin = new DevToolsPlugin();

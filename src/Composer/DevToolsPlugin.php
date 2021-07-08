@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace Ramsey\Dev\Tools\Composer;
 
 use Composer\Composer;
-use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Plugin\Capability\CommandProvider;
@@ -51,8 +50,6 @@ use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageHtmlCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestUnitCommand;
 use Ramsey\Dev\Tools\Process\ProcessFactory;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 use function dirname;
 use function realpath;
@@ -64,7 +61,6 @@ use function realpath;
 class DevToolsPlugin implements
     Capable,
     CommandProvider,
-    EventSubscriberInterface,
     PluginInterface
 {
     private static Composer $composer;
@@ -78,24 +74,6 @@ class DevToolsPlugin implements
 
         $this->repoRoot = (string) realpath(dirname($composerFile));
         $this->processFactory = new ProcessFactory();
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'post-autoload-dump' => 'onPostAutoloadDump',
-        ];
-    }
-
-    public function onPostAutoloadDump(): void
-    {
-        $this->getCaptainHookInstallCommand()->run(
-            new StringInput(''),
-            new ConsoleOutput(),
-        );
     }
 
     /**
