@@ -8,10 +8,10 @@
     <a href="https://github.com/ramsey/devtools-lib"><img src="http://img.shields.io/badge/source-ramsey/devtools--lib-blue.svg?style=flat-square" alt="Source Code"></a>
     <a href="https://packagist.org/packages/ramsey/devtools-lib"><img src="https://img.shields.io/packagist/v/ramsey/devtools-lib.svg?style=flat-square&label=release" alt="Download Package"></a>
     <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/devtools-lib.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
+    <a href="https://github.com/ramsey/devtools-lib/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/devtools-lib.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
     <a href="https://github.com/ramsey/devtools-lib/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/ramsey/devtools-lib/CI?label=CI&logo=github&style=flat-square" alt="Build Status"></a>
     <a href="https://codecov.io/gh/ramsey/devtools-lib"><img src="https://img.shields.io/codecov/c/gh/ramsey/devtools-lib?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
     <a href="https://shepherd.dev/github/ramsey/devtools-lib"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fdevtools-lib%2Fcoverage" alt="Psalm Type Coverage"></a>
-    <a href="https://github.com/ramsey/devtools-lib/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/devtools-lib.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
 </p>
 
 ## About
