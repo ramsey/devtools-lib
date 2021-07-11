@@ -53,17 +53,6 @@ class Process extends SymfonyProcess
     }
 
     /**
-     * @return Generator<string, string>
-     *
-     * @codeCoverageIgnore
-     */
-    public function getIterator(int $flags = 0): Generator
-    {
-        /** @var Generator<string, string> */
-        return parent::getIterator($flags);
-    }
-
-    /**
      * @param string[] $command
      *
      * @return string[]|string
@@ -98,5 +87,20 @@ class Process extends SymfonyProcess
     protected function getProcessClassName(): string
     {
         return SymfonyProcess::class;
+    }
+
+    /**
+     * @param int $flags
+     *
+     * @return Generator<string, string>
+     *
+     * @codeCoverageIgnore
+     *
+     * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     */
+    public function getIterator($flags = 0)
+    {
+        /** @var Generator<string, string> */
+        return parent::getIterator($flags);
     }
 }
