@@ -8,8 +8,8 @@ use Composer\Composer;
 use Composer\Config;
 use Composer\EventDispatcher\EventDispatcher;
 use Composer\IO\IOInterface;
+use Composer\Installer\PackageEvent;
 use Composer\Plugin\Capability\CommandProvider;
-use Composer\Script\Event;
 use Mockery;
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
@@ -197,7 +197,7 @@ class DevToolsPluginTest extends TestCase
         $io->expects()->write('<comment>Creating build/cache directory</comment>');
         $io->expects()->write('<comment>Creating build/coverage directory</comment>');
 
-        $event = $this->mockery(Event::class, [
+        $event = $this->mockery(PackageEvent::class, [
             'getIO' => $io,
         ]);
 
@@ -225,7 +225,7 @@ class DevToolsPluginTest extends TestCase
         $io = $this->mockery(IOInterface::class);
         $io->expects()->write('<comment>Creating build/cache directory</comment>');
 
-        $event = $this->mockery(Event::class, [
+        $event = $this->mockery(PackageEvent::class, [
             'getIO' => $io,
         ]);
 
@@ -247,7 +247,7 @@ class DevToolsPluginTest extends TestCase
         $io = $this->mockery(IOInterface::class);
         $io->expects()->write('<comment>Creating build/coverage directory</comment>');
 
-        $event = $this->mockery(Event::class, [
+        $event = $this->mockery(PackageEvent::class, [
             'getIO' => $io,
         ]);
 

@@ -25,10 +25,10 @@ namespace Ramsey\Dev\Tools\Composer;
 use Composer\Composer;
 use Composer\Factory;
 use Composer\IO\IOInterface;
+use Composer\Installer\PackageEvent;
 use Composer\Plugin\Capability\CommandProvider;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
-use Composer\Script\Event;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzeCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePhpStanCommand;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePsalmCommand;
@@ -72,7 +72,7 @@ class DevToolsPlugin implements
 
     private string $repoRoot;
 
-    public static function setupBuildDirectory(Event $event, ?Filesystem $filesystem = null): void
+    public static function setupBuildDirectory(PackageEvent $event, ?Filesystem $filesystem = null): void
     {
         $filesystem = $filesystem ?? new Filesystem();
 
