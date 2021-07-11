@@ -26,8 +26,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Runs as part of {@see DevToolsPlugin::onPostAutoloadDump()} but is not
- * provided as a sub-command of `devtools`.
+ * @deprecated
  */
 class CaptainHookInstallCommand extends ProcessCommand
 {

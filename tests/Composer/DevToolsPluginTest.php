@@ -13,7 +13,6 @@ use Composer\Plugin\Capability\CommandProvider;
 use Mockery;
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
-use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
 use Ramsey\Dev\Tools\Filesystem\Filesystem;
 use Ramsey\Dev\Tools\TestCase;
@@ -154,40 +153,6 @@ class DevToolsPluginTest extends TestCase
 
         $composer->shouldNotHaveBeenCalled();
         $io->shouldNotHaveBeenCalled();
-    }
-
-    public function testGetCaptainHookInstallCommand(): void
-    {
-        /** @var Config & MockInterface $config */
-        $config = $this->mockery(Config::class);
-        $config->allows()->get('bin-dir')->andReturn('/path/to/bin-dir');
-
-        /** @var EventDispatcher & MockInterface $eventDispatcher */
-        $eventDispatcher = $this->mockery(EventDispatcher::class);
-        $eventDispatcher->shouldReceive('addListener');
-        $eventDispatcher->shouldReceive('dispatchScript')->andReturn(0);
-
-        /** @var Composer & MockInterface $composer */
-        $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [],
-            'getConfig' => $config,
-            'getEventDispatcher' => $eventDispatcher,
-        ]);
-
-        /** @var IOInterface & MockInterface $io */
-        $io = $this->mockery(IOInterface::class);
-
-        $pluginActivated = new DevToolsPlugin();
-        $pluginActivated->activate($composer, $io);
-
-        // This will test that our $composer instance was set
-        // statically on the class.
-        $pluginToUseForExecution = new DevToolsPlugin();
-
-        $this->assertInstanceOf(
-            CaptainHookInstallCommand::class,
-            $pluginToUseForExecution->getCaptainHookInstallCommand(),
-        );
     }
 
     public function testSetupBuildDirectory(): void

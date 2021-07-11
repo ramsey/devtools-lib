@@ -36,7 +36,6 @@ use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
 use Ramsey\Dev\Tools\Composer\Command\BuildCleanCacheCommand;
 use Ramsey\Dev\Tools\Composer\Command\BuildCleanCommand;
 use Ramsey\Dev\Tools\Composer\Command\BuildCleanCoverageCommand;
-use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 use Ramsey\Dev\Tools\Composer\Command\Configuration;
 use Ramsey\Dev\Tools\Composer\Command\KeepAChangelogCommand;
 use Ramsey\Dev\Tools\Composer\Command\LicenseCheckerCommand;
@@ -155,13 +154,6 @@ class DevToolsPlugin implements
 
     public function uninstall(Composer $composer, IOInterface $io): void
     {
-    }
-
-    public function getCaptainHookInstallCommand(): CaptainHookInstallCommand
-    {
-        $configWithoutPrefix = new Configuration(self::$composer, '', $this->repoRoot);
-
-        return new CaptainHookInstallCommand($configWithoutPrefix);
     }
 
     /**
