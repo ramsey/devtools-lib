@@ -37,9 +37,6 @@
                 ]
             },
             {
-                "action": "./bin/devtools lint:pds"
-            },
-            {
                 "action": "./bin/devtools lint:syntax -- {$STAGED_FILES|of-type:php}",
                 "conditions": [
                     {
