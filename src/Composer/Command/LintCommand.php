@@ -58,12 +58,8 @@ class LintCommand extends BaseCommand
 
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $lintPds = $this->getApplication()->find($this->withPrefix('lint:pds'));
         $lintSyntax = $this->getApplication()->find($this->withPrefix('lint:syntax'));
         $lintStyle = $this->getApplication()->find($this->withPrefix('lint:style'));
-
-        $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $lintPds->getName())]);
-        $lintPdsExit = $lintPds->run($input, $output);
 
         $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $lintSyntax->getName())]);
         $lintSyntaxExit = $lintSyntax->run($input, $output);
@@ -71,18 +67,17 @@ class LintCommand extends BaseCommand
         $output->writeln(['', sprintf('<comment>Executing %s</comment>', (string) $lintStyle->getName())]);
         $lintStyleExit = $lintStyle->run($input, $output);
 
-        return $lintPdsExit + $lintSyntaxExit + $lintStyleExit;
+        return $lintSyntaxExit + $lintStyleExit;
     }
 
     private function getHelpText(): string
     {
-        $lintPds = $this->withPrefix('lint:pds');
         $lintSyntax = $this->withPrefix('lint:syntax');
         $lintStyle = $this->withPrefix('lint:style');
 
         return <<<EOD
-            <info>%command.name%</info> executes the <info>{$lintPds}</info>, <info>{$lintSyntax}</info>,
-            and <info>{$lintStyle}</info> commands.
+            <info>%command.name%</info> executes the <info>{$lintSyntax}</info> and <info>{$lintStyle}</info>
+            commands.
 
             Since this command executes multiple commands, it is not possible
             to pass additional arguments to the commands. You may, however,

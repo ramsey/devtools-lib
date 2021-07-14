@@ -34,15 +34,6 @@ class LintCommandTest extends CommandTestCase
 
     public function testRun(): void
     {
-        /** @var Command & MockInterface $commandLintPds */
-        $commandLintPds = $this->mockery(
-            Command::class,
-            [
-                'getName' => 'pds',
-                'run' => 0,
-            ],
-        );
-
         /** @var Command & MockInterface $commandLintSyntax */
         $commandLintSyntax = $this->mockery(
             Command::class,
@@ -72,10 +63,6 @@ class LintCommandTest extends CommandTestCase
             ],
         );
         $application->shouldReceive('getDefinition')->passthru();
-        $application
-            ->expects()
-            ->find($this->command->withPrefix('lint:pds'))
-            ->andReturn($commandLintPds);
         $application
             ->expects()
             ->find($this->command->withPrefix('lint:syntax'))
