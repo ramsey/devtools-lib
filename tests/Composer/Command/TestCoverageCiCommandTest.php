@@ -15,6 +15,7 @@ class TestCoverageCiCommandTest extends ProcessCommandTestCase
         $this->processCommand = [
             '/path/to/bin-dir/phpunit',
             '--colors=always',
+            '--coverage-text',
             '--coverage-clover',
             'build/coverage/clover.xml',
             '--coverage-cobertura',

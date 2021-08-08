@@ -47,6 +47,7 @@ class TestCoverageCiCommand extends ProcessCommand
             [
                 $this->withBinPath('phpunit'),
                 '--colors=always',
+                '--coverage-text',
                 '--coverage-clover',
                 'build/coverage/clover.xml',
                 '--coverage-cobertura',
