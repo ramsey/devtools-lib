@@ -5,11 +5,11 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/ramsey/devtools-lib"><img src="http://img.shields.io/badge/source-ramsey/devtools--lib-blue.svg?style=flat-square" alt="Source Code"></a>
+    <a href="https://github.com/ramsey/devtools-lib"><img src="https://img.shields.io/badge/source-ramsey/devtools--lib-blue.svg?style=flat-square" alt="Source Code"></a>
     <a href="https://packagist.org/packages/ramsey/devtools-lib"><img src="https://img.shields.io/packagist/v/ramsey/devtools-lib.svg?style=flat-square&label=release" alt="Download Package"></a>
     <a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/ramsey/devtools-lib.svg?style=flat-square&colorB=%238892BF" alt="PHP Programming Language"></a>
-    <a href="https://github.com/ramsey/devtools-lib/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/devtools-lib.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
-    <a href="https://github.com/ramsey/devtools-lib/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/ramsey/devtools-lib/CI?label=CI&logo=github&style=flat-square" alt="Build Status"></a>
+    <a href="https://github.com/ramsey/devtools-lib/blob/main/LICENSE"><img src="https://img.shields.io/packagist/l/ramsey/devtools-lib.svg?style=flat-square&colorB=darkcyan" alt="Read License"></a>
+    <a href="https://github.com/ramsey/devtools-lib/actions/workflows/continuous-integration.yml"><img src="https://img.shields.io/github/workflow/status/ramsey/devtools-lib/build/main?style=flat-square&logo=github" alt="Build Status"></a>
     <a href="https://codecov.io/gh/ramsey/devtools-lib"><img src="https://img.shields.io/codecov/c/gh/ramsey/devtools-lib?label=codecov&logo=codecov&style=flat-square" alt="Codecov Code Coverage"></a>
     <a href="https://shepherd.dev/github/ramsey/devtools-lib"><img src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Framsey%2Fdevtools-lib%2Fcoverage" alt="Psalm Type Coverage"></a>
 </p>
@@ -71,7 +71,7 @@ a custom Composer command, you can do here because they're the same thing.
         "ramsey/devtools": {
             "command-prefix": "my-prefix",
             "commands": {
-                "lint": {
+                "lint:all": {
                     "script": "@mylint"
                 },
                 "test:all": {
@@ -90,7 +90,7 @@ a custom Composer command, you can do here because they're the same thing.
 }
 ```
 
-In this way, when you run `./vendor/bin/devtools lint` or
+In this way, when you run `./vendor/bin/devtools lint:all` or
 `./vendor/bin/devtools test:all`, it will execute the default behavior first and
 then run your additional commands. To override the default behavior so that it
 doesn't run at all and only your scripts run, specify the `override` property
@@ -101,7 +101,7 @@ and set it to `true`.
     "extra": {
         "ramsey/devtools": {
             "commands": {
-                "lint": {
+                "lint:all": {
                     "override": true,
                     "script": "parallel-lint src tests"
                 }
@@ -115,6 +115,13 @@ and set it to `true`.
 
 Contributions are welcome! To contribute, please familiarize yourself with
 [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Coordinated Disclosure
+
+Keeping user information safe and secure is a top priority, and we welcome the
+contribution of external security researchers. If you believe you've found a
+security issue in software that is maintained in this repository, please read
+[SECURITY.md](SECURITY.md) for instructions on submitting a vulnerability report.
 
 ## Copyright and License
 

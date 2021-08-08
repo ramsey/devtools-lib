@@ -51,6 +51,9 @@
         "branch-alias": {
             "dev-main": "1.x-dev"
         },
+        "captainhook": {
+            "force-install": true
+        },
         "ramsey/conventional-commits": {
             "configFile": "conventional-commits.json"
         }
@@ -71,8 +74,6 @@
         "bin/devtools"
     ],
     "scripts": {
-        "post-package-install": "Ramsey\\Dev\\Tools\\Composer\\DevToolsPlugin::setupBuildDirectory",
-        "post-package-update": "Ramsey\\Dev\\Tools\\Composer\\DevToolsPlugin::setupBuildDirectory",
         "test": "bin/devtools test:all"
     }
 }
