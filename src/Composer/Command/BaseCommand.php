@@ -29,10 +29,15 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function assert;
+use function is_string;
 use function substr;
 
 use const DIRECTORY_SEPARATOR;
 
+/**
+ * @psalm-consistent-constructor
+ */
 abstract class BaseCommand extends ComposerBaseCommand
 {
     private Configuration $configuration;
@@ -53,17 +58,23 @@ abstract class BaseCommand extends ComposerBaseCommand
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
-        $this->binDir = (string) $configuration->getComposer()->getConfig()->get('bin-dir');
+
+        $binDir = $configuration->getComposer()->getConfig()->get('bin-dir');
+        assert(is_string($binDir));
+        $this->binDir = $binDir;
+
         $this->eventDispatcher = $configuration->getComposer()->getEventDispatcher();
         $this->setComposer($configuration->getComposer());
 
         parent::__construct($this->withPrefix($this->getBaseName()));
 
-        /** @psalm-var array{ramsey/devtools?: array{commands?: array<string, mixed>}} $extra */
         $extra = $configuration->getComposer()->getPackage()->getExtra();
 
+        /** @var array{command-prefix?: string, commands?: array<string, mixed>} $devtoolsConfig */
+        $devtoolsConfig = $extra['ramsey/devtools'] ?? [];
+
         /** @var array{override?: bool, script?: array<string>|string} $commandConfig */
-        $commandConfig = $extra['ramsey/devtools']['commands'][$this->getBaseName()] ?? [];
+        $commandConfig = $devtoolsConfig['commands'][$this->getBaseName()] ?? [];
 
         $this->overrideDefault = $commandConfig['override'] ?? false;
 

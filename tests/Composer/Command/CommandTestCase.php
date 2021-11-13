@@ -153,6 +153,7 @@ abstract class CommandTestCase extends TestCase
             $this->processFactory,
         );
 
+        /** @var class-string<BaseCommand> $commandClass */
         $commandClass = $this->commandClass;
         $command = new $commandClass($configuration);
 
@@ -184,6 +185,7 @@ abstract class CommandTestCase extends TestCase
             'another script to run',
         );
 
+        /** @var class-string<BaseCommand> $commandClass */
         $commandClass = $this->commandClass;
 
         $configuration = new Configuration(

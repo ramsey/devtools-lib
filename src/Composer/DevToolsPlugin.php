@@ -98,7 +98,7 @@ class DevToolsPlugin implements
 
     public function __construct()
     {
-        $composerFile = (string) Factory::getComposerFile();
+        $composerFile = Factory::getComposerFile();
 
         $this->repoRoot = (string) realpath(dirname($composerFile));
     }
@@ -162,10 +162,9 @@ class DevToolsPlugin implements
      */
     private function getCommandPrefix(): string
     {
-        /** @psalm-var array{command-prefix?: string, ramsey/devtools?: array{command-prefix?: string}} $extra */
+        /** @var array{command-prefix?: string, "ramsey/devtools"?: array{command-prefix?: string}} $extra */
         $extra = self::$composer->getPackage()->getExtra();
-        $prefix = $extra['command-prefix'] ?? '';
 
-        return $extra['ramsey/devtools']['command-prefix'] ?? $prefix;
+        return $extra['ramsey/devtools']['command-prefix'] ?? $extra['command-prefix'] ?? '';
     }
 }
