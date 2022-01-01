@@ -129,6 +129,7 @@ jobs:
     steps:
       - name: "Configure Git (for Windows)"
         if: ${{ matrix.operating-system == 'windows-latest' }}
+        shell: "bash"
         run: |
           git config --system core.autocrlf false
           git config --system core.eol lf
@@ -149,4 +150,5 @@ jobs:
           composer-options: "${{ matrix.composer-options }}"
 
       - name: "Run unit tests (PHPUnit)"
+        shell: "bash"
         run: "./bin/devtools test:unit"
