@@ -27,6 +27,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
+use ReturnTypeWillChange;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 use function array_map;
@@ -98,6 +99,7 @@ class Process extends SymfonyProcess
      *
      * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[ReturnTypeWillChange]
     public function getIterator($flags = 0)
     {
         /** @var Generator<string, string> */
