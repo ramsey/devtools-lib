@@ -1,12 +1,12 @@
 {
     "name": "ramsey/devtools-lib",
-    "type": "library",
     "description": "The library behind ramsey/devtools, allowing for extension of the ramsey/devtools Composer plugin.",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "development",
         "tools"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Ben Ramsey",
@@ -44,7 +44,30 @@
     "require-dev": {
         "composer/composer": "^1.10.22 || ^2.0.13"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Ramsey\\Dev\\Tools\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ramsey\\Test\\Dev\\Tools\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/devtools"
+    ],
     "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "captainhook/plugin-composer": true,
+            "ramsey/composer-repl": true
+        },
         "sort-packages": true
     },
     "extra": {
@@ -58,21 +81,6 @@
             "configFile": "conventional-commits.json"
         }
     },
-    "autoload": {
-        "psr-4": {
-            "Ramsey\\Dev\\Tools\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Ramsey\\Test\\Dev\\Tools\\": "tests/"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "bin": [
-        "bin/devtools"
-    ],
     "scripts": {
         "test": "bin/devtools test:all"
     }
