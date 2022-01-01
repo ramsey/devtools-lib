@@ -7,6 +7,8 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 use Ramsey\Dev\Tools\Composer\Command\LintSyntaxCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
+use const DIRECTORY_SEPARATOR;
+
 class LintSyntaxCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
@@ -14,7 +16,7 @@ class LintSyntaxCommandTest extends ProcessCommandTestCase
         $this->commandClass = LintSyntaxCommand::class;
         $this->baseName = 'lint:syntax';
         $this->processCommand = [
-            '/path/to/bin-dir/parallel-lint',
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'parallel-lint',
             '--colors',
             'src',
             'tests',
@@ -35,7 +37,7 @@ class LintSyntaxCommandTest extends ProcessCommandTestCase
             'args' => ['--bar'],
         ]);
 
-        $this->processCommand = ['/path/to/bin-dir/parallel-lint', '--colors', '--help'];
+        $this->processCommand = ['/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'parallel-lint', '--colors', '--help'];
 
         $this->testRun();
     }
@@ -48,7 +50,7 @@ class LintSyntaxCommandTest extends ProcessCommandTestCase
         ]);
 
         $this->processCommand = [
-            '/path/to/bin-dir/parallel-lint',
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'parallel-lint',
             '--colors',
             '--bar',
             '--baz',

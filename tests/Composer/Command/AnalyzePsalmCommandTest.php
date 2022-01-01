@@ -7,6 +7,8 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePsalmCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
+use const DIRECTORY_SEPARATOR;
+
 class AnalyzePsalmCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
@@ -14,7 +16,7 @@ class AnalyzePsalmCommandTest extends ProcessCommandTestCase
         $this->commandClass = AnalyzePsalmCommand::class;
         $this->baseName = 'analyze:psalm';
         $this->processCommand = [
-            '/path/to/bin-dir/psalm',
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'psalm',
             '--bar',
             '--baz',
         ];
@@ -36,7 +38,7 @@ class AnalyzePsalmCommandTest extends ProcessCommandTestCase
             'args' => ['--bar'],
         ]);
 
-        $this->processCommand = ['/path/to/bin-dir/psalm', '--help'];
+        $this->processCommand = ['/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'psalm', '--help'];
 
         $this->testRun();
     }

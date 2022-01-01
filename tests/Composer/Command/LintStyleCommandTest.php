@@ -7,6 +7,8 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 use Ramsey\Dev\Tools\Composer\Command\LintStyleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
+use const DIRECTORY_SEPARATOR;
+
 class LintStyleCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
@@ -14,7 +16,7 @@ class LintStyleCommandTest extends ProcessCommandTestCase
         $this->commandClass = LintStyleCommand::class;
         $this->baseName = 'lint:style';
         $this->processCommand = [
-            '/path/to/bin-dir/phpcs',
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpcs',
             '--colors',
             '--cache=build/cache/phpcs.cache',
             '--bar',
@@ -38,7 +40,12 @@ class LintStyleCommandTest extends ProcessCommandTestCase
             'args' => ['--bar'],
         ]);
 
-        $this->processCommand = ['/path/to/bin-dir/phpcs', '--colors', '--cache=build/cache/phpcs.cache', '--help'];
+        $this->processCommand = [
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpcs',
+            '--colors',
+            '--cache=build/cache/phpcs.cache',
+            '--help',
+        ];
 
         $this->testRun();
     }

@@ -8,13 +8,15 @@ use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
 use Ramsey\Dev\Tools\Process\Process;
 
+use const DIRECTORY_SEPARATOR;
+
 class LintPdsCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
     {
         $this->commandClass = LintPdsCommand::class;
         $this->baseName = 'lint:pds';
-        $this->processCommand = ['/path/to/bin-dir/pds-skeleton', 'validate'];
+        $this->processCommand = ['/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'pds-skeleton', 'validate'];
 
         parent::setUp();
     }

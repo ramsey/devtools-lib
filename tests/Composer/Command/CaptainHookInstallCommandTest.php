@@ -6,13 +6,21 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
 use Ramsey\Dev\Tools\Composer\Command\CaptainHookInstallCommand;
 
+use const DIRECTORY_SEPARATOR;
+
 class CaptainHookInstallCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
     {
         $this->commandClass = CaptainHookInstallCommand::class;
         $this->baseName = 'captainhook:install';
-        $this->processCommand = ['/path/to/bin-dir/captainhook', 'install', '--ansi', '-f', '-s'];
+        $this->processCommand = [
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'captainhook',
+            'install',
+            '--ansi',
+            '-f',
+            '-s',
+        ];
 
         parent::setUp();
     }

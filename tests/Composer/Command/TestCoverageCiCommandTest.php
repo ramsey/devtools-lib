@@ -6,6 +6,8 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
 
+use const DIRECTORY_SEPARATOR;
+
 class TestCoverageCiCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
@@ -13,7 +15,7 @@ class TestCoverageCiCommandTest extends ProcessCommandTestCase
         $this->commandClass = TestCoverageCiCommand::class;
         $this->baseName = 'test:coverage:ci';
         $this->processCommand = [
-            '/path/to/bin-dir/phpunit',
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpunit',
             '--colors=always',
             '--coverage-text',
             '--coverage-clover',

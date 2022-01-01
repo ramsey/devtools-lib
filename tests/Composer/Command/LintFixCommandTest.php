@@ -7,13 +7,19 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 use Ramsey\Dev\Tools\Composer\Command\LintFixCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
+use const DIRECTORY_SEPARATOR;
+
 class LintFixCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
     {
         $this->commandClass = LintFixCommand::class;
         $this->baseName = 'lint:fix';
-        $this->processCommand = ['/path/to/bin-dir/phpcbf', '--cache=build/cache/phpcs.cache', '--qux'];
+        $this->processCommand = [
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpcbf',
+            '--cache=build/cache/phpcs.cache',
+            '--qux',
+        ];
 
         parent::setUp();
 
@@ -32,7 +38,11 @@ class LintFixCommandTest extends ProcessCommandTestCase
             'args' => ['--bar'],
         ]);
 
-        $this->processCommand = ['/path/to/bin-dir/phpcbf', '--cache=build/cache/phpcs.cache', '--help'];
+        $this->processCommand = [
+            '/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpcbf',
+            '--cache=build/cache/phpcs.cache',
+            '--help',
+        ];
 
         $this->testRun();
     }

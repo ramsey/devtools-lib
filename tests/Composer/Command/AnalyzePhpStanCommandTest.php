@@ -7,13 +7,15 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 use Ramsey\Dev\Tools\Composer\Command\AnalyzePhpStanCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
+use const DIRECTORY_SEPARATOR;
+
 class AnalyzePhpStanCommandTest extends ProcessCommandTestCase
 {
     protected function setUp(): void
     {
         $this->commandClass = AnalyzePhpStanCommand::class;
         $this->baseName = 'analyze:phpstan';
-        $this->processCommand = ['/path/to/bin-dir/phpstan', 'analyse', '--ansi', '--foo'];
+        $this->processCommand = ['/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpstan', 'analyse', '--ansi', '--foo'];
 
         parent::setUp();
 
@@ -32,7 +34,7 @@ class AnalyzePhpStanCommandTest extends ProcessCommandTestCase
             'args' => ['--bar'],
         ]);
 
-        $this->processCommand = ['/path/to/bin-dir/phpstan', 'analyse', '--ansi', '--help'];
+        $this->processCommand = ['/path/to/bin-dir' . DIRECTORY_SEPARATOR . 'phpstan', 'analyse', '--ansi', '--help'];
 
         $this->testRun();
     }
