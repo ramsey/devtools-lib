@@ -8,6 +8,11 @@ use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Process\Process;
 use Ramsey\Dev\Tools\TestCase;
 
+use function strtoupper;
+use function substr;
+
+use const PHP_OS_FAMILY;
+
 class ProcessTest extends TestCase
 {
     public function testUseCorrectCommand(): void
@@ -21,6 +26,10 @@ class ProcessTest extends TestCase
         /** @phpstan-ignore-next-line */
         $commandLine = $process->useCorrectCommand(['foo', '--bar', '--baz']);
 
-        $this->assertSame("foo '--bar' '--baz'", $commandLine);
+        if (strtoupper(substr(PHP_OS_FAMILY, 0, 3)) === 'WIN') {
+            $this->assertSame('foo "--bar" "--baz"', $commandLine);
+        } else {
+            $this->assertSame("foo '--bar' '--baz'", $commandLine);
+        }
     }
 }
