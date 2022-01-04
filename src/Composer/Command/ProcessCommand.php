@@ -53,9 +53,12 @@ abstract class ProcessCommand extends BaseCommand
             $this->getProcessCommand($input, $output),
             $this->getConfiguration()->getRepositoryRoot(),
         );
-        $composerTimeout = $this->getConfiguration()->getComposer()->getConfig()->get('process-timeout');
+        $composerTimeout = filter_var(
+            $this->getConfiguration()->getComposer()->getConfig()->get('process-timeout'),
+            FILTER_VALIDATE_FLOAT,
+        );
         if ($composerTimeout !== false) {
-            $process->setTimeout(filter_var($composerTimeout, FILTER_VALIDATE_FLOAT));
+            $process->setTimeout($composerTimeout);
         }
 
         $process->start();
