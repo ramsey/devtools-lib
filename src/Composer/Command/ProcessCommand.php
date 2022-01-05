@@ -26,6 +26,10 @@ use ReflectionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function filter_var;
+
+use const FILTER_VALIDATE_FLOAT;
+
 abstract class ProcessCommand extends BaseCommand
 {
     /**
@@ -49,6 +53,13 @@ abstract class ProcessCommand extends BaseCommand
             $this->getProcessCommand($input, $output),
             $this->getConfiguration()->getRepositoryRoot(),
         );
+        $composerTimeout = filter_var(
+            $this->getConfiguration()->getComposer()->getConfig()->get('process-timeout'),
+            FILTER_VALIDATE_FLOAT,
+        );
+        if ($composerTimeout !== false) {
+            $process->setTimeout($composerTimeout);
+        }
 
         $process->start();
 

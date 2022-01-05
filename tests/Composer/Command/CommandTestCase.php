@@ -28,6 +28,7 @@ abstract class CommandTestCase extends TestCase
 
     protected ?string $baseName = null;
     protected string $prefix = 'bar';
+    protected int $processTimeout = 300;
     protected string $binDir = '/path/to/bin-dir';
     protected string $repositoryRoot = '/path/to/repo';
 
@@ -60,6 +61,7 @@ abstract class CommandTestCase extends TestCase
         $commandClass = $this->commandClass;
 
         $this->config = $this->mockery(Config::class);
+        $this->config->allows()->get('process-timeout')->andReturn($this->processTimeout);
         $this->config->allows()->get('bin-dir')->andReturn($this->binDir);
 
         $this->eventDispatcher = $this->mockery(EventDispatcher::class);
