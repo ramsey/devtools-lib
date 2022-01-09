@@ -22,12 +22,10 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Process;
 
-use Generator;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
-use ReturnTypeWillChange;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 use function array_map;
@@ -88,21 +86,5 @@ class Process extends SymfonyProcess
     protected function getProcessClassName(): string
     {
         return SymfonyProcess::class;
-    }
-
-    /**
-     * @param int $flags
-     *
-     * @return Generator<string, string>
-     *
-     * @codeCoverageIgnore
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-     */
-    #[ReturnTypeWillChange]
-    public function getIterator($flags = 0)
-    {
-        /** @var Generator<string, string> */
-        return parent::getIterator($flags);
     }
 }
