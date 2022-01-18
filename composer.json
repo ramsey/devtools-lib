@@ -34,7 +34,7 @@
         "psalm/plugin-mockery": "^0.9.0",
         "psalm/plugin-phpunit": "^0.16.1",
         "ramsey/coding-standard": "^2.0.1",
-        "ramsey/composer-repl": "^1.2",
+        "ramsey/composer-repl": "^1.4",
         "ramsey/conventional-commits": "^1.1",
         "roave/security-advisories": "dev-latest",
         "symfony/filesystem": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
