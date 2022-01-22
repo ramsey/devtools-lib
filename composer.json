@@ -21,7 +21,7 @@
         "ergebnis/composer-normalize": "^2.7",
         "hamcrest/hamcrest-php": "^2.0",
         "madewithlove/license-checker": "^0.10.0 || ^1.0",
-        "mockery/mockery": "1.4.x-dev",
+        "mockery/mockery": "^1.5",
         "pds/skeleton": "^1.0",
         "phly/keep-a-changelog": "^2.9",
         "php-parallel-lint/php-console-highlighter": "^0.5.0",
@@ -61,11 +61,11 @@
     ],
     "config": {
         "allow-plugins": {
+            "captainhook/plugin-composer": true,
             "composer/package-versions-deprecated": true,
-            "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "ergebnis/composer-normalize": true,
-            "captainhook/plugin-composer": true,
+            "phpstan/extension-installer": true,
             "ramsey/composer-repl": true
         },
         "sort-packages": true
