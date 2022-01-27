@@ -25,6 +25,7 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 use ReflectionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 use function filter_var;
 
@@ -64,7 +65,7 @@ abstract class ProcessCommand extends BaseCommand
             $process->setTimeout($composerTimeout);
         }
 
-        if (DIRECTORY_SEPARATOR !== '\\') {
+        if (DIRECTORY_SEPARATOR !== '\\' && Process::isTtySupported()) {
             $process->setTty(true);
         }
 
