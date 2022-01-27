@@ -26,6 +26,7 @@ class LintPdsCommandTest extends ProcessCommandTestCase
         /** @var Process & MockInterface $process */
         $process = $this->mockery(Process::class);
         $process->expects('setTimeout');
+        $process->allows()->setTty(true);
         $process->expects()->start();
         $process
             ->shouldReceive('wait')

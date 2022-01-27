@@ -56,6 +56,7 @@ abstract class ProcessCommandTestCase extends CommandTestCase
         /** @var Process & MockInterface $process */
         $process = $this->mockery(Process::class);
         $process->allows('setTimeout');
+        $process->allows()->setTty(true);
         $process->expects()->start();
         $process
             ->shouldReceive('wait')
