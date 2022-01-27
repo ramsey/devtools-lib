@@ -66,7 +66,7 @@ abstract class ProcessCommand extends BaseCommand
         }
 
         if (DIRECTORY_SEPARATOR !== '\\' && Process::isTtySupported()) {
-            $process->setTty(true);
+            $process->setTty(true); // @codeCoverageIgnore
         }
 
         $process->start();
