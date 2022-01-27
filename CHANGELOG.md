@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.4.0 - 2022-01-27
+
+### Added
+
+- If provided, use Composer's `process-timeout` configuration option as the timeout for commands provided by this tool. See the [Composer documentation](https://getcomposer.org/doc/06-config.md#process-timeout), for more details.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Enable TTY mode for commands when in non-Windows environments.
+
 ## 1.3.0 - 2021-11-13
 
 ### Added
