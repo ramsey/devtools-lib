@@ -39,10 +39,10 @@
         "roave/security-advisories": "dev-latest",
         "symfony/filesystem": "^5.0 || ^6.0",
         "symfony/process": "^5.0 || ^6.0",
-        "vimeo/psalm": "^4.4"
+        "vimeo/psalm": "^4.22"
     },
     "require-dev": {
-        "composer/composer": "^1.10.22 || ^2.0.13"
+        "composer/composer": "^1.10.22 || >=2.0.13 <2.3"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
