@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Exception;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -80,6 +79,6 @@ class PreCommitCommand extends BaseCommand
             OutputInterface::VERBOSITY_NORMAL,
         );
 
-        return Command::SUCCESS;
+        return 0;
     }
 }

@@ -26,7 +26,7 @@ class LintSyntaxCommandTest extends ProcessCommandTestCase
 
         $this->input->allows()->getOption('parallel-lint-help')->andReturnFalse();
 
-        $this->input->allows()->getArguments()->andReturnNull();
+        $this->input->allows()->getArguments()->andReturn([]);
     }
 
     public function testWithParallelLintHelpOption(): void

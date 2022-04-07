@@ -23,14 +23,15 @@ declare(strict_types=1);
 namespace Ramsey\Dev\Tools\Composer\Command;
 
 use Composer\Command\BaseCommand as ComposerBaseCommand;
+use Composer\Console\Application;
 use Composer\EventDispatcher\EventDispatcher;
 use RuntimeException;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function assert;
 use function is_string;
+use function sprintf;
 use function substr;
 
 use const DIRECTORY_SEPARATOR;
@@ -128,17 +129,19 @@ abstract class BaseCommand extends ComposerBaseCommand
         return $this->getPrefix() . $name;
     }
 
-    /**
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
-     */
     public function getApplication(): Application
     {
-        /** @var Application | null $application */
-        $application = parent::getApplication();
+        try {
+            $application = parent::getApplication();
+        } catch (RuntimeException $_e) {
+            $application = null;
+        }
 
-        if ($application === null) {
-            throw new RuntimeException('Could not find an Application instance');
+        if (!$application instanceof Application) {
+            throw new RuntimeException(sprintf(
+                'Composer commands can only work with an %s instance set',
+                Application::class,
+            ));
         }
 
         return $application;
