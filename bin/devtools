@@ -21,10 +21,10 @@
 
 declare(strict_types=1);
 
+use Composer\Console\Application;
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
@@ -66,7 +66,7 @@ use Symfony\Component\Console\Input\StringInput;
     $composerPlugin = new DevToolsPlugin();
     $composerPlugin->activate($composer, $io);
 
-    $application = new Application('ramsey/devtools');
+    $application = new Application();
     $application->addCommands($composerPlugin->getCommands());
     $application->run(new ArgvInput($argv));
 })($argv);

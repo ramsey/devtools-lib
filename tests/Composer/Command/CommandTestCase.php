@@ -6,13 +6,16 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
 use Composer\Composer;
 use Composer\Config;
+use Composer\Console\Application;
 use Composer\EventDispatcher\EventDispatcher;
+use Composer\IO\IOInterface;
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
 use Ramsey\Dev\Tools\Composer\Command\Configuration;
 use Ramsey\Dev\Tools\Process\ProcessFactory;
 use Ramsey\Dev\Tools\TestCase;
 use RuntimeException;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -128,7 +131,7 @@ abstract class CommandTestCase extends TestCase
         $this->command->setApplication(null);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Could not find an Application instance');
+        $this->expectExceptionMessage('Composer commands can only work with an ');
 
         $this->command->getApplication();
     }
@@ -202,5 +205,22 @@ abstract class CommandTestCase extends TestCase
         $this->command = new $commandClass($configuration);
 
         $this->testRun();
+    }
+
+    /**
+     * @return Application & MockInterface
+     */
+    protected function mockApplication(): Application
+    {
+        $application = $this->mockery(Application::class, [
+            'getHelperSet' => $this->mockery(HelperSet::class),
+            'getIO' => $this->mockery(IOInterface::class),
+        ]);
+        $application->allows()->getDefinition()->passthru();
+        $application->allows()->setDefaultCommand('list')->passthru();
+
+        $application->setDefaultCommand('list');
+
+        return $application;
     }
 }
