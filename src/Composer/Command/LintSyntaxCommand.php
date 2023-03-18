@@ -50,7 +50,7 @@ class LintSyntaxCommand extends ProcessCommand
         }
 
         if ($input->getOption('parallel-lint-help')) {
-            // Ignore all other arguments and display phpcs help.
+            // Ignore all other arguments and display parallel-lint help.
             $args = ['--help'];
         }
 
@@ -79,7 +79,6 @@ class LintSyntaxCommand extends ProcessCommand
 
     private function getHelpText(): string
     {
-        // phpcs:disable Generic.Files.LineLength.TooLong
         return <<<'EOD'
             The <info>%command.name%</info> command executes <info>parallel-lint</info> from
             the php-parallel-lint/php-parallel-lint package.

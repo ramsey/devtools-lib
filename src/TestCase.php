@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools;
 
-use Hamcrest\Util;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
@@ -36,15 +35,8 @@ abstract class TestCase extends PHPUnitTestCase
     use MockeryPHPUnitIntegration;
 
     /**
-     * @codeCoverageIgnore
-     */
-    public static function setUpBeforeClass(): void
-    {
-        Util::registerGlobalFunctions();
-    }
-
-    /**
-     * Configures and returns a mock object
+     * Configures and returns a mock object with proper type-hinting
+     * for PHPStan and Psalm
      *
      * @param class-string<T> $class
      * @param mixed ...$arguments
@@ -52,9 +44,8 @@ abstract class TestCase extends PHPUnitTestCase
      * @return T & MockInterface
      *
      * @template T
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     public function mockery(string $class, ...$arguments)
     {
         /** @var T & MockInterface $mock */

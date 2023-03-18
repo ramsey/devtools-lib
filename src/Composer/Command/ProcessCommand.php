@@ -25,11 +25,10 @@ namespace Ramsey\Dev\Tools\Composer\Command;
 use ReflectionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 use function filter_var;
-use function proc_open;
 
-use const DIRECTORY_SEPARATOR;
 use const FILTER_VALIDATE_FLOAT;
 
 abstract class ProcessCommand extends BaseCommand
@@ -65,33 +64,12 @@ abstract class ProcessCommand extends BaseCommand
             $process->setTimeout($composerTimeout);
         }
 
-        if (DIRECTORY_SEPARATOR !== '\\' && self::isTtySupported()) {
+        if (Process::isTtySupported()) {
             $process->setTty(true); // @codeCoverageIgnore
         }
 
         $process->start();
 
         return $process->wait($this->getProcessCallback($output));
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    private static function isTtySupported(): bool
-    {
-        /** @var bool|null $isTtySupported */
-        static $isTtySupported;
-
-        if ($isTtySupported === null) {
-            $descriptors = [
-                ['file', '/dev/tty', 'r'],
-                ['file', '/dev/tty', 'w'],
-                ['file', '/dev/tty', 'w'],
-            ];
-
-            $isTtySupported = (bool) @proc_open('echo 1 >/dev/null', $descriptors, $pipes);
-        }
-
-        return $isTtySupported;
     }
 }

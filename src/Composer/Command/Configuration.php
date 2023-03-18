@@ -39,7 +39,7 @@ class Configuration
         Composer $composer,
         string $commandPrefix,
         string $repositoryRoot,
-        ?ProcessFactory $processFactory = null
+        ?ProcessFactory $processFactory = null,
     ) {
         $this->composer = $composer;
         $this->commandPrefix = $commandPrefix;
