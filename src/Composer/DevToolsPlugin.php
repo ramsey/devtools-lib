@@ -48,7 +48,7 @@ use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageHtmlCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestUnitCommand;
-use Ramsey\Dev\Tools\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 use function dirname;
 use function realpath;

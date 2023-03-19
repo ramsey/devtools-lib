@@ -6,7 +6,7 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
-use Ramsey\Dev\Tools\Process\Process;
+use Symfony\Component\Process\Process;
 
 use const DIRECTORY_SEPARATOR;
 

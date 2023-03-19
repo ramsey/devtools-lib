@@ -14,8 +14,8 @@ use Mockery;
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
-use Ramsey\Dev\Tools\Filesystem\Filesystem;
 use Ramsey\Dev\Tools\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
 use function count;
 

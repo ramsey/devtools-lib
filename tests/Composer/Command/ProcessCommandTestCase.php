@@ -6,9 +6,9 @@ namespace Ramsey\Test\Dev\Tools\Composer\Command;
 
 use Mockery\MockInterface;
 use Ramsey\Dev\Tools\Composer\Command\ProcessCommand;
-use Ramsey\Dev\Tools\Process\Process;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 abstract class ProcessCommandTestCase extends CommandTestCase
 {
