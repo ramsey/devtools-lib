@@ -44,7 +44,6 @@ use Ramsey\Dev\Tools\Composer\Command\LintFixCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintStyleCommand;
 use Ramsey\Dev\Tools\Composer\Command\LintSyntaxCommand;
-use Ramsey\Dev\Tools\Composer\Command\PreCommitCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
 use Ramsey\Dev\Tools\Composer\Command\TestCoverageHtmlCommand;
@@ -120,7 +119,6 @@ class DevToolsPlugin implements
     {
         $config = new Configuration(self::$composer, $this->getCommandPrefix(), $this->repoRoot);
 
-        /** @psalm-suppress DeprecatedClass */
         return [
             new AnalyzeCommand($config),
             new AnalyzePhpStanCommand($config),
@@ -135,7 +133,6 @@ class DevToolsPlugin implements
             new LintPdsCommand($config),
             new LintStyleCommand($config),
             new LintSyntaxCommand($config),
-            new PreCommitCommand($config),
             new TestAllCommand($config),
             new TestCoverageCiCommand($config),
             new TestCoverageHtmlCommand($config),
