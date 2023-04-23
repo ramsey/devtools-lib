@@ -3,17 +3,6 @@
 /**
  * This file is part of ramsey/devtools-lib
  *
- * ramsey/devtools-lib is open source software: you can distribute
- * it and/or modify it under the terms of the MIT License
- * (the "License"). You may not use this file except in
- * compliance with the License.
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing
- * permissions and limitations under the License.
- *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
  * @license https://opensource.org/licenses/MIT MIT License
  */
@@ -22,36 +11,19 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Composer;
 
+use Composer\Command\BaseCommand;
 use Composer\Composer;
-use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Plugin\Capability\CommandProvider;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
-use Ramsey\Dev\Tools\Composer\Command\AnalyzeCommand;
-use Ramsey\Dev\Tools\Composer\Command\AnalyzePhpStanCommand;
-use Ramsey\Dev\Tools\Composer\Command\AnalyzePsalmCommand;
-use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
-use Ramsey\Dev\Tools\Composer\Command\BuildCleanCacheCommand;
-use Ramsey\Dev\Tools\Composer\Command\BuildCleanCommand;
-use Ramsey\Dev\Tools\Composer\Command\BuildCleanCoverageCommand;
-use Ramsey\Dev\Tools\Composer\Command\Configuration;
-use Ramsey\Dev\Tools\Composer\Command\KeepAChangelogCommand;
-use Ramsey\Dev\Tools\Composer\Command\LicenseCheckerCommand;
-use Ramsey\Dev\Tools\Composer\Command\LintCommand;
-use Ramsey\Dev\Tools\Composer\Command\LintFixCommand;
-use Ramsey\Dev\Tools\Composer\Command\LintPdsCommand;
-use Ramsey\Dev\Tools\Composer\Command\LintStyleCommand;
-use Ramsey\Dev\Tools\Composer\Command\LintSyntaxCommand;
-use Ramsey\Dev\Tools\Composer\Command\TestAllCommand;
-use Ramsey\Dev\Tools\Composer\Command\TestCoverageCiCommand;
-use Ramsey\Dev\Tools\Composer\Command\TestCoverageHtmlCommand;
-use Ramsey\Dev\Tools\Composer\Command\TestUnitCommand;
+use Ramsey\Dev\Tools\Configuration;
+use Ramsey\Dev\Tools\DevToolsApplication;
 use Symfony\Component\Filesystem\Filesystem;
 
-use function dirname;
-use function realpath;
+use function array_values;
+use function in_array;
 
 /**
  * Provides a variety of Composer commands and events useful for PHP
@@ -65,41 +37,52 @@ class DevToolsPlugin implements
     private const BUILD_GITIGNORE_BASE = "\n*\n!.gitignore\n";
     private const BUILD_GITIGNORE_CACHE = "\ncache/*\n!cache\n!cache/.gitkeep\n";
     private const BUILD_GITIGNORE_COVERAGE = "\ncoverage/*\n!coverage\n!coverage/.gitkeep\n";
+    private const DEFAULT_COMMAND_PREFIX = 'dev';
 
-    private static Composer $composer;
-
-    private string $repoRoot;
-
-    public static function setupBuildDirectory(PackageEvent $event, ?Filesystem $filesystem = null): void
-    {
-        $filesystem = $filesystem ?? new Filesystem();
+    public static function setupBuildDirectory(
+        ?PackageEvent $event = null,
+        Filesystem $filesystem = new Filesystem(),
+        ?IOInterface $io = null,
+    ): void {
+        $io = $event?->getIO() ?? $io;
 
         if (!$filesystem->exists('./build')) {
-            $event->getIO()->write('<comment>Creating build directory</comment>');
+            $io?->write('<comment>Creating build directory</comment>');
             $filesystem->mkdir('./build');
             $filesystem->appendToFile('./build/.gitignore', self::BUILD_GITIGNORE_BASE);
         }
 
         if (!$filesystem->exists('./build/cache')) {
-            $event->getIO()->write('<comment>Creating build/cache directory</comment>');
+            $io?->write('<comment>Creating build/cache directory</comment>');
             $filesystem->mkdir('./build/cache');
             $filesystem->touch('./build/cache/.gitkeep');
             $filesystem->appendToFile('./build/.gitignore', self::BUILD_GITIGNORE_CACHE);
         }
 
         if (!$filesystem->exists('./build/coverage')) {
-            $event->getIO()->write('<comment>Creating build/coverage directory</comment>');
+            $io?->write('<comment>Creating build/coverage directory</comment>');
             $filesystem->mkdir('./build/coverage');
             $filesystem->touch('./build/coverage/.gitkeep');
             $filesystem->appendToFile('./build/.gitignore', self::BUILD_GITIGNORE_COVERAGE);
         }
     }
 
-    public function __construct()
-    {
-        $composerFile = Factory::getComposerFile();
+    private readonly DevToolsApplication $application;
+    private readonly string $commandPrefix;
 
-        $this->repoRoot = (string) realpath(dirname($composerFile));
+    /**
+     * @param mixed[] $ctorArgs An array of constructor args Composer passes
+     *     when instantiating plugins. This argument is not part of the Composer
+     *     plugin interface, however.
+     *
+     * @phpstan-ignore-next-line
+     */
+    public function __construct(
+        array $ctorArgs = [],
+        private readonly Configuration $configuration = new Configuration(),
+    ) {
+        $this->application = new DevToolsApplication($this->configuration);
+        $this->commandPrefix = $this->getCommandPrefix();
     }
 
     /**
@@ -117,32 +100,21 @@ class DevToolsPlugin implements
      */
     public function getCommands(): array
     {
-        $config = new Configuration(self::$composer, $this->getCommandPrefix(), $this->repoRoot);
+        $skipCommands = ['help', 'list', '_complete', 'completion'];
+        $commands = [];
 
-        return [
-            new AnalyzeCommand($config),
-            new AnalyzePhpStanCommand($config),
-            new AnalyzePsalmCommand($config),
-            new BuildCleanCacheCommand($config),
-            new BuildCleanCommand($config),
-            new BuildCleanCoverageCommand($config),
-            new KeepAChangelogCommand($config),
-            new LicenseCheckerCommand($config),
-            new LintCommand($config),
-            new LintFixCommand($config),
-            new LintPdsCommand($config),
-            new LintStyleCommand($config),
-            new LintSyntaxCommand($config),
-            new TestAllCommand($config),
-            new TestCoverageCiCommand($config),
-            new TestCoverageHtmlCommand($config),
-            new TestUnitCommand($config),
-        ];
+        foreach ($this->application->all() as $name => $command) {
+            if (!in_array($name, $skipCommands)) {
+                $commands[(string) $command->getName()] = new ComposerCommand($command, $this->commandPrefix);
+            }
+        }
+
+        return array_values($commands);
     }
 
-    public function activate(Composer $composer, IOInterface $io): void
+    public function activate(Composer $composer, IOInterface $io, Filesystem $filesystem = new Filesystem()): void
     {
-        self::$composer = $composer;
+        self::setupBuildDirectory(filesystem: $filesystem, io: $io);
     }
 
     public function deactivate(Composer $composer, IOInterface $io): void
@@ -154,14 +126,19 @@ class DevToolsPlugin implements
     }
 
     /**
-     * Use extra.command-prefix, if available, but extra.ramsey/devtools.command-prefix
-     * takes precedence over extra.command-prefix.
+     * Use extra.command-prefix, if available, but extra.devtools.command-prefix
+     * takes precedence over extra.command-prefix, and extra.ramsey/devtools.command-prefix
+     * takes precedence over extra.devtools.command-prefix. The property that
+     * defines this data may be configured in {@see Configuration}.
      */
     private function getCommandPrefix(): string
     {
-        /** @var array{command-prefix?: string, "ramsey/devtools"?: array{command-prefix?: string}} $extra */
-        $extra = self::$composer->getPackage()->getExtra();
+        /** @var array{command-prefix?: string, "devtools"?: array{command-prefix?: string}, "ramsey/devtools"?: array{command-prefix?: string}} $extra */
+        $extra = $this->configuration->composer->getPackage()->getExtra();
 
-        return $extra['ramsey/devtools']['command-prefix'] ?? $extra['command-prefix'] ?? '';
+        return $extra[$this->configuration->composerExtraProperty]['command-prefix']
+            ?? $extra['devtools']['command-prefix']
+            ?? $extra['command-prefix']
+            ?? self::DEFAULT_COMMAND_PREFIX;
     }
 }

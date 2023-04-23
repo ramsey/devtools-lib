@@ -11,10 +11,16 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
+    <coverage/>
+
+    <php>
+        <ini name="memory_limit" value="1G"/>
+    </php>
+
+    <source>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
-    </coverage>
+    </source>
 
 </phpunit>

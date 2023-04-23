@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Ramsey\Test\Dev\Tools\Composer;
 
 use Composer\Composer;
-use Composer\Config;
-use Composer\EventDispatcher\EventDispatcher;
 use Composer\IO\IOInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Plugin\Capability\CommandProvider;
-use Mockery;
-use Mockery\MockInterface;
-use Ramsey\Dev\Tools\Composer\Command\BaseCommand;
+use PHPUnit\Framework\Attributes\TestWith;
+use Ramsey\Dev\Tools\Command\Command as DevToolsCommand;
+use Ramsey\Dev\Tools\Composer\ComposerCommand;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
+use Ramsey\Dev\Tools\Composer\Factory;
+use Ramsey\Dev\Tools\Configuration;
 use Ramsey\Dev\Tools\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-use function count;
+use function array_unique;
 
 class DevToolsPluginTest extends TestCase
 {
@@ -33,126 +33,141 @@ class DevToolsPluginTest extends TestCase
         );
     }
 
-    public function testGetCommands(): void
+    /**
+     * @param array{command-prefix?: string, "devtools"?: array{command-prefix?: string}, "ramsey/devtools"?: array{command-prefix?: string}} $extra
+     */
+    #[TestWith(['dev:', []])]
+    #[TestWith(['foo:', ['command-prefix' => 'foo']])]
+    #[TestWith(['foo:', ['command-prefix' => 'foo:']])]
+    #[TestWith(['', ['command-prefix' => '']])]
+    #[TestWith(['', ['command-prefix' => ':']])]
+    #[TestWith(['bar:', ['command-prefix' => 'foo', 'devtools' => ['command-prefix' => 'bar']]])]
+    #[TestWith(['bar:', ['command-prefix' => 'foo', 'devtools' => ['command-prefix' => 'bar:']]])]
+    #[TestWith(['', ['command-prefix' => 'foo', 'devtools' => ['command-prefix' => '']]])]
+    #[TestWith(['', ['command-prefix' => 'foo', 'devtools' => ['command-prefix' => ':']]])]
+    #[TestWith([
+        'baz:',
+        [
+            'command-prefix' => 'foo',
+            'devtools' => ['command-prefix' => 'bar'],
+            'ramsey/devtools' => ['command-prefix' => 'baz'],
+        ],
+    ])]
+    #[TestWith([
+        'baz:',
+        [
+            'command-prefix' => 'foo',
+            'devtools' => ['command-prefix' => 'bar'],
+            'ramsey/devtools' => ['command-prefix' => 'baz:'],
+        ],
+    ])]
+    #[TestWith([
+        '',
+        [
+            'command-prefix' => 'foo',
+            'devtools' => ['command-prefix' => 'bar'],
+            'ramsey/devtools' => ['command-prefix' => ''],
+        ],
+    ])]
+    #[TestWith([
+        '',
+        [
+            'command-prefix' => 'foo',
+            'devtools' => ['command-prefix' => 'bar'],
+            'ramsey/devtools' => ['command-prefix' => ':'],
+        ],
+    ])]
+    public function testGetCommands(string $expectedPrefix, array $extra): void
     {
-        /** @var Config & MockInterface $config */
-        $config = $this->mockery(Config::class);
-        $config->allows()->get('bin-dir')->andReturn('/path/to/bin-dir');
-
-        /** @var EventDispatcher & MockInterface $eventDispatcher */
-        $eventDispatcher = $this->mockery(EventDispatcher::class);
-        $eventDispatcher->shouldReceive('addListener');
-        $eventDispatcher->shouldReceive('dispatchScript')->andReturn(0);
-
-        /** @var Composer & MockInterface $composer */
         $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [
-                'command-prefix' => 'foo',
-            ],
-            'getConfig' => $config,
-            'getEventDispatcher' => $eventDispatcher,
+            'getConfig->get' => '',
+            'getPackage->getExtra' => $extra,
         ]);
 
-        /** @var IOInterface & MockInterface $io */
-        $io = $this->mockery(IOInterface::class);
-
-        $pluginActivated = new DevToolsPlugin();
-        $pluginActivated->activate($composer, $io);
-
-        // This will test that our $composer instance was set
-        // statically on the class.
-        $pluginToUseForCommands = new DevToolsPlugin();
-        $commands = $pluginToUseForCommands->getCommands();
-
-        $this->assertContainsOnlyInstancesOf(BaseCommand::class, $commands);
-        $this->assertGreaterThan(0, count($commands));
-        $this->assertSame('foo:', $commands[0]->getPrefix());
-        $this->assertSame('/path/to/bin-dir', $commands[0]->getBinDir());
-    }
-
-    public function testGetCommandsWithRamseyDevtoolsCommandPrefixProperty(): void
-    {
-        /** @var Config & MockInterface $config */
-        $config = $this->mockery(Config::class);
-        $config->allows()->get('bin-dir')->andReturn('/path/to/bin-dir');
-
-        /** @var EventDispatcher & MockInterface $eventDispatcher */
-        $eventDispatcher = $this->mockery(EventDispatcher::class);
-        $eventDispatcher->shouldReceive('addListener');
-        $eventDispatcher->shouldReceive('dispatchScript')->andReturn(0);
-
-        /** @var Composer & MockInterface $composer */
-        $composer = $this->mockery(Composer::class, [
-            'getPackage->getExtra' => [
-                'command-prefix' => 'foo',
-                'ramsey/devtools' => [
-                    'command-prefix' => 'bar',
-                ],
-            ],
-            'getConfig' => $config,
-            'getEventDispatcher' => $eventDispatcher,
+        $composerFactory = $this->mockery(Factory::class, [
+            'getComposer' => $composer,
         ]);
 
-        /** @var IOInterface & MockInterface $io */
-        $io = $this->mockery(IOInterface::class);
+        $plugin = new DevToolsPlugin([], new Configuration(composerFactory: $composerFactory));
+        $commands = $plugin->getCommands();
+        $commandNames = [];
 
-        $pluginActivated = new DevToolsPlugin();
-        $pluginActivated->activate($composer, $io);
+        foreach ($commands as $command) {
+            $this->assertInstanceOf(ComposerCommand::class, $command);
+            $this->assertInstanceOf(DevToolsCommand::class, $command->wrappedCommand);
+            if ($expectedPrefix === '') {
+                $this->assertSame($command->originalName, $command->getName());
+            } else {
+                $this->assertStringStartsWith($expectedPrefix, (string) $command->getName());
+            }
+            $commandNames[] = (string) $command->getName();
+        }
 
-        // This will test that our $composer instance was set
-        // statically on the class.
-        $pluginToUseForCommands = new DevToolsPlugin();
-        $commands = $pluginToUseForCommands->getCommands();
-
-        $this->assertContainsOnlyInstancesOf(BaseCommand::class, $commands);
-        $this->assertGreaterThan(0, count($commands));
-        $this->assertSame('bar:', $commands[0]->getPrefix());
-        $this->assertSame('/path/to/bin-dir', $commands[0]->getBinDir());
+        // We should have the exact same list after removing duplicates.
+        // In other words, there shouldn't be any duplicate commands.
+        $deDupedCommandNames = array_unique($commandNames);
+        $this->assertSame($commandNames, $deDupedCommandNames);
     }
 
     public function testActivate(): void
     {
-        /** @var Composer & MockInterface $composer */
-        $composer = Mockery::mock(Composer::class);
+        $composer = $this->mockery(Composer::class);
 
-        /** @var IOInterface & MockInterface $io */
-        $io = Mockery::spy(IOInterface::class);
+        $io = $this->mockery(IOInterface::class);
+        $io->expects()->write('<comment>Creating build directory</comment>');
+        $io->expects()->write('<comment>Creating build/cache directory</comment>');
+        $io->expects()->write('<comment>Creating build/coverage directory</comment>');
+
+        $filesystem = $this->mockery(Filesystem::class);
+
+        $filesystem->expects()->exists('./build')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\n*\n!.gitignore\n");
+
+        $filesystem->expects()->exists('./build/cache')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build/cache');
+        $filesystem->expects()->touch('./build/cache/.gitkeep');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\ncache/*\n!cache\n!cache/.gitkeep\n");
+
+        $filesystem->expects()->exists('./build/coverage')->andReturnFalse();
+        $filesystem->expects()->mkdir('./build/coverage');
+        $filesystem->expects()->touch('./build/coverage/.gitkeep');
+        $filesystem->expects()->appendToFile('./build/.gitignore', "\ncoverage/*\n!coverage\n!coverage/.gitkeep\n");
 
         $plugin = new DevToolsPlugin();
-        $plugin->activate($composer, $io);
-
-        $composer->shouldNotHaveBeenCalled();
-        $io->shouldNotHaveBeenCalled();
+        $plugin->activate($composer, $io, $filesystem);
     }
 
     public function testDeactivate(): void
     {
-        /** @var Composer & MockInterface $composer */
-        $composer = Mockery::mock(Composer::class);
-
-        /** @var IOInterface & MockInterface $io */
-        $io = Mockery::spy(IOInterface::class);
+        $composer = $this->mockery(Composer::class);
+        $io = $this->mockery(IOInterface::class);
 
         $plugin = new DevToolsPlugin();
         $plugin->deactivate($composer, $io);
 
-        $composer->shouldNotHaveBeenCalled();
-        $io->shouldNotHaveBeenCalled();
+        // Without an assertion, PHPUnit complains this is a risky test. The
+        // real assertion should be that nothing is called on $composer and $io,
+        // but Mockery does not provide that kind of assertion. If anything is
+        // called on them, then Mockery will throw an exception because the call
+        // is unexpected.
+        $this->assertTrue(true);
     }
 
     public function testUninstall(): void
     {
-        /** @var Composer & MockInterface $composer */
-        $composer = Mockery::mock(Composer::class);
-
-        /** @var IOInterface & MockInterface $io */
-        $io = Mockery::spy(IOInterface::class);
+        $composer = $this->mockery(Composer::class);
+        $io = $this->mockery(IOInterface::class);
 
         $plugin = new DevToolsPlugin();
         $plugin->uninstall($composer, $io);
 
-        $composer->shouldNotHaveBeenCalled();
-        $io->shouldNotHaveBeenCalled();
+        // Without an assertion, PHPUnit complains this is a risky test. The
+        // real assertion should be that nothing is called on $composer and $io,
+        // but Mockery does not provide that kind of assertion. If anything is
+        // called on them, then Mockery will throw an exception because the call
+        // is unexpected.
+        $this->assertTrue(true);
     }
 
     public function testSetupBuildDirectory(): void
