@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.0.0 - 2023-04-24
+
+### Added
+
+- You may use `devtools` as a Composer `extra` property name, instead of `ramsey/devtools`
+
+- Allow changing the Composer `extra` property name if developing your own devtools on top of this package
+
+### Changed
+
+- Bump minimum supported version of PHP to 8.1
+
+- Migrate all commands to Symfony console commands
+
+- Wrap commands with `ComposerCommand` as a proxy, when running as a Composer plugin
+
+- Enable `bin/devtools` for standalone CLI use
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Remove deprecated `captainhook:install` command
+
+- Remove deprecated `pre-commit` command
+
+### Fixed
+
+- Nothing.
+
 ## 1.4.0 - 2022-01-27
 
 ### Added
