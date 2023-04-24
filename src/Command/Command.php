@@ -19,7 +19,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function assert;
-use function explode;
 use function implode;
 use function mb_strlen;
 use function preg_replace;
@@ -91,9 +90,9 @@ abstract class Command extends SymfonyCommand
 
     private function wrapHelp(string $message): string
     {
-        $message = (string) preg_replace('/(?<!\n)\n(?!\s)/m', ' ', $message);
-        $message = str_replace("\n", PHP_EOL, $message);
-        $lines = explode("\n", $message);
+        $message = (string) preg_replace('/(?<!\n|\r|\r\n)\R(?!\s)/', ' ', $message);
+        $message = (string) preg_replace('/\R/', PHP_EOL, $message);
+        $lines = preg_split('/\R/', $message) ?: [];
 
         $wrapped = [];
 

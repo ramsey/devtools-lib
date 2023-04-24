@@ -25,6 +25,7 @@ use function str_starts_with;
 use function trim;
 
 use const FILTER_VALIDATE_FLOAT;
+use const PHP_EOL;
 
 abstract class ProcessCommand extends Command
 {
@@ -66,11 +67,14 @@ abstract class ProcessCommand extends Command
         $executable = $this->getExecutablePath();
         $name = $this->getExecutableName();
 
-        $programInfo = "\n\n---\n\nThis command uses $name. On your system, $name is ";
+        // Double-spaced lines.
+        $ds = PHP_EOL . PHP_EOL;
+
+        $programInfo = "$ds---{$ds}This command uses $name. On your system, $name is ";
 
         if ($executable === null) {
             $programInfo .= '<error>not installed</error>.';
-            $programInfo .= "\n\n";
+            $programInfo .= $ds;
             $programInfo .= $this->getInstallationMessage();
         } else {
             if (str_starts_with((string) $this->getExecutablePath(), $this->configuration->projectRoot)) {
