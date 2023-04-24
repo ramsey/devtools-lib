@@ -75,7 +75,7 @@ class CommandTest extends TestCase
 
         $command->setHelp($helpTextToSet);
 
-        $this->assertSame($expectedHelp, $command->getHelp());
+        $this->assertStringEqualsStringIgnoringLineEndings($expectedHelp, $command->getHelp());
     }
 
     public function testComposerConfigurationWithScriptAsArray(): void

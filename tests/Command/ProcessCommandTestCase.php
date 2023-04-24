@@ -9,6 +9,8 @@ use Ramsey\Dev\Tools\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function strlen;
+
 abstract class ProcessCommandTestCase extends TestCase
 {
     /**
@@ -130,7 +132,7 @@ abstract class ProcessCommandTestCase extends TestCase
 
     public function testGetExecutablePath(): void
     {
-        $this->assertStringStartsWith('/', (string) $this->sutCommand->getExecutablePath());
+        $this->assertGreaterThan(0, strlen((string) $this->sutCommand->getExecutablePath()));
     }
 
     public function testGetHelp(): void

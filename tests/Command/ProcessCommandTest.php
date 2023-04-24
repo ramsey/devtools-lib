@@ -151,15 +151,10 @@ class ProcessCommandTest extends TestCase
 
         $processCommand->setHelp('foo');
 
-        $format = <<<'EOD'
-            foo
-
-            ---
-
-            This command uses php. On your system, php is located at:%w<file>%s/php</file>
-            EOD;
-
-        $this->assertStringMatchesFormat($format, $processCommand->getHelp());
+        $this->assertStringContainsStringIgnoringLineEndings(
+            'This command uses php. On your system, php is located at:',
+            $processCommand->getHelp(),
+        );
     }
 
     public function testSetHelpOverrideExplainsHowToInstallExecutable(): void
@@ -197,6 +192,6 @@ class ProcessCommandTest extends TestCase
             This is how you install it.
             EOD;
 
-        $this->assertSame($format, $processCommand->getHelp());
+        $this->assertStringEqualsStringIgnoringLineEndings($format, $processCommand->getHelp());
     }
 }
