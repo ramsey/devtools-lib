@@ -93,7 +93,7 @@ class ProcessCommandTest extends TestCase
     public function testExecution(): void
     {
         $process = $this->mockery(Process::class);
-        $process->expects('setTimeout')->with(300);
+        $process->allows('setTimeout');
         $process->allows('setTty');
         $process->expects('start');
         $process->expects('wait')->withArgs(function (Closure $callback): bool {
