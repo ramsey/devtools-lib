@@ -25,6 +25,11 @@ final class ComposerCommand extends BaseCommand
         parent::__construct($this->wrappedCommand->getExtra()->getPrefixedCommandName());
     }
 
+    public function getHelp(): string
+    {
+        return $this->wrappedCommand->getHelpForComposer();
+    }
+
     protected function configure(): void
     {
         /** @var string[] $aliases */
@@ -33,7 +38,6 @@ final class ComposerCommand extends BaseCommand
         $this
             ->setAliases($aliases)
             ->setDescription($this->wrappedCommand->getDescription())
-            ->setHelp($this->wrappedCommand->getHelp())
             ->setDefinition($this->wrappedCommand->getDefinition())
             ->setHidden($this->wrappedCommand->isHidden());
 

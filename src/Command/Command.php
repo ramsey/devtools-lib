@@ -18,6 +18,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function array_column;
 use function assert;
 use function basename;
 use function filter_var;
@@ -36,6 +37,21 @@ use const PREG_SPLIT_NO_EMPTY;
 abstract class Command extends SymfonyCommand
 {
     private const WRAP_WIDTH = 78;
+
+    private const CUSTOM_HELP_TAGS = [
+        [
+            'pattern' => '/<code>(.*)<\/(?:code)?>/Us',
+            'replacement' => '<fg=bright-blue>$1</>',
+        ],
+        [
+            'pattern' => '/<file>(.*)<\/(?:file)?>/Us',
+            'replacement' => '<fg=bright-magenta>$1</>',
+        ],
+        [
+            'pattern' => '/<link>(.*)<\/(?:link)?>/Us',
+            'replacement' => '<fg=cyan;options=underscore>$1</>',
+        ],
+    ];
 
     private ?EventDispatcher $eventDispatcher = null;
     private readonly ExtraConfiguration $extra;
@@ -82,20 +98,24 @@ abstract class Command extends SymfonyCommand
         return $exitCode + $this->eventDispatcher->dispatchScript((string) $this->getName());
     }
 
-    public function setHelp(string $help): static
+    public function getHelp(): string
     {
-        $name = (string) $this->getName();
+        return $this->wrapHelp(
+            $this->replaceHelpTokens(
+                parent::getHelp(),
+                (string) $this->getName(),
+            ),
+        );
+    }
 
-        // The Symfony method Command::getParsedHelp() already does this, but
-        // we do it here to account for proper line wrapping in wrapHelp().
-        $placeholders = ['%command.name%', '%command.full_name%'];
-
-        // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
-        $replacements = [$name, trim(basename(($_SERVER['PHP_SELF'] ?? '')) . ' ' . $name)];
-
-        $help = str_replace($placeholders, $replacements, $help ?: $this->getDescription());
-
-        return parent::setHelp($this->wrapHelp($help));
+    public function getHelpForComposer(): string
+    {
+        return $this->wrapHelp(
+            $this->replaceHelpTokens(
+                parent::getHelp(),
+                $this->getExtra()->getPrefixedCommandName(),
+            ),
+        );
     }
 
     private function wrapHelp(string $message): string
@@ -185,6 +205,28 @@ abstract class Command extends SymfonyCommand
             scripts: (array) ($commandConfig['script'] ?? []),
             override: (bool) filter_var($commandConfig['override'] ?? false, (int) FILTER_VALIDATE_BOOL),
             memoryLimit: $commandConfig['memory-limit'] ?? $config['memory-limit'] ?? null,
+        );
+    }
+
+    private function replaceHelpTokens(string $helpText, string $commandName): string
+    {
+        // The Symfony method Command::getParsedHelp() already does this, but
+        // we do it here to account for proper line wrapping in wrapHelp().
+        $placeholders = ['%command.name%', '%command.full_name%'];
+
+        // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
+        $replacements = [$commandName, trim(basename(($_SERVER['PHP_SELF'] ?? '')) . ' ' . $commandName)];
+
+        $helpText = str_replace($placeholders, $replacements, $helpText ?: $this->getDescription());
+
+        // We could use OutputFormatterStyle for this, but when running in the
+        // context of a Composer plugin, we're not able to apply those styles
+        // to the Composer console application, so we must use replacements
+        // instead.
+        return (string) preg_replace(
+            array_column(self::CUSTOM_HELP_TAGS, 'pattern'),
+            array_column(self::CUSTOM_HELP_TAGS, 'replacement'),
+            $helpText,
         );
     }
 }

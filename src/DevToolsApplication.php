@@ -12,10 +12,6 @@ declare(strict_types=1);
 namespace Ramsey\Dev\Tools;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
 final class DevToolsApplication extends Application
 {
@@ -26,22 +22,6 @@ final class DevToolsApplication extends Application
         parent::__construct('ramsey/devtools', self::VERSION);
 
         $this->registerCommands();
-    }
-
-    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
-    {
-        $output ??= new ConsoleOutput();
-
-        $codeStyle = new OutputFormatterStyle('bright-blue');
-        $output->getFormatter()->setStyle('code', $codeStyle);
-
-        $fileStyle = new OutputFormatterStyle('bright-magenta');
-        $output->getFormatter()->setStyle('file', $fileStyle);
-
-        $linkStyle = new OutputFormatterStyle('cyan', options: ['underscore']);
-        $output->getFormatter()->setStyle('link', $linkStyle);
-
-        return parent::run($input, $output);
     }
 
     private function registerCommands(): void
