@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Command\Test\Coverage;
 
+use Ramsey\Dev\Tools\Command\MemoryLimitIniOption;
 use Ramsey\Dev\Tools\Command\ProcessCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,6 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class CiCommand extends ProcessCommand
 {
+    use MemoryLimitIniOption;
+
     public function getExecutableName(): string
     {
         return 'phpunit';
@@ -44,6 +47,7 @@ final class CiCommand extends ProcessCommand
     {
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
+        $args = [...$this->getMemoryLimitOption(), ...$args];
 
         return [
             (string) $this->getExecutablePath(),
@@ -59,8 +63,8 @@ final class CiCommand extends ProcessCommand
             'build/coverage/coverage-xml',
             '--log-junit',
             'build/junit.xml',
-            'tests',
             ...$args,
+            'tests',
         ];
     }
 

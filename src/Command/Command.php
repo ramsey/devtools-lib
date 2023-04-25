@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Command;
 
-use Composer\Composer;
 use Composer\EventDispatcher\EventDispatcher;
+use Ramsey\Dev\Tools\Composer\ExtraConfiguration;
 use Ramsey\Dev\Tools\Configuration;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,6 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function assert;
 use function implode;
+use function ini_set;
 use function mb_strlen;
 use function preg_replace;
 use function preg_split;
@@ -29,12 +30,17 @@ use function trim;
 use const PHP_EOL;
 use const PREG_SPLIT_NO_EMPTY;
 
+/**
+ * @phpstan-import-type CommandDefinition from ExtraConfiguration
+ */
 abstract class Command extends SymfonyCommand
 {
     private const WRAP_WIDTH = 78;
 
     private ?EventDispatcher $eventDispatcher = null;
     private bool $overrideDefault = false;
+
+    protected ExtraConfiguration $extra;
 
     /**
      * The execute() method in this class is set `final` to ensure it will
@@ -47,19 +53,20 @@ abstract class Command extends SymfonyCommand
     public function __construct(protected readonly Configuration $configuration)
     {
         parent::__construct(null);
+
+        $this->extra = $this->getComposerExtraConfiguration();
     }
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // We must configure Composer at execution time because we need to create
-        // Composer's IO object from the command execution input and output.
-        $this->configureWithComposer(
-            $this->configuration->composerFactory->getComposer(
-                $input,
-                $output,
-                $this->getHelperSet(),
-            ),
-        );
+        if ($this->extra->memoryLimit !== null) {
+            ini_set('memory_limit', $this->extra->memoryLimit);
+        }
+
+        // We must configure Composer's event dispatcher at execution time
+        // because we need to create Composer's IO object from the command
+        // execution input and output.
+        $this->setupComposerEventDispatcher($input, $output);
 
         assert($this->eventDispatcher !== null);
 
@@ -138,18 +145,17 @@ abstract class Command extends SymfonyCommand
      * Use extra.devtools, if available, but extra.ramsey/devtools
      * takes precedence over extra.devtools.
      */
-    private function configureWithComposer(Composer $composer): void
+    private function setupComposerEventDispatcher(InputInterface $input, OutputInterface $output): void
     {
+        // We create a new Composer instance to configure it with this
+        // execution's input and output.
+        $composer = $this->configuration->composerFactory->getComposer($input, $output, $this->getHelperSet());
+
         $this->eventDispatcher = $composer->getEventDispatcher();
         $this->eventDispatcher->setRunScripts(true);
 
-        $extra = $composer->getPackage()->getExtra();
-
-        /** @var array{command-prefix?: string, commands?: array<string, mixed>} $devtoolsConfig */
-        $devtoolsConfig = $extra[$this->configuration->composerExtraProperty] ?? $extra['devtools'] ?? [];
-
-        /** @var array{override?: bool, script?: array<string> | string} $commandConfig */
-        $commandConfig = $devtoolsConfig['commands'][(string) $this->getName()] ?? [];
+        /** @var CommandDefinition $commandConfig */
+        $commandConfig = $this->extra->commands[(string) $this->getName()] ?? [];
 
         $this->overrideDefault = $commandConfig['override'] ?? false;
 
@@ -158,5 +164,20 @@ abstract class Command extends SymfonyCommand
         foreach ($additionalScripts as $script) {
             $this->eventDispatcher->addListener((string) $this->getName(), $script);
         }
+    }
+
+    private function getComposerExtraConfiguration(): ExtraConfiguration
+    {
+        $property = $this->configuration->composerExtraProperty;
+        $extra = $this->configuration->composer->getPackage()->getExtra();
+
+        /** @var array{command-prefix?: string, commands?: array<string, array{override?: bool, script: string | string[], memory-limit?: int | string}>, memory-limit?: int | string} $config */
+        $config = $extra[$property] ?? $extra['devtools'] ?? [];
+
+        return new ExtraConfiguration(
+            commandPrefix: $config['command-prefix'] ?? ExtraConfiguration::DEFAULT_COMMAND_PREFIX,
+            commands: $config['commands'] ?? [],
+            memoryLimit: $config['memory-limit'] ?? null,
+        );
     }
 }

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Command\Analyze;
 
+use Ramsey\Dev\Tools\Command\MemoryLimitLongOption;
 use Ramsey\Dev\Tools\Command\ProcessCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,6 +25,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class PhpStanCommand extends ProcessCommand
 {
+    use MemoryLimitLongOption;
+
     public function getExecutableName(): string
     {
         return 'phpstan';
@@ -45,6 +48,7 @@ final class PhpStanCommand extends ProcessCommand
     {
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
+        $args = [...$this->getMemoryLimitOption(), ...$args];
 
         return [(string) $this->getExecutablePath(), 'analyze', '--ansi', ...$args];
     }

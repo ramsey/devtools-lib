@@ -316,4 +316,40 @@ class CommandTest extends TestCase
 
         $this->assertSame(9 + 3, $command->run(new StringInput(''), new NullOutput()));
     }
+
+    /**
+     * This test exists primarily for coverage, since we aren't asserting that
+     * the ini_set() function was called, even though we're running this test
+     * to cover that line.
+     */
+    public function testComposerConfigurationWithMemoryLimitSetting(): void
+    {
+        $eventDispatcher = $this->mockery(EventDispatcher::class);
+        $eventDispatcher->expects('setRunScripts')->with(true);
+        $eventDispatcher->expects('dispatchScript')->with('my-command')->andReturns(2);
+
+        $composer = $this->mockery(Composer::class, [
+            'getConfig->get' => '',
+            'getEventDispatcher' => $eventDispatcher,
+            'getPackage->getExtra' => [
+                'devtools' => ['memory-limit' => '1G'],
+            ],
+        ]);
+
+        $composerFactory = $this->mockery(Factory::class, [
+            'getComposer' => $composer,
+        ]);
+
+        $command = new #[AsCommand(name: 'my-command')] class (
+            new Configuration(composerFactory: $composerFactory, composerExtraProperty: 'my-tools'),
+        ) extends Command {
+            protected function doExecute(InputInterface $input, OutputInterface $output): int
+            {
+                // We'll use this value to assert that doExecute() was called.
+                return 1;
+            }
+        };
+
+        $this->assertSame(3, $command->run(new StringInput(''), new NullOutput()));
+    }
 }

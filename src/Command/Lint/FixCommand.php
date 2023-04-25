@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Command\Lint;
 
+use Ramsey\Dev\Tools\Command\MemoryLimitIniOption;
 use Ramsey\Dev\Tools\Command\ProcessCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,6 +25,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class FixCommand extends ProcessCommand
 {
+    use MemoryLimitIniOption;
+
     public function getExecutableName(): string
     {
         return 'phpcbf';
@@ -46,6 +49,7 @@ final class FixCommand extends ProcessCommand
     {
         /** @var string[] $args */
         $args = $input->getArguments()['args'] ?? [];
+        $args = [...$this->getMemoryLimitOption(), ...$args];
 
         return [(string) $this->getExecutablePath(), '--cache=build/cache/phpcs.cache', ...$args];
     }

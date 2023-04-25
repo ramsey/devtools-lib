@@ -4,18 +4,88 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\Dev\Tools\Command\Lint;
 
+use Composer\Composer;
 use Ramsey\Dev\Tools\Command\Lint\FixCommand;
 use Ramsey\Dev\Tools\Command\ProcessCommand;
+use Ramsey\Dev\Tools\Composer\Factory;
 use Ramsey\Dev\Tools\Configuration;
 use Ramsey\Dev\Tools\Process\ProcessFactory;
 use Ramsey\Test\Dev\Tools\Command\ProcessCommandTestCase;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Process\Process;
 
 class FixCommandTest extends ProcessCommandTestCase
 {
+    public function testGetProcessCommandWithDevtoolsMemoryLimit(): void
+    {
+        $composer = $this->mockery(Composer::class, [
+            'getConfig->get' => '',
+            'getPackage->getExtra' => [
+                'devtools' => ['memory-limit' => '128M'],
+            ],
+        ]);
+
+        $composerFactory = $this->mockery(Factory::class, [
+            'getComposer' => $composer,
+        ]);
+
+        $configuration = new Configuration(composerFactory: $composerFactory);
+        $command = new FixCommand($configuration);
+
+        $input = new ArgvInput(['foo:command', '--', 'src/File1.php'], $command->getDefinition());
+        $output = new NullOutput();
+
+        $expectedProcessCommand = [
+            (string) $command->getExecutablePath(),
+            '--cache=build/cache/phpcs.cache',
+            '-d',
+            'memory_limit=128M',
+            'src/File1.php',
+        ];
+
+        $this->assertSame($expectedProcessCommand, $command->getProcessCommand($input, $output));
+    }
+
+    public function testGetProcessCommandWithCommandSpecificMemoryLimit(): void
+    {
+        $composer = $this->mockery(Composer::class, [
+            'getConfig->get' => '',
+            'getPackage->getExtra' => [
+                'ramsey/devtools' => [
+                    'memory-limit' => '128M',
+                    'commands' => [
+                        'lint:fix' => [
+                            'memory-limit' => '512M',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $composerFactory = $this->mockery(Factory::class, [
+            'getComposer' => $composer,
+        ]);
+
+        $configuration = new Configuration(composerFactory: $composerFactory);
+        $command = new FixCommand($configuration);
+
+        $input = new ArgvInput(['foo:command', '--', 'src/File2.php'], $command->getDefinition());
+        $output = new NullOutput();
+
+        $expectedProcessCommand = [
+            (string) $command->getExecutablePath(),
+            '--cache=build/cache/phpcs.cache',
+            '-d',
+            'memory_limit=512M',
+            'src/File2.php',
+        ];
+
+        $this->assertSame($expectedProcessCommand, $command->getProcessCommand($input, $output));
+    }
+
     public function testExecuteWithSuccess(): void
     {
         $process = $this->mockery(Process::class);
