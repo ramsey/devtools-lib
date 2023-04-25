@@ -38,7 +38,7 @@ class ComposerCommandTest extends TestCase
         $this->assertSame('wat:foobar', $composerCommand->getName());
         $this->assertSame(['foo', 'bar'], $composerCommand->getAliases());
         $this->assertSame('A test description', $composerCommand->getDescription());
-        $this->assertSame('Some help to show you how to use <code>wat:foobar</code>', $composerCommand->getHelp());
+        $this->assertSame('Some help to show you how to use <code>foobar</code>', $composerCommand->getHelp());
         $this->assertSame($definition, $composerCommand->getDefinition());
         $this->assertTrue($composerCommand->isHidden());
         $this->assertSame(['wat:foobar baz', 'wat:foobar qux', 'wat:foobar quux'], $composerCommand->getUsages());

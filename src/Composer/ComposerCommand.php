@@ -10,7 +10,6 @@ use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function str_replace;
 use function str_starts_with;
 use function strlen;
 use function substr;
@@ -31,17 +30,10 @@ final class ComposerCommand extends BaseCommand
         /** @var string[] $aliases */
         $aliases = $this->wrappedCommand->getAliases();
 
-        // Replace any occurrences of "name" in the help message with "prefix:name."
-        $help = str_replace(
-            (string) $this->wrappedCommand->getName(),
-            (string) $this->getName(),
-            $this->wrappedCommand->getHelp(),
-        );
-
         $this
             ->setAliases($aliases)
             ->setDescription($this->wrappedCommand->getDescription())
-            ->setHelp($help)
+            ->setHelp($this->wrappedCommand->getHelp())
             ->setDefinition($this->wrappedCommand->getDefinition())
             ->setHidden($this->wrappedCommand->isHidden());
 

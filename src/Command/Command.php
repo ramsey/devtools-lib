@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function assert;
+use function basename;
 use function filter_var;
 use function implode;
 use function ini_set;
@@ -90,7 +91,7 @@ abstract class Command extends SymfonyCommand
         $placeholders = ['%command.name%', '%command.full_name%'];
 
         // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
-        $replacements = [$name, trim(($_SERVER['PHP_SELF'] ?? '') . ' ' . $name)];
+        $replacements = [$name, trim(basename(($_SERVER['PHP_SELF'] ?? '')) . ' ' . $name)];
 
         $help = str_replace($placeholders, $replacements, $help ?: $this->getDescription());
 
