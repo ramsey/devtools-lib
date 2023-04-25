@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class DevToolsApplication extends Application
 {
-    public const VERSION = '2.x-dev';
+    public const VERSION = '2.1.0';
 
     public function __construct(public readonly Configuration $configuration = new Configuration())
     {
