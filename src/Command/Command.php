@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function assert;
+use function filter_var;
 use function implode;
 use function ini_set;
 use function mb_strlen;
@@ -27,20 +28,16 @@ use function preg_split;
 use function str_replace;
 use function trim;
 
+use const FILTER_VALIDATE_BOOL;
 use const PHP_EOL;
 use const PREG_SPLIT_NO_EMPTY;
 
-/**
- * @phpstan-import-type CommandDefinition from ExtraConfiguration
- */
 abstract class Command extends SymfonyCommand
 {
     private const WRAP_WIDTH = 78;
 
     private ?EventDispatcher $eventDispatcher = null;
-    private bool $overrideDefault = false;
-
-    protected ExtraConfiguration $extra;
+    private readonly ExtraConfiguration $extra;
 
     /**
      * The execute() method in this class is set `final` to ensure it will
@@ -54,13 +51,18 @@ abstract class Command extends SymfonyCommand
     {
         parent::__construct(null);
 
-        $this->extra = $this->getComposerExtraConfiguration();
+        $this->extra = $this->buildComposerExtraConfiguration();
+    }
+
+    public function getExtra(): ExtraConfiguration
+    {
+        return $this->extra;
     }
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->extra->memoryLimit !== null) {
-            ini_set('memory_limit', $this->extra->memoryLimit);
+        if ($this->getExtra()->memoryLimit !== null) {
+            ini_set('memory_limit', $this->getExtra()->memoryLimit);
         }
 
         // We must configure Composer's event dispatcher at execution time
@@ -72,7 +74,7 @@ abstract class Command extends SymfonyCommand
 
         $exitCode = 0;
 
-        if (!$this->overrideDefault) {
+        if (!$this->getExtra()->override) {
             $exitCode = $this->doExecute($input, $output);
         }
 
@@ -154,30 +156,34 @@ abstract class Command extends SymfonyCommand
         $this->eventDispatcher = $composer->getEventDispatcher();
         $this->eventDispatcher->setRunScripts(true);
 
-        /** @var CommandDefinition $commandConfig */
-        $commandConfig = $this->extra->commands[(string) $this->getName()] ?? [];
-
-        $this->overrideDefault = $commandConfig['override'] ?? false;
-
-        $additionalScripts = (array) ($commandConfig['script'] ?? []);
-
-        foreach ($additionalScripts as $script) {
+        foreach ($this->getExtra()->scripts as $script) {
             $this->eventDispatcher->addListener((string) $this->getName(), $script);
         }
     }
 
-    private function getComposerExtraConfiguration(): ExtraConfiguration
+    private function buildComposerExtraConfiguration(): ExtraConfiguration
     {
         $property = $this->configuration->composerExtraProperty;
+
+        /** @var array{command-prefix?: string, devtools?: mixed[]} $extra */
         $extra = $this->configuration->composer->getPackage()->getExtra();
 
-        /** @var array{command-prefix?: string, commands?: array<string, array{override?: bool, script: string | string[], memory-limit?: int | string}>, memory-limit?: int | string} $config */
+        /** @var array{command-prefix?: string, commands?: array<string, array{override?: bool, script?: string | string[], memory-limit?: int | string}>, memory-limit?: int | string} $config */
         $config = $extra[$property] ?? $extra['devtools'] ?? [];
 
+        /** @var array{override?: bool, script?: string | string[], memory-limit?: int | string} $commandConfig */
+        $commandConfig = $config['commands'][(string) $this->getName()] ?? [];
+
+        $commandPrefix = $config['command-prefix']
+            ?? $extra['command-prefix']
+            ?? ExtraConfiguration::DEFAULT_COMMAND_PREFIX;
+
         return new ExtraConfiguration(
-            commandPrefix: $config['command-prefix'] ?? ExtraConfiguration::DEFAULT_COMMAND_PREFIX,
-            commands: $config['commands'] ?? [],
-            memoryLimit: $config['memory-limit'] ?? null,
+            commandName: (string) $this->getName(),
+            commandPrefix: $commandPrefix,
+            scripts: (array) ($commandConfig['script'] ?? []),
+            override: (bool) filter_var($commandConfig['override'] ?? false, (int) FILTER_VALIDATE_BOOL),
+            memoryLimit: $commandConfig['memory-limit'] ?? $config['memory-limit'] ?? null,
         );
     }
 }

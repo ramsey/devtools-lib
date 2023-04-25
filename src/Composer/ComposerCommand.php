@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Ramsey\Dev\Tools\Composer;
 
 use Composer\Command\BaseCommand;
-use Symfony\Component\Console\Command\Command;
+use Ramsey\Dev\Tools\Command\Command;
 use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function rtrim;
 use function str_replace;
 use function str_starts_with;
 use function strlen;
@@ -19,20 +18,12 @@ use function substr;
 final class ComposerCommand extends BaseCommand
 {
     public readonly Command $wrappedCommand;
-    public readonly string $originalName;
 
-    public function __construct(Command $wrappedCommand, string $commandPrefix)
+    public function __construct(Command $wrappedCommand)
     {
-        $this->wrappedCommand = clone $wrappedCommand;
-        $this->originalName = (string) $wrappedCommand->getName();
+        $this->wrappedCommand = $wrappedCommand;
 
-        $name = (string) $this->wrappedCommand->getName();
-        if ($commandPrefix !== '' && $commandPrefix !== ':') {
-            $name = rtrim($commandPrefix, ':') . ":$name";
-        }
-
-        $this->wrappedCommand->setName($name);
-        parent::__construct($name);
+        parent::__construct($this->wrappedCommand->getExtra()->getPrefixedCommandName());
     }
 
     protected function configure(): void
@@ -41,7 +32,11 @@ final class ComposerCommand extends BaseCommand
         $aliases = $this->wrappedCommand->getAliases();
 
         // Replace any occurrences of "name" in the help message with "prefix:name."
-        $help = str_replace($this->originalName, (string) $this->getName(), $this->wrappedCommand->getHelp());
+        $help = str_replace(
+            (string) $this->wrappedCommand->getName(),
+            (string) $this->getName(),
+            $this->wrappedCommand->getHelp(),
+        );
 
         $this
             ->setAliases($aliases)

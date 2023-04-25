@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Ramsey\Test\Dev\Tools\Composer;
 
-use PHPUnit\Framework\Attributes\TestWith;
+use Ramsey\Dev\Tools\Command\Command;
 use Ramsey\Dev\Tools\Composer\ComposerCommand;
+use Ramsey\Dev\Tools\Composer\ExtraConfiguration;
+use Ramsey\Dev\Tools\Configuration;
 use Ramsey\Dev\Tools\TestCase;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ComposerCommandTest extends TestCase
 {
@@ -18,7 +22,7 @@ class ComposerCommandTest extends TestCase
     {
         $definition = new InputDefinition();
 
-        $symfonyCommand = $this->mockery(Command::class, [
+        $command = $this->mockery(Command::class, [
             'getName' => 'foobar',
             'getAliases' => ['foo', 'bar'],
             'getDescription' => 'A test description',
@@ -26,11 +30,10 @@ class ComposerCommandTest extends TestCase
             'getDefinition' => $definition,
             'isHidden' => true,
             'getUsages' => ['foobar baz', 'foobar qux', 'quux'],
+            'getExtra' => new ExtraConfiguration(commandName: 'foobar', commandPrefix: 'wat'),
         ]);
 
-        $symfonyCommand->expects('setName')->with('wat:foobar');
-
-        $composerCommand = new ComposerCommand($symfonyCommand, 'wat');
+        $composerCommand = new ComposerCommand($command);
 
         $this->assertSame('wat:foobar', $composerCommand->getName());
         $this->assertSame(['foo', 'bar'], $composerCommand->getAliases());
@@ -43,42 +46,18 @@ class ComposerCommandTest extends TestCase
 
     public function testExecute(): void
     {
-        $symfonyCommand = new Command('foobar');
-        $symfonyCommand->setCode(fn (): int => Command::SUCCESS);
-        $composerCommand = new ComposerCommand($symfonyCommand, '');
+        $command = new #[AsCommand(name: 'foo')] class (new Configuration()) extends Command {
+            protected function doExecute(InputInterface $input, OutputInterface $output): int
+            {
+                return 1234;
+            }
+        };
+
+        $composerCommand = new ComposerCommand($command);
 
         $input = new StringInput('');
         $output = new NullOutput();
 
-        $this->assertSame(Command::SUCCESS, $composerCommand->run($input, $output));
-    }
-
-    #[TestWith(['', 'foobar'])]
-    #[TestWith([':', 'foobar'])]
-    #[TestWith(['abc:', 'abc:foobar'])]
-    #[TestWith(['def', 'def:foobar'])]
-    #[TestWith(['ghi::::::', 'ghi:foobar'])]
-    public function testCommandPrefixes(string $prefix, string $expectedName): void
-    {
-        $definition = new InputDefinition();
-
-        $symfonyCommand = $this->mockery(Command::class, [
-            'getName' => 'foobar',
-            'getAliases' => [],
-            'getDescription' => '',
-            'getHelp' => '',
-            'getDefinition' => $definition,
-            'isHidden' => true,
-            'getUsages' => ['foobar baz', 'foobar qux', 'quux'],
-        ]);
-        $symfonyCommand->expects('setName')->with($expectedName);
-
-        $composerCommand = new ComposerCommand($symfonyCommand, $prefix);
-
-        $this->assertSame($expectedName, $composerCommand->getName());
-        $this->assertSame(
-            ["$expectedName baz", "$expectedName qux", "$expectedName quux"],
-            $composerCommand->getUsages(),
-        );
+        $this->assertSame(1234, $composerCommand->run($input, $output));
     }
 }

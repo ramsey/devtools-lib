@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Ramsey\Dev\Tools\Composer;
 
+use function rtrim;
+
 /**
- * Represents configuration for ramsey/devtools found in `composer.json` within
+ * Represents configuration for a command, as found in `composer.json` within
  * the `extra` property. For example:
  *
  * ```json
@@ -36,33 +38,43 @@ namespace Ramsey\Dev\Tools\Composer;
  * $appConfig = new \Ramsey\Dev\Tools\Configuration(composerExtraProperty: 'my-devtools');
  * $app = new \Ramsey\Dev\Tools\DevToolsApplication($appConfig);
  * ```
- *
- * @phpstan-type CommandName = string
- * @phpstan-type CommandDefinition = array{override?: bool, script: string | string[], memory-limit?: int | string}
- * @phpstan-type Commands = array<CommandName, CommandDefinition>
- * @phpstan-type DevToolsConfig = array{command-prefix?: string, commands?: Commands, memory-limit?: int | string}
  */
 final class ExtraConfiguration
 {
     public const DEFAULT_COMMAND_PREFIX = 'dev';
 
     /**
+     * @link https://getcomposer.org/doc/articles/scripts.md#writing-custom-commands Composer's custom commands
      * @link https://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes PHP's shorthand bytes options
      *
-     * @param string $commandPrefix The prefix to use with devtools commands. To
+     * @param string $commandName The name of the command to which this
+     *     configuration applies.
+     * @param string $commandPrefix The prefix to apply to this command. To
      *     disable the prefix, set to an empty string.
-     * @param Commands $commands An array of key-value pairs where the key is a
-     *     command name to extend or override and the value is the definition to
-     *     use when extending or overriding the command.
+     * @param string[] $scripts Additional scripts to run when the named command
+     *     is executed. These scripts work just like custom commands in Composer.
+     * @param bool $override Whether to override the built-in command. When true,
+     *     only the scripts defined for the command in composer.json will run.
      * @param int | string | null $memoryLimit When set, this memory limit will
      *     apply to all commands that support setting a memory limit. If this is
      *     an integer, it represents bytes; it may use the same shorthand byte
      *     values that PHP supports (i.e., K, M, and G).
      */
     public function __construct(
+        public readonly string $commandName,
         public readonly string $commandPrefix = self::DEFAULT_COMMAND_PREFIX,
-        public readonly array $commands = [],
+        public readonly array $scripts = [],
+        public readonly bool $override = false,
         public readonly int | string | null $memoryLimit = null,
     ) {
+    }
+
+    public function getPrefixedCommandName(): string
+    {
+        if ($this->commandPrefix !== '' && $this->commandPrefix !== ':') {
+            return rtrim($this->commandPrefix, ':') . ':' . $this->commandName;
+        }
+
+        return $this->commandName;
     }
 }

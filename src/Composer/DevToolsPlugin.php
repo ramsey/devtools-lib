@@ -18,11 +18,13 @@ use Composer\Installer\PackageEvent;
 use Composer\Plugin\Capability\CommandProvider;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
+use Ramsey\Dev\Tools\Command\Command;
 use Ramsey\Dev\Tools\Configuration;
 use Ramsey\Dev\Tools\DevToolsApplication;
 use Symfony\Component\Filesystem\Filesystem;
 
 use function array_values;
+use function assert;
 use function in_array;
 
 /**
@@ -37,7 +39,6 @@ class DevToolsPlugin implements
     private const BUILD_GITIGNORE_BASE = "\n*\n!.gitignore\n";
     private const BUILD_GITIGNORE_CACHE = "\ncache/*\n!cache\n!cache/.gitkeep\n";
     private const BUILD_GITIGNORE_COVERAGE = "\ncoverage/*\n!coverage\n!coverage/.gitkeep\n";
-    private const DEFAULT_COMMAND_PREFIX = 'dev';
 
     public static function setupBuildDirectory(
         ?PackageEvent $event = null,
@@ -68,7 +69,6 @@ class DevToolsPlugin implements
     }
 
     private readonly DevToolsApplication $application;
-    private readonly string $commandPrefix;
 
     /**
      * @param mixed[] $ctorArgs An array of constructor args Composer passes
@@ -82,7 +82,6 @@ class DevToolsPlugin implements
         private readonly Configuration $configuration = new Configuration(),
     ) {
         $this->application = new DevToolsApplication($this->configuration);
-        $this->commandPrefix = $this->getCommandPrefix();
     }
 
     /**
@@ -105,7 +104,8 @@ class DevToolsPlugin implements
 
         foreach ($this->application->all() as $name => $command) {
             if (!in_array($name, $skipCommands)) {
-                $commands[(string) $command->getName()] = new ComposerCommand($command, $this->commandPrefix);
+                assert($command instanceof Command);
+                $commands[(string) $command->getName()] = new ComposerCommand($command);
             }
         }
 
@@ -123,22 +123,5 @@ class DevToolsPlugin implements
 
     public function uninstall(Composer $composer, IOInterface $io): void
     {
-    }
-
-    /**
-     * Use extra.command-prefix, if available, but extra.devtools.command-prefix
-     * takes precedence over extra.command-prefix, and extra.ramsey/devtools.command-prefix
-     * takes precedence over extra.devtools.command-prefix. The property that
-     * defines this data may be configured in {@see Configuration}.
-     */
-    private function getCommandPrefix(): string
-    {
-        /** @var array{command-prefix?: string, "devtools"?: array{command-prefix?: string}, "ramsey/devtools"?: array{command-prefix?: string}} $extra */
-        $extra = $this->configuration->composer->getPackage()->getExtra();
-
-        return $extra[$this->configuration->composerExtraProperty]['command-prefix']
-            ?? $extra['devtools']['command-prefix']
-            ?? $extra['command-prefix']
-            ?? self::DEFAULT_COMMAND_PREFIX;
     }
 }

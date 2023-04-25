@@ -96,7 +96,7 @@ class DevToolsPluginTest extends TestCase
             $this->assertInstanceOf(ComposerCommand::class, $command);
             $this->assertInstanceOf(DevToolsCommand::class, $command->wrappedCommand);
             if ($expectedPrefix === '') {
-                $this->assertSame($command->originalName, $command->getName());
+                $this->assertSame($command->wrappedCommand->getName(), $command->getName());
             } else {
                 $this->assertStringStartsWith($expectedPrefix, (string) $command->getName());
             }
