@@ -15,7 +15,7 @@ use Symfony\Component\Console\Application;
 
 final class DevToolsApplication extends Application
 {
-    public const VERSION = '2.x-dev';
+    public const VERSION = '2.1.1';
 
     public function __construct(public readonly Configuration $configuration = new Configuration())
     {
