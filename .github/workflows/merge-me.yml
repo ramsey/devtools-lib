@@ -7,7 +7,7 @@ on:
     types:
       - "completed"
     workflows:
-      - "build"
+      - "Continuous Integration"
 
 jobs:
   merge-me:
