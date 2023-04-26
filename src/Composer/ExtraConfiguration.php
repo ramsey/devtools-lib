@@ -41,8 +41,6 @@ use function rtrim;
  */
 final class ExtraConfiguration
 {
-    public const DEFAULT_COMMAND_PREFIX = 'dev';
-
     /**
      * @link https://getcomposer.org/doc/articles/scripts.md#writing-custom-commands Composer's custom commands
      * @link https://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes PHP's shorthand bytes options
@@ -62,7 +60,7 @@ final class ExtraConfiguration
      */
     public function __construct(
         public readonly string $commandName,
-        public readonly string $commandPrefix = self::DEFAULT_COMMAND_PREFIX,
+        public readonly string $commandPrefix,
         public readonly array $scripts = [],
         public readonly bool $override = false,
         public readonly int | string | null $memoryLimit = null,

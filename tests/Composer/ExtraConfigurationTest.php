@@ -12,14 +12,14 @@ class ExtraConfigurationTest extends TestCase
 {
     public function testDefaults(): void
     {
-        $extra = new ExtraConfiguration('foobar');
+        $extra = new ExtraConfiguration('foobar', 'cmd');
 
         $this->assertSame('foobar', $extra->commandName);
-        $this->assertSame('dev', $extra->commandPrefix);
+        $this->assertSame('cmd', $extra->commandPrefix);
         $this->assertSame([], $extra->scripts);
         $this->assertFalse($extra->override);
         $this->assertNull($extra->memoryLimit);
-        $this->assertSame('dev:foobar', $extra->getPrefixedCommandName());
+        $this->assertSame('cmd:foobar', $extra->getPrefixedCommandName());
     }
 
     #[TestWith(['', 'foobar'])]

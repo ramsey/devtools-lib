@@ -28,6 +28,7 @@ use const PATH_SEPARATOR;
 final class Configuration
 {
     public const EXTRA_PROPERTY = 'ramsey/devtools';
+    public const DEFAULT_COMMAND_PREFIX = 'dev';
 
     public readonly Composer $composer;
     public readonly string $composerBinDir;
@@ -44,6 +45,7 @@ final class Configuration
         public readonly ProcessFactory $processFactory = new ProcessFactory(),
         public readonly Filesystem $filesystem = new Filesystem(),
         public readonly string $composerExtraProperty = self::EXTRA_PROPERTY,
+        public readonly string $composerDefaultCommandPrefix = self::DEFAULT_COMMAND_PREFIX,
     ) {
         $this->composer = $this->composerFactory->getComposer();
         $this->composerBinDir = $this->getComposerBinDir();

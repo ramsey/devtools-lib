@@ -44,5 +44,6 @@ class ConfigurationTest extends TestCase
             $configuration->execPath,
         );
         $this->assertSame('ramsey/devtools', $configuration->composerExtraProperty);
+        $this->assertSame('dev', $configuration->composerDefaultCommandPrefix);
     }
 }

@@ -197,7 +197,7 @@ abstract class Command extends SymfonyCommand
 
         $commandPrefix = $config['command-prefix']
             ?? $extra['command-prefix']
-            ?? ExtraConfiguration::DEFAULT_COMMAND_PREFIX;
+            ?? $this->configuration->composerDefaultCommandPrefix;
 
         return new ExtraConfiguration(
             commandName: (string) $this->getName(),
