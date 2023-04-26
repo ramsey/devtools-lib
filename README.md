@@ -60,6 +60,12 @@ Using the `ramsey/devtools.commands` property in the `extra` section of
 you've configured one) as having other scripts to run, in addition to the
 command's default behavior, or you may override the default behavior entirely.
 
+> 💡 **Tip** \
+> If you don't want to use the property name "ramsey/devtools," you may use
+> "devtools" instead. However, if there is a conflict with another package that
+> uses the `extra.devtools` property, `extra.ramsey/devtools` takes precedence,
+> so you may use it to avoid conflicts.
+
 Specifying additional scripts works exactly like
 [writing custom commands](https://getcomposer.org/doc/articles/scripts.md#writing-custom-commands)
 in `composer.json`, but the location is different. Everything you can do with
