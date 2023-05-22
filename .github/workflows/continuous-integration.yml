@@ -114,7 +114,7 @@ jobs:
         run: "./bin/devtools test:coverage:ci"
 
       - name: "Publish coverage report to Codecov"
-        uses: "codecov/codecov-action@v3.1.3"
+        uses: "codecov/codecov-action@v3.1.4"
 
   unit-tests:
     name: "Unit tests"
