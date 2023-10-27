@@ -119,24 +119,33 @@ jobs:
   unit-tests:
     name: "Unit tests"
     needs: ["code-coverage", "security-analysis"]
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        php-version:
+        php:
           - "8.1"
           - "8.2"
-        operating-system:
+        os:
           - "ubuntu-latest"
           - "windows-latest"
-        dependencies:
+        composer-deps:
           - "lowest"
           - "highest"
+        include:
+          - php: "8.3"
+            os: "ubuntu-latest"
+            composer-deps: "highest"
+            composer-options: "--ignore-platform-reqs"
+          - php: "8.3"
+            os: "windows-latest"
+            composer-deps: "highest"
+            composer-options: "--ignore-platform-reqs"
 
     steps:
       - name: "Configure Git (for Windows)"
-        if: ${{ matrix.operating-system == 'windows-latest' }}
+        if: ${{ matrix.os == 'windows-latest' }}
         shell: "bash"
         run: |
           git config --system core.autocrlf false
@@ -148,13 +157,14 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.26.0"
         with:
-          php-version: "${{ matrix.php-version }}"
+          php-version: "${{ matrix.php }}"
           coverage: "none"
 
       - name: "Install dependencies (Composer)"
         uses: "ramsey/composer-install@2.2.0"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "${{ matrix.composer-deps }}"
+          composer-options: "${{ matrix.composer-options }}"
 
       - name: "Run unit tests (PHPUnit)"
         shell: "bash"
