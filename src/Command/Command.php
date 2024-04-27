@@ -201,12 +201,12 @@ abstract class Command extends SymfonyCommand
             ?? $extra['command-prefix']
             ?? $this->configuration->composerDefaultCommandPrefix;
 
-        /** @psalm-suppress RedundantCastGivenDocblockType */
+        /** @psalm-suppress RedundantCastGivenDocblockType, RedundantCast */
         return new ExtraConfiguration(
             commandName: (string) $this->getName(),
             commandPrefix: $commandPrefix,
             scripts: (array) ($commandConfig['script'] ?? []),
-            override: (bool) filter_var($commandConfig['override'] ?? false, FILTER_VALIDATE_BOOL),
+            override: (bool) filter_var($commandConfig['override'] ?? false, (int) FILTER_VALIDATE_BOOL),
             memoryLimit: $commandConfig['memory-limit'] ?? $config['memory-limit'] ?? null,
         );
     }
