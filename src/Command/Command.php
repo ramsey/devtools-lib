@@ -134,6 +134,8 @@ abstract class Command extends SymfonyCommand
             }
 
             $buffer = '';
+
+            /** @psalm-suppress RiskyTruthyFalsyComparison */
             $tokens = preg_split('/[[:space:]]/', $line, -1, PREG_SPLIT_NO_EMPTY) ?: [];
 
             foreach ($tokens as $token) {
@@ -199,11 +201,12 @@ abstract class Command extends SymfonyCommand
             ?? $extra['command-prefix']
             ?? $this->configuration->composerDefaultCommandPrefix;
 
+        /** @psalm-suppress RedundantCastGivenDocblockType */
         return new ExtraConfiguration(
             commandName: (string) $this->getName(),
             commandPrefix: $commandPrefix,
             scripts: (array) ($commandConfig['script'] ?? []),
-            override: (bool) filter_var($commandConfig['override'] ?? false, (int) FILTER_VALIDATE_BOOL),
+            override: (bool) filter_var($commandConfig['override'] ?? false, FILTER_VALIDATE_BOOL),
             memoryLimit: $commandConfig['memory-limit'] ?? $config['memory-limit'] ?? null,
         );
     }

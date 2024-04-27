@@ -82,15 +82,15 @@ class Factory
      */
     private function getHomeDirectory(): string
     {
-        if (Platform::getEnv('HOME')) {
+        if (Platform::getEnv('HOME') !== false) {
             return Path::canonicalize((string) Platform::getEnv('HOME'));
         }
 
-        if (Platform::getEnv('USERPROFILE')) {
+        if (Platform::getEnv('USERPROFILE') !== false) {
             return Path::canonicalize((string) Platform::getEnv('USERPROFILE'));
         }
 
-        if (Platform::getEnv('HOMEDRIVE') && Platform::getEnv('HOMEPATH')) {
+        if (Platform::getEnv('HOMEDRIVE') !== false && Platform::getEnv('HOMEPATH') !== false) {
             return Path::canonicalize((string) Platform::getEnv('HOMEDRIVE') . (string) Platform::getEnv('HOMEPATH'));
         }
 
