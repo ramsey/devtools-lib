@@ -6,7 +6,8 @@
        errorLevel="1"
        findUnusedBaselineEntry="true"
        findUnusedCode="false"
-       resolveFromConfigFile="true">
+       resolveFromConfigFile="true"
+       ensureOverrideAttribute="false">
 
     <projectFiles>
         <directory name="./src"/>

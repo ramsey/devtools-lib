@@ -16,6 +16,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * Factory to create a Process instance for running commands
+ *
+ * @api phpcs:ignore
  */
 class ProcessFactory
 {

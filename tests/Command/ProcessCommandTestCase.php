@@ -48,7 +48,7 @@ abstract class ProcessCommandTestCase extends TestCase
      * Each item in the array is a test with the argvInput to use and the
      * array we expect to get when calling getProcessCommand().
      *
-     * @return array<array{argvInput: string[], expected: string[]}>
+     * @return array<array{argvInput: list<string>, expected: list<string>}>
      */
     abstract protected function getProcessCommandTests(): array;
 

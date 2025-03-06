@@ -9,7 +9,6 @@ use Composer\IO\IOInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Plugin\Capability\CommandProvider;
 use PHPUnit\Framework\Attributes\TestWith;
-use Ramsey\Dev\Tools\Command\Command as DevToolsCommand;
 use Ramsey\Dev\Tools\Composer\ComposerCommand;
 use Ramsey\Dev\Tools\Composer\DevToolsPlugin;
 use Ramsey\Dev\Tools\Composer\Factory;
@@ -94,7 +93,6 @@ class DevToolsPluginTest extends TestCase
 
         foreach ($commands as $command) {
             $this->assertInstanceOf(ComposerCommand::class, $command);
-            $this->assertInstanceOf(DevToolsCommand::class, $command->wrappedCommand);
             if ($expectedPrefix === '') {
                 $this->assertSame($command->wrappedCommand->getName(), $command->getName());
             } else {
@@ -151,6 +149,7 @@ class DevToolsPluginTest extends TestCase
         // but Mockery does not provide that kind of assertion. If anything is
         // called on them, then Mockery will throw an exception because the call
         // is unexpected.
+        // @phpstan-ignore-next-line
         $this->assertTrue(true);
     }
 
@@ -167,6 +166,7 @@ class DevToolsPluginTest extends TestCase
         // but Mockery does not provide that kind of assertion. If anything is
         // called on them, then Mockery will throw an exception because the call
         // is unexpected.
+        // @phpstan-ignore-next-line
         $this->assertTrue(true);
     }
 

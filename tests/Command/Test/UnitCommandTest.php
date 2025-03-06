@@ -131,15 +131,16 @@ class UnitCommandTest extends ProcessCommandTestCase
     protected function getProcessCommandTests(): array
     {
         $executable = (string) $this->sutCommand->getExecutablePath();
+        $baseCommand = [$executable, '--colors=always', '-d', 'memory_limit=512M'];
 
         return [
             [
                 'argvInput' => ['foo:command'],
-                'expected' => [$executable, '--colors=always'],
+                'expected' => $baseCommand,
             ],
             [
                 'argvInput' => ['foo:command', '--', '--no-progress', '--no-results'],
-                'expected' => [$executable, '--colors=always', '--no-progress', '--no-results'],
+                'expected' => [...$baseCommand, '--no-progress', '--no-results'],
             ],
         ];
     }

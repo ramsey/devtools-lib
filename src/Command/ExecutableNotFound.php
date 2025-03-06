@@ -14,6 +14,11 @@ namespace Ramsey\Dev\Tools\Command;
 use Ramsey\Dev\Tools\DevToolsException;
 use RuntimeException;
 
+/**
+ * Thrown when an external executable cannot be found
+ *
+ * @api phpcs:ignore
+ */
 class ExecutableNotFound extends RuntimeException implements DevToolsException
 {
 }

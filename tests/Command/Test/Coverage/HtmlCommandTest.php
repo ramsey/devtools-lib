@@ -176,6 +176,8 @@ class HtmlCommandTest extends ProcessCommandTestCase
             '--colors=always',
             '--coverage-html',
             'build/coverage/coverage-html',
+            '-d',
+            'memory_limit=512M',
         ];
 
         return [

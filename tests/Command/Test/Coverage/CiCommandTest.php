@@ -170,6 +170,8 @@ class CiCommandTest extends ProcessCommandTestCase
             'build/coverage/coverage-xml',
             '--log-junit',
             'build/junit.xml',
+            '-d',
+            'memory_limit=512M',
         ];
 
         return [

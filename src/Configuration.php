@@ -71,8 +71,10 @@ final class Configuration
 
     private function setExecPath(): string
     {
-        // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
-        $currentPath = $_ENV['PATH'] ?? $_SERVER['PATH'] ?? (string) getenv('PATH');
+        /** @var string $currentPath */
+        $currentPath = $_ENV['PATH'] // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
+            ?? $_SERVER['PATH'] // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
+            ?? (string) getenv('PATH');
         $newPath = $currentPath;
 
         if ($this->composerBinDir) {

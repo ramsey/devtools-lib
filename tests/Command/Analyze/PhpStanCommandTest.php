@@ -134,7 +134,7 @@ class PhpStanCommandTest extends ProcessCommandTestCase
     {
         $executable = (string) $this->sutCommand->getExecutablePath();
 
-        $baseCommand = [$executable, 'analyze', '--ansi'];
+        $baseCommand = [$executable, 'analyze', '--ansi', '--memory-limit=512M'];
 
         return [
             [

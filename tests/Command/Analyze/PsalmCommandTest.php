@@ -130,7 +130,7 @@ class PsalmCommandTest extends ProcessCommandTestCase
     {
         $executable = (string) $this->sutCommand->getExecutablePath();
 
-        $baseCommand = [$executable];
+        $baseCommand = [$executable, '--memory-limit=512M'];
 
         return [
             [

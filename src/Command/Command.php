@@ -217,8 +217,10 @@ abstract class Command extends SymfonyCommand
         // we do it here to account for proper line wrapping in wrapHelp().
         $placeholders = ['%command.name%', '%command.full_name%'];
 
-        // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
-        $replacements = [$commandName, trim(basename(($_SERVER['PHP_SELF'] ?? '')) . ' ' . $commandName)];
+        /** @var string $phpSelf */
+        $phpSelf = $_SERVER['PHP_SELF'] ?? ''; // phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
+
+        $replacements = [$commandName, trim(basename($phpSelf) . ' ' . $commandName)];
 
         $helpText = str_replace($placeholders, $replacements, $helpText ?: $this->getDescription());
 

@@ -185,7 +185,7 @@ class FixCommandTest extends ProcessCommandTestCase
     {
         $executable = (string) $this->sutCommand->getExecutablePath();
 
-        $baseCommand = [$executable, '--cache=build/cache/phpcs.cache'];
+        $baseCommand = [$executable, '--cache=build/cache/phpcs.cache', '-d', 'memory_limit=512M'];
 
         return [
             [

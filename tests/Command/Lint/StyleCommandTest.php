@@ -137,7 +137,7 @@ class StyleCommandTest extends ProcessCommandTestCase
     {
         $executable = (string) $this->sutCommand->getExecutablePath();
 
-        $baseCommand = [$executable, '--colors', '--cache=build/cache/phpcs.cache'];
+        $baseCommand = [$executable, '--colors', '--cache=build/cache/phpcs.cache', '-d', 'memory_limit=512M'];
 
         return [
             [
