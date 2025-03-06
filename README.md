@@ -46,6 +46,7 @@ If using this library as a standalone tool, and not as a Composer plugin, type
 ./vendor/bin/devtools list
 ```
 
+> [!NOTE]
 > Install [ramsey/devtools](https://github.com/ramsey/devtools), instead, if you
 > do not need to extend this library to create your own Composer plugin.
 
@@ -60,7 +61,7 @@ Using the `ramsey/devtools.commands` property in the `extra` section of
 you've configured one) as having other scripts to run, in addition to the
 command's default behavior, or you may override the default behavior entirely.
 
-> 💡 **Tip** \
+> [!TIP]
 > If you don't want to use the property name "ramsey/devtools," you may use
 > "devtools" instead. However, if there is a conflict with another package that
 > uses the `extra.devtools` property, `extra.ramsey/devtools` takes precedence,
