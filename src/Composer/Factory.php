@@ -29,8 +29,6 @@ use function realpath;
 
 /**
  * A factory for constructing an instance of Composer
- *
- * @api phpcs:ignore
  */
 class Factory
 {

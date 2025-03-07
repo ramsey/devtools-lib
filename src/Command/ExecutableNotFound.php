@@ -16,8 +16,6 @@ use RuntimeException;
 
 /**
  * Thrown when an external executable cannot be found
- *
- * @api phpcs:ignore
  */
 class ExecutableNotFound extends RuntimeException implements DevToolsException
 {

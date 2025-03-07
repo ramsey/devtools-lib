@@ -30,8 +30,6 @@ use function in_array;
 /**
  * Provides a variety of Composer commands and events useful for PHP
  * library and application development
- *
- * @api phpcs:ignore
  */
 class DevToolsPlugin implements
     Capable,
