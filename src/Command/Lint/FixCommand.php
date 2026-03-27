@@ -110,7 +110,7 @@ final class FixCommand extends ProcessCommand
             should pass directly to phpcbf.
 
             For more information on phpcbf, see
-            <link>https://github.com/squizlabs/PHP_CodeSniffer</link>.
+            <link>https://github.com/PHPCSStandards/PHP_CodeSniffer</link>.
             EOD;
     }
 }
